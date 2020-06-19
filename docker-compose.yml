@@ -1,12 +1,16 @@
 version: '2.0'
 services:
   web:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     ports:
-        - '3000:3000'
+        - '4003:3001'
+    
     stdin_open: true
-    restart: on-failure
-    container_name: web-app
+    #restart: on-failure
+    container_name: react-app
+
   #redis:
     #image: "redis:alpine"
 volumes:
