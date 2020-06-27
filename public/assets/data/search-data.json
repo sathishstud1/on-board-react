@@ -64,5 +64,11 @@
     "firstName": "Agapetus Tadeáš",
     "lastName": "Wilson",
     "ssn": "086-66-0123"
+  },
+  {
+    "id": 11,
+    "firstName": "Oscar",
+    "lastName": "White",
+    "ssn": "086-67-8976"
   }
 ]
