@@ -11,6 +11,7 @@
           "type": "select",
           "value": "",
           "link": "self",
+          "colWidth": "col-md-4",
           "options": [
             {
               "label": "App Id",
@@ -27,11 +28,12 @@
           ]
         },
         {
-          "label": "",
+          "label": "Search Condition",
           "name": "searchCondition",
           "type": "select",
           "value": "",
           "link": "self",
+          "colWidth": "col-md-3",
           "options": [
             {
               "label": "=",
@@ -52,16 +54,18 @@
           ]
         },
         {
-          "label": "",
+          "label": "Search Value",
           "name": "searchValue",
           "type": "text",
           "required": true,
+          "colWidth": "col-md-4",
           "value": ""
         },
         {
           "label": "Search",
           "name": "searchBtn",
-          "type": "button"
+          "type": "button",
+          "colWidth": "col-md-1"
         }
       ]
     },

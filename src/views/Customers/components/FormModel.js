@@ -11,9 +11,7 @@ class FormModel extends React.Component {
   render() {
     let arr = this.props.data;
     let formfields = [];
-    const mystyle = {
-      margin: 10
-    };
+    
     Object.keys(arr).map((field, index) => {
       let fieldData = arr[field];
       let fieldId = fieldData.name + this.props.uniqueId;
@@ -133,7 +131,7 @@ class FormModel extends React.Component {
                         className="form-control"
                         id={fieldId}
                         onChange={this.props.changed}
-                        style={mystyle}>
+                        >
                   {options}
                 </select>
               </div>

@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import SearchAppjson from "../../assets/data/SearchApps.json";
+import axios from "axios";
+
 import {
   Modal,
   ModalHeader,
@@ -23,20 +26,22 @@ import ReactPaginate from 'react-paginate';
 
 function SearchRow(props) {
   const search = props.search
-  const searchLink = `/search/${search.id}`
-
+  const columnIds  = props.columnIds;
+  const searchLink = `/search/${search._id}`;
+  let rowtds = [];
+  for(var i=0;i<columnIds.length;i++){
+    rowtds.push(<td>{search[columnIds[i]]}</td>);
+  }
   return (
-    <tr key={search.id.toString()}>
+    <tr key={search._id.toString()}>
       <th scope="row">
         <button className="btn btn-link p-0 m-0"
                 type="button"
                 onClick={() => {
                   props.toggle(search);
-                }}>{search.id}</button>
-      </th>
-      <td>{search.firstName}</td>
-      <td>{search.lastName}</td>
-      <td>{search.ssn}</td>
+                }}>{search._id}</button>
+      </th>      
+      {rowtds}   
     </tr>
   )
 }
@@ -48,13 +53,14 @@ class Search extends Component {
     this.state = {
       modal: false,
       selectedSearchItem: null,
-      searchBy: "firstName",
-      searchCondition: "=",
+      searchBy: "_id",
+      searchCondition: "",
       searchByValue: "",
       globalSearch: "",
       searches: [],
       masterSearchData: [],
       searchData: [],
+      OriginalSearchData:[],
       searchDetails: [],
       pageSize: 5,
       showPaginationDropdown: false,
@@ -69,7 +75,11 @@ class Search extends Component {
     this.togglePaginationDropdown = this.togglePaginationDropdown.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
     this.handleGlobalSearch = this.handleGlobalSearch.bind(this);
-    this.getSearchPageData();
+    this.searchStrings = [];
+    this.searchTypes  = [];
+    this.columnLabels = [];
+    this.columnIds = [];
+    //this.getSearchPageData();
   }
 
   getSearchPageData() {
@@ -118,7 +128,7 @@ class Search extends Component {
     const globalSearch = event.target.value;
     this.setState({globalSearch});
     if (globalSearch.toString().trim().length > 0) {
-      const searchData = this.state.masterSearchData.filter(data => {
+        const searchData = this.state.OriginalSearchData.filter(data => {
         const keys = Object.keys(data);
         let isReferenceFound = false;
         keys.forEach(key => {
@@ -130,13 +140,13 @@ class Search extends Component {
       });
       this.setState({searchData});
     } else {
-      const searchData = JSON.parse(JSON.stringify(this.state.masterSearchData));
+      const searchData = JSON.parse(JSON.stringify(this.state.OriginalSearchData));
       this.setState({searchData});
     }
   }
 
   setSearchBy(searchBy) {
-    this.setState({searchBy, searchCondition: '=', searchByValue: ''});
+    this.setState({searchBy});
   }
 
   setSearchCondition(searchCondition) {
@@ -144,52 +154,75 @@ class Search extends Component {
   }
 
   setSearchByValue(searchByValue) {
-    if (this.state.searchBy === 'id' && this.state.searchByValue.trim().length > 0) {
+    /*if (this.state.searchBy === 'id' && this.state.searchByValue.trim().length > 0) {
       if (!isNaN(searchByValue)) {
         const convertedNumber = Number(searchByValue);
         this.setState({searchByValue});
       }
     } else {
-      this.setState({searchByValue});
-    }
+      
+    }*/
+    this.setState({searchByValue});
   }
 
   applySearchByFilter() {
     this.setState({globalSearch: ''});
+
     if (this.state.searchByValue.toString().trim().length > 0) {
-      const searchData = this.state.masterSearchData.filter(data => {
-        switch (this.state.searchCondition) {
-          case '=':
-            if (this.state.searchBy != 'id') {
-              return data[this.state.searchBy].toString().toLowerCase() === this.state.searchByValue.toLowerCase();
-            } else {
-              return data[this.state.searchBy] == this.state.searchByValue;
-            }
-            break;
-          case '>':
-            if (this.state.searchBy == 'id') {
-              return data[this.state.searchBy] > this.state.searchByValue;
-            } else {
-              return false;
-            }
-            break;
-          case '<':
-            if (this.state.searchBy == 'id') {
-              return data[this.state.searchBy] < this.state.searchByValue;
-            } else {
-              return false;
-            }
-            break;
-          case '>=<':
-            if (this.state.searchBy != 'id') {
-              return data[this.state.searchBy].toString().toLowerCase().indexOf(this.state.searchByValue.toLowerCase()) >= 0;
-            } else {
-              return false;
-            }
-            break;
-        }
-      });
-      this.setState({searchData});
+      let searchValue = this.state.searchByValue;
+      let searchCriteria = this.state.searchBy;
+      let searchCondition = this.state.searchCondition;
+
+      if(searchCondition==null || typeof searchCondition =='undefined'){
+        searchCondition = "=";
+      }
+
+      if(searchCriteria==null || typeof searchCriteria =='undefined'){
+        searchCriteria = "_id";
+      }else{
+        searchCriteria = this.searchStrings[searchCriteria];
+      }
+      let isInteger = false;
+      
+      if(this.searchTypes[searchCriteria]=='number'){
+        isInteger = true;
+      }
+
+      let postData = {
+        searchValue: searchValue,
+        searchCondition:searchCondition,
+        searchCriteria:searchCriteria,
+        columnIds: this.columnIds,
+        isInteger: isInteger
+      };
+      axios
+        .post("/searchAppData", postData)
+        .then((response) => {
+          if(response.data.status){
+            let searchRes  = response.data.data;
+            searchRes = [{"firstname":"Nagaga","appId":100051,"_id":100051,"ssn":"123456789","lastname":"ahhaha"}
+            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
+            ,{"firstname":"","appId":100053,"_id":100053,"ssn":"","lastname":""}
+            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
+            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
+            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
+            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
+            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
+            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
+            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
+            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
+            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}];
+            this.setState({searchData: searchRes, OriginalSearchData: searchRes});
+            //this.renderTable(response.data.data);
+          }else{
+            alert(response.data.message);
+          } 
+          
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        
     } else {
       const searchData = JSON.parse(JSON.stringify(this.state.masterSearchData));
       this.setState({searchData});
@@ -197,6 +230,46 @@ class Search extends Component {
   }
 
   render() {
+    let searchOpts = [];
+    let searchCondOpts = [];
+    let tabHeaders = [];
+    this.searchStrings = SearchAppjson.searchStrings;
+    this.searchTypes  = SearchAppjson.searchTypes;
+    let sectionList = SearchAppjson.sectionList;
+    Object.keys(sectionList).map((sectionIndex, index) => {
+      let section = sectionList[index];
+      if (typeof section.isSearch != "undefined" && section.isSearch) {
+        let fields = section.fields;
+        Object.keys(fields).map((fieldIndex, index) => {
+          let field = fields[index];  
+
+          if(field.name ==="searchCriteria"){
+            let options = field.options;
+            options.map((optKey, key) => {
+              let opt = options[key];
+              searchOpts.push( <option value={opt.value}>{opt.label}</option>);
+            });                    
+          }
+          if(field.name ==="searchCondition"){
+            let options = field.options;
+            options.map((optKey, key) => {
+              let opt = options[key];
+              searchCondOpts.push( <option value={opt.value}>{opt.label}</option>);
+            });
+          }
+        });
+      }
+      if (typeof section.isTable != "undefined" && section.isTable) {
+        this.columnLabels = section.ColumnLabels;
+        this.columnIds = section.ColumnIds;
+
+        tabHeaders.push(<th className="border-dark" scope="col">APP ID </th>);
+        this.columnLabels.map((headdKey, key) => {
+          tabHeaders.push(<th className="border-dark" scope="col">{this.columnLabels[index]} </th>);
+        });      
+      }   
+    });
+
     const pageCount = Math.ceil(this.state.searchData.length / this.state.pageSize);
     return (
       <div className="animated fadeIn">
@@ -214,10 +287,7 @@ class Search extends Component {
                            onChange={e => this.setSearchBy(e.target.value)}
                            value={this.state.searchBy}
                            placeholder="Search By">
-                      <option value="id">App ID</option>
-                      <option value="firstName">First Name</option>
-                      <option value="lastName">Last Name</option>
-                      <option value="ssn">SSN</option>
+                      {searchOpts}
                     </Input>
                   </FormGroup>
 
@@ -229,16 +299,7 @@ class Search extends Component {
                            onChange={e => this.setSearchCondition(e.target.value)}
                            value={this.state.searchCondition}
                            placeholder="Select Condition">
-                      <option disabled={this.state.searchBy != 'id'}
-                              value=">">Greater Than
-                      </option>
-                      <option disabled={this.state.searchBy != 'id'}
-                              value="<">Less Than
-                      </option>
-                      <option value="=">Equal to</option>
-                      <option disabled={this.state.searchBy == 'id'}
-                              value=">=<">Contains
-                      </option>
+                     {searchCondOpts}
                     </Input>
                   </FormGroup>
 
@@ -345,18 +406,7 @@ class Search extends Component {
                        className="border">
                   <thead className="bg-dark border-dark">
                   <tr>
-                    <th className="border-dark"
-                        scope="col">APP ID
-                    </th>
-                    <th className="border-dark"
-                        scope="col">First Name
-                    </th>
-                    <th className="border-dark"
-                        scope="col">Last Name
-                    </th>
-                    <th className="border-dark"
-                        scope="col">SSN
-                    </th>
+                    {tabHeaders}
                   </tr>
                   </thead>
                   <tbody>
@@ -369,7 +419,7 @@ class Search extends Component {
                       .map((search, index) =>
                         <SearchRow key={index}
                                    toggle={this.toggleModal}
-                                   search={search}/>
+                                   search={search} columnIds = {this.columnIds}/>
                       )
                   }
                   </tbody>

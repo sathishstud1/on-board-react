@@ -208,7 +208,7 @@ class CustomerOnboard extends React.Component {
     //let validateFields = [...this.reqFields,...this.addedReqFields];
     //let isValid = validator.validateForm(validateFields, this.state.jsonValues);
 
-    axios.post('http://localhost:8080/save-app-details', customeOnboardNewJson)
+    axios.post('/save-app-details', customeOnboardNewJson)
       .then(response => {
         alert(response.data.message);
       })
