@@ -129,7 +129,7 @@ class Search extends Component {
     const globalSearch = event.target.value;
     this.setState({globalSearch});
     if (globalSearch.toString().trim().length > 0) {
-        const searchData = this.state.OriginalSearchData.filter(data => {
+        let searchData = this.state.OriginalSearchData.filter(data => {
         const keys = Object.keys(data);
         let isReferenceFound = false;
         keys.forEach(key => {
@@ -139,6 +139,10 @@ class Search extends Component {
         })
         return isReferenceFound;
       });
+      
+      if(searchData.length==0){
+        searchData = this.state.OriginalSearchData;
+      }
       this.setState({searchData});
     } else {
       const searchData = JSON.parse(JSON.stringify(this.state.OriginalSearchData));
@@ -200,21 +204,9 @@ class Search extends Component {
         .post("/searchAppData", postData)
         .then((response) => {
           if(response.data.status){
-            let searchRes  = response.data.data;
-            searchRes = [{"firstname":"Nagaga","appId":100051,"_id":100051,"ssn":"123456789","lastname":"ahhaha"}
-            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
-            ,{"firstname":"","appId":100053,"_id":100053,"ssn":"","lastname":""}
-            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
-            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
-            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
-            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
-            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
-            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
-            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
-            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}
-            ,{"firstname":"Oscra","appId":100052,"_id":100052,"ssn":"83794839034","lastname":"White"}];
-            this.setState({searchData: searchRes, OriginalSearchData: searchRes});
-            //this.renderTable(response.data.data);
+            let searchRes  = JSON.parse(response.data.data);            
+            this.setState({searchData: searchRes, 
+              OriginalSearchData: searchRes });
           }else{
             alert(response.data.message);
           } 
@@ -434,15 +426,13 @@ class Search extends Component {
         <Modal isOpen={this.state.modal}
                toggle={() => this.toggleModal(null)}
                backdrop={true}
-               keyboard={true}>
+               keyboard={true}
+               style={{maxWidth: '90%'}}>
           <ModalHeader toggle={() => this.toggleModal(null)}>On Board</ModalHeader>
           <ModalBody>
-            <pre>{JSON.stringify(this.state.selectedSearchItem, null, 2)}</pre>
             <OpenCustomerOnBoard appId={this.state.selectedSearchItem}/>
           </ModalBody>
-          <ModalFooter>
-           <Button color="primary"
-                    onClick={() => this.toggleModal(null)}>Do Something</Button>{' '}
+          <ModalFooter>           
             <Button color="secondary"
                     onClick={() => this.toggleModal(null)}>Cancel</Button>
           </ModalFooter>

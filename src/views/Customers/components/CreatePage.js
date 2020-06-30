@@ -13,10 +13,7 @@ class CreatePage extends React.Component {
     this.props.loadPageDefaults(this.reqFields,this.recreateArray,this.defaultValues);
   }
 
-  render() {
-    const mystyle = {
-      margin:10
-     };
+  render() {    
     this.reqFields = [];
     this.recreateArray = [];
     let items = [];

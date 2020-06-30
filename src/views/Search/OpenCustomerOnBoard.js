@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import CustomerOnboard from "../Customers/components/CustomerOnboard";
+import ViewCustomerOnboard from "../Customers/components/ViewCustomerOnboard";
 import customerOnboardJson from "../../assets/data/cutomerOnboard.json";
 
 class OpenCustomerOnBoard extends React.Component {
@@ -38,7 +38,7 @@ class OpenCustomerOnBoard extends React.Component {
       return <div className='white-overlay'><span>Loading....</span></div>;
     }
     return (
-      <CustomerOnboard json={this.json}/>
+      <ViewCustomerOnboard json={this.json}/>
     );
   }
 }
