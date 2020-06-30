@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import SearchAppjson from "../../assets/data/SearchApps.json";
 import axios from "axios";
+import OpenCustomerOnBoard from './OpenCustomerOnBoard';
 
 import {
   Modal,
@@ -38,7 +39,7 @@ function SearchRow(props) {
         <button className="btn btn-link p-0 m-0"
                 type="button"
                 onClick={() => {
-                  props.toggle(search);
+                  props.toggle(search._id);
                 }}>{search._id}</button>
       </th>      
       {rowtds}   
@@ -322,6 +323,7 @@ class Search extends Component {
             </Card>
           </Col>
         </Row>
+        { this.state.searchData.length!=0 ? 
         <Row>
           <Col lg={12}>
             <Card>
@@ -428,17 +430,18 @@ class Search extends Component {
               </CardBody>
             </Card>
           </Col>
-        </Row>
+        </Row> : null }
         <Modal isOpen={this.state.modal}
                toggle={() => this.toggleModal(null)}
                backdrop={true}
                keyboard={true}>
-          <ModalHeader toggle={() => this.toggleModal(null)}>Modal title</ModalHeader>
+          <ModalHeader toggle={() => this.toggleModal(null)}>On Board</ModalHeader>
           <ModalBody>
             <pre>{JSON.stringify(this.state.selectedSearchItem, null, 2)}</pre>
+            <OpenCustomerOnBoard appId={this.state.selectedSearchItem}/>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary"
+           <Button color="primary"
                     onClick={() => this.toggleModal(null)}>Do Something</Button>{' '}
             <Button color="secondary"
                     onClick={() => this.toggleModal(null)}>Cancel</Button>
