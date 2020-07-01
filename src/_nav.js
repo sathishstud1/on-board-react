@@ -31,15 +31,17 @@ export default {
     },
     {
       name: "UW Decision",
-      icon: "icon-people",
+      url: "/uw",
+      icon: "icon-calendar",
     },
     {
       name: "Bureau",
       url: "/bureau",
-      icon: "icon-people",
+      icon: "icon-grid",
     },
     {
       name: "Booking",
+      url: "/booking",
       icon: "icon-calendar",
     },
   ],
