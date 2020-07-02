@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import CreateViewPage from '../components/CreateViewPage';
-import CustomerOnboard from '../components/CustomerOnboard';
+import CreateViewPage from '../../GlobalComponents/CreateViewPage';
+import CustomerOnboard from './CustomerOnboard';
 
 class ViewCustomerOnboard extends React.Component {
   constructor(props) {

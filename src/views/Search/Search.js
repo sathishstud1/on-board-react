@@ -53,6 +53,8 @@ class Search extends Component {
     super(props, context);
     this.state = {
       modal: false,
+      modelAlert:false,
+      alertMsg:'',
       selectedSearchItem: null,
       searchBy: "_id",
       searchCondition: "",
@@ -73,6 +75,7 @@ class Search extends Component {
     this.setSearchByValue = this.setSearchByValue.bind(this);
     this.applySearchByFilter = this.applySearchByFilter.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+    this.Alert = this.Alert.bind(this);
     this.togglePaginationDropdown = this.togglePaginationDropdown.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
     this.handleGlobalSearch = this.handleGlobalSearch.bind(this);
@@ -98,6 +101,10 @@ class Search extends Component {
 
   toggleModal(selectedSearchItem) {
     this.setState({selectedSearchItem, modal: !this.state.modal});
+  }
+  
+  Alert(alertMsg){
+    this.setState({alertMsg:alertMsg,modelAlert: !this.state.modelAlert});
   }
 
   togglePaginationDropdown(pageSize) {
@@ -206,14 +213,15 @@ class Search extends Component {
           if(response.data.status){
             let searchRes  = JSON.parse(response.data.data);            
             this.setState({searchData: searchRes, 
-              OriginalSearchData: searchRes });
+              OriginalSearchData: searchRes });            
           }else{
-            alert(response.data.message);
+            this.Alert(response.data.data);                
           } 
           
         })
         .catch((error) => {
           console.log(error);
+          this.Alert(error);  
         });
         
     } else {
@@ -258,7 +266,7 @@ class Search extends Component {
 
         tabHeaders.push(<th className="border-dark" scope="col">APP ID </th>);
         this.columnLabels.map((headdKey, key) => {
-          tabHeaders.push(<th className="border-dark" scope="col">{this.columnLabels[index]} </th>);
+          tabHeaders.push(<th className="border-dark" scope="col">{this.columnLabels[key]} </th>);
         });      
       }   
     });
@@ -428,15 +436,31 @@ class Search extends Component {
                backdrop={true}
                keyboard={true}
                style={{maxWidth: '90%'}}>
-          <ModalHeader toggle={() => this.toggleModal(null)}>On Board</ModalHeader>
-          <ModalBody>
-            <OpenCustomerOnBoard appId={this.state.selectedSearchItem}/>
-          </ModalBody>
-          <ModalFooter>           
-            <Button color="secondary"
-                    onClick={() => this.toggleModal(null)}>Cancel</Button>
-          </ModalFooter>
+            <ModalHeader toggle={() => this.toggleModal(null)}>On Board</ModalHeader>
+            <ModalBody>
+              <OpenCustomerOnBoard appId={this.state.selectedSearchItem}/>
+            </ModalBody>
+            <ModalFooter>           
+              <Button color="secondary"
+                      onClick={() => this.toggleModal(null)}>Cancel</Button>
+            </ModalFooter>
         </Modal>
+
+        <Modal isOpen={this.state.modelAlert}
+               toggle={() => this.Alert(null)}
+               backdrop={true}
+               keyboard={true}
+               >
+            <ModalHeader toggle={() => this.Alert(null)}>On Board</ModalHeader>
+            <ModalBody>
+              {this.state.alertMsg}
+            </ModalBody>
+            <ModalFooter>           
+              <Button color="secondary"
+                      onClick={() => this.Alert(null)}>Cancel</Button>
+            </ModalFooter>
+        </Modal>
+        
       </div>
     )
   }

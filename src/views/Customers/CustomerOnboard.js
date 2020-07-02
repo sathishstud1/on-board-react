@@ -1,12 +1,12 @@
 import React from 'react';
-import RecreateForm from './RecreateForm';
-import validator from '../components/Validation';
-import createJson from '../components/CreateNewJson';
-import CreatePage from '../components/CreatePage';
+import RecreateForm from '../../GlobalComponents/RecreateForm';
+import validator from '../../GlobalComponents/Validation';
+import createJson from '../../GlobalComponents/CreateNewJson';
+import CreatePage from '../../GlobalComponents/CreatePage';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
 import {withRouter} from 'react-router';
-import states from "../../../assets/data/Dropdowns/states.json";
+import states from "../../assets/data/Dropdowns/states.json";
 import {Redirect} from "react-router-dom";
 
 

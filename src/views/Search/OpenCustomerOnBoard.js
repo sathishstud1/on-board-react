@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import ViewCustomerOnboard from "../Customers/components/ViewCustomerOnboard";
+import ViewCustomerOnboard from "../Customers/ViewCustomerOnboard";
 import customerOnboardJson from "../../assets/data/cutomerOnboard.json";
 
 class OpenCustomerOnBoard extends React.Component {

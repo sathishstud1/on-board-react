@@ -1,6 +1,6 @@
 import React from 'react';
-import countries from "../../../assets/data/Dropdowns/countries.json";
-import states from "../../../assets/data/Dropdowns/states.json";
+import countries from "../assets/data/Dropdowns/countries.json";
+import states from "../assets/data/Dropdowns/states.json";
 
 class FormModel extends React.Component {
   constructor(props) {
