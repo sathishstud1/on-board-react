@@ -1,9 +1,15 @@
-import axios from 'axios';
-import {authenticated, VERIFY_GOOGLE_LOGIN} from "../store/authentication/acions";
-import {takeLatest, call, put} from 'redux-saga/effects';
+import axios from "axios";
+import {
+  authenticated,
+  VERIFY_GOOGLE_LOGIN,
+} from "../store/authentication/acions";
+import { takeLatest, call, put } from "redux-saga/effects";
 
 function verifyGoogleLogin(id_token) {
-  return axios.post('http://localhost:8080/verifyGoogleLogin', {id_token})
+  return axios.post(
+    "http://ec2-35-166-58-245.us-west-2.compute.amazonaws.com:8080/verifyGoogleLogin",
+    { id_token }
+  );
 }
 
 function* verifyGoogleLoginEffect(action) {
@@ -15,9 +21,9 @@ function* verifyGoogleLoginEffect(action) {
     history.push('/dashboard');*/
     const response = yield call(verifyGoogleLogin, id_token);
     if (response.data.status) {
-      localStorage.setItem('login_session_token', id_token);
+      localStorage.setItem("login_session_token", id_token);
       yield put(authenticated(true));
-      history.push('/dashboard');
+      history.push("/dashboard");
     } else {
       yield put(authenticated(false));
     }
