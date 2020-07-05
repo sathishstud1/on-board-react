@@ -1,0 +1,97 @@
+{
+  "page": "Pages",
+  "PageList": [
+    {
+      "PageTitle": "Product Details",
+      "PageID": "CUST_ON_BOARD_002",
+      "CategoryList": [
+        {
+          "categoryTitle": "Product onboard",
+          "sectionList": [
+            {
+              "sectionName": "Add product",
+              "linesList": [
+                {
+                  "fields": [
+                    {
+                      "label": "ProductType",
+                      "name": "producttype",
+                      "type": "select",
+                      "value": "",
+                      "link": "self",
+                      "options": [
+                        {
+                          "label": "OneCard",
+                          "value": "OC"
+                        },
+                        {
+                          "label": "CreditCard",
+                          "value": "CC"
+                        },
+                        {
+                          "label": "DebitCard",
+                          "value": "DC"
+                        },
+                        {
+                          "label": "TermLoan",
+                          "value": "TL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "label": "Amount Requested",
+                      "name": "amount",
+                      "type": "text",
+                      "required": true,
+                      "validation": "",
+                      "value": ""
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "label": "Term",
+                      "name": "term",
+                      "type": "text",
+                      "required": true,
+                      "validation": "number",
+                      "value": ""
+                    }
+                  ]
+                }
+              ],
+              "recreate": true,
+              "recreatelabel": "Add another product"
+            },
+            {
+              "sectionName": "",
+              "linesList": [
+                {
+                  "fields": [
+                    {
+                      "label": "Apply",
+                      "name": "save",
+                      "type": "button",
+                      "colWidth": "col-md-1"
+                    },
+                    {
+                      "label": "Exit",
+                      "name": "exit",
+                      "type": "button",
+                      "colWidth": "col-md-1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
