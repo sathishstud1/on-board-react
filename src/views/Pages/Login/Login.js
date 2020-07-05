@@ -47,7 +47,7 @@ class Login extends Component {
                             clientId="1020592783279-dib7nfhpbecp4gluf277pkj072shfqaj.apps.googleusercontent.com"
                             buttonText="Login with Google"
                             theme="dark"
-                            onSuccess={googleLoginResponse => props.verifyGoogleLogin(googleLoginResponse, props.history)}
+                            onSuccess={googleLoginResponse => props.verifyGoogleLogin(googleLoginResponse, props.history, '/dashboard')}
                             cookiePolicy={'single_host_origin'}
                           />
                         </Col>
@@ -83,7 +83,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  verifyGoogleLogin: (googleLoginResponse, history) => dispatch(verifyGoogleLogin(googleLoginResponse, history))
+  verifyGoogleLogin: (googleLoginResponse, history, path) => dispatch(verifyGoogleLogin(googleLoginResponse, history, path))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

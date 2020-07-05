@@ -9,10 +9,11 @@ export const authenticated = (isAuthenticated, profileObj) => {
   }
 }
 
-export const verifyGoogleLogin = (googleLoginResponse, history) => {
+export const verifyGoogleLogin = (googleLoginResponse, history, path) => {
   return {
     type: VERIFY_GOOGLE_LOGIN,
     googleLoginResponse,
-    history
+    history,
+    path
   }
 }

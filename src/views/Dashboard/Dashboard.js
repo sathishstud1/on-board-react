@@ -23,6 +23,7 @@ import {
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 import {PipeLineComponent} from "../../components/pipe-line-component/PipeLineComponent";
+import { connect } from "react-redux";
 
 const Widget03 = lazy(() => import('../../views/Widgets/Widget03'));
 
@@ -492,7 +493,11 @@ class Dashboard extends Component {
                   <div className="col-8">
                     <div className="chart-wrapper mx-3"
                          style={{height: 'auto'}}>
-                      <h2>Hi Jennifer Lawrance</h2>
+                        {this.props.profileObj ? (
+                          <h2> Hi {this.props.profileObj.profileObj.name}</h2>
+                        ):(
+                          <h2></h2>
+                        )}
                       <p>
                         Here are summary statistics for the current month.
                         Please use the Year and Month filter to see other months or year to date data.
@@ -1197,4 +1202,11 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.authentication.isAuthenticated,
+    profileObj: state.authentication.profileObj,
+  };
+};
+
+export default connect(mapStateToProps,null)(Dashboard);

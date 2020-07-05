@@ -21,7 +21,7 @@ export default {
     },
     {
       name: "Product Onboard",
-      url: "/products",
+      url: "/productss",
       icon: "icon-grid",
     },
     {
