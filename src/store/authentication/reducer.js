@@ -2,7 +2,8 @@ import {AUTHENTICATED} from "./acions";
 
 const initialState = {
   isAuthenticated: true,
-  profileObj: null
+  profileObj: null,
+  tokenId:null
 };
 
 function reducer(state = initialState, action) {
@@ -12,7 +13,7 @@ function reducer(state = initialState, action) {
         ...state,
         isAuthenticated: action.isAuthenticated,
         profileObj: action.profileObj
-      };
+      };    
     default:
       return state;
   }

@@ -18,10 +18,10 @@ class CustomerOnboard extends React.Component {
       recreateArray: [],
       jsonValues: {},
       stateOptions: {},
-      redirect: false,
+      //redirect: false,
       currentPageId: 0
     };
-    this.verifyUser();
+    //this.verifyUser();
     this.recreateLines = {};
     this.defaultValues = {};
     this.reqFields = [];
@@ -33,7 +33,7 @@ class CustomerOnboard extends React.Component {
     this.onChangeHandler = this.onChangeHandler.bind(this);
   }
 
-  async verifyUser() {
+  /*async verifyUser() {
     let postData = {
       id_token: localStorage.getItem('login_session_token')
     };
@@ -48,7 +48,7 @@ class CustomerOnboard extends React.Component {
       .catch(error => {
         console.log(error);
       });
-  }
+  }*/
 
   addElements = (lines, refVal) => {
     let prev;
@@ -259,9 +259,9 @@ class CustomerOnboard extends React.Component {
   }
 
   render() {
-    if (this.state.redirect) {
+    /*if (this.state.redirect) {
       return <Redirect to='/'/>;
-    }
+    }*/
     let items = [];
     let tabs = [];
     let btns = [];
