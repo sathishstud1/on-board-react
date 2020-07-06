@@ -7,7 +7,7 @@ import { takeLatest, call, put } from "redux-saga/effects";
 
 function verifyGoogleLogin(id_token) {
   return axios.post(
-    "http://localhost:8080/verifyGoogleLogin",
+    "/verifyGoogleLogin",
     { id_token }
   );
 }
