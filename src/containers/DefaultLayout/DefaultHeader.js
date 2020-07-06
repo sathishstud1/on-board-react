@@ -200,15 +200,11 @@ class DefaultHeader extends Component {
               <DropdownItem
                 onClick={(e) => {
                   this.props.logOut();
+                  this.props.onLogout();
                 }}
               >
-                <i className="fa fa-lock"></i>
-                <GoogleLogout 
-                        clientId="1020592783279-dib7nfhpbecp4gluf277pkj072shfqaj.apps.googleusercontent.com"
-                        buttonText="Logout" 
-                        theme="dark"
-                        onSuccess={()=>this.props.onLogout()}
-                        />
+                <i className="fa fa-lock"></i>Logout
+                
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
