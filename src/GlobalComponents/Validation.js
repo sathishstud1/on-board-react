@@ -18,6 +18,9 @@ this.addFields = (lines, id) =>{
         let name = fieldData.name+id;
         processFields.allFields.push(name);
         processFields.defaultValues[name] = fieldData.value;
+        if(fieldData.type=="select"){
+          processFields.defaultValues[name+"_selectedLabel"] = fieldData.selectedLabel;
+        }
         if(fieldData.required){
           processFields.reqFields.push(name);
         }

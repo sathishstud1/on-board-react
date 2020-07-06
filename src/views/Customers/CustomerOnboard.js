@@ -15,8 +15,9 @@ class CustomerOnboard extends React.Component {
       customerOnboardJson: this.props.json,
       recreateArray: [],
       jsonValues: {},
-      stateOptions: {},
-      currentPageId: 0
+      //stateOptions: {},
+      currentPageId: 0,
+      isUpdate: this.props.isUpdate
     };
     this.recreateLines = {};
     this.defaultValues = {};
@@ -25,7 +26,7 @@ class CustomerOnboard extends React.Component {
     this.addedFields = [];
     this.PageLength = 0;
     this.PageList = [];
-    this.defaultStates = [];
+    //this.defaultStates = [];
     this.onChangeHandler = this.onChangeHandler.bind(this);
   }
 
@@ -43,9 +44,9 @@ class CustomerOnboard extends React.Component {
     }
     let divId = refVal + arr.length;
     let removeId = arr.length;
-    this.state.stateOptions["state"+removeId] = this.defaultStates;
+    //this.state.stateOptions["state"+removeId] = this.defaultStates;
     arr.push(<RecreateForm data={lines}
-                            stateOptions ={this.state.stateOptions}
+                            //stateOptions ={this.state.stateOptions}
                             changed={this.onChangeHandler} 
                             uniqueId ={arr.length}
                             remove={()=>this.removeElement(lines,refVal,removeId)}/>);   
@@ -78,7 +79,7 @@ class CustomerOnboard extends React.Component {
     this.addedFields = [...processFields.allFields];
     Object.assign(this.state.jsonValues, this.state.jsonValues, processFields.defaultValues);
     delete this.recreateLines[refVal][removeId];
-    delete this.state.stateOptions["state"+removeId];
+    //delete this.state.stateOptions["state"+removeId];
   };
 
   onChangeHandler = function (e) {
@@ -86,7 +87,7 @@ class CustomerOnboard extends React.Component {
     if (e.target.type == "radio") {
       this.state.jsonValues[e.target.name] = e.target.value;
     } else if(e.target.type=="select-one"){
-      let selectId = e.target.id;
+      /*let selectId = e.target.id;
       if(selectId.indexOf("country")>=0){
         var stateId = "state"+selectId.replace("country", "");
         let state = this.getStates(e.target.value);
@@ -97,7 +98,7 @@ class CustomerOnboard extends React.Component {
         this.setState({stateOptions:stateProperty});
         
         console.log(this.state.stateOptions)
-      }      
+      }  */    
       this.state.jsonValues[e.target.id] = e.target.value;
       this.state.jsonValues[e.target.id+"_selectedLabel"] = e.target.options[e.target.selectedIndex].text;  
     } else {
@@ -187,8 +188,12 @@ class CustomerOnboard extends React.Component {
     console.log(customeOnboardNewJson)
     //let validateFields = [...this.reqFields,...this.addedReqFields];
     //let isValid = validator.validateForm(validateFields, this.state.jsonValues);
+    let URL = '/save-app-details';
+    if(this.state.isUpdate){
+      URL = '/update-app-details';
+    }
 
-    axios.post('/save-app-details', customeOnboardNewJson)
+    axios.post(URL, customeOnboardNewJson)
       .then(response => {
         alert(response.data.message);
       })
@@ -204,12 +209,12 @@ class CustomerOnboard extends React.Component {
       Object.assign(this.recreateLines, this.recreateLines, linesobj);
     });
     let statesList = states.US;
-    this.defaultStates = [];
+    /*this.defaultStates = [];
         statesList.map((stateKey, key) =>{
            let state = statesList[key];
            this.defaultStates.push(<option value={state.value}>{state.label}</option>);
-        }); 
-    this.state.stateOptions["state"] = this.defaultStates;
+        }); */
+    //this.state.stateOptions["state"] = this.defaultStates;
     this.setState({ jsonValues: this.defaultValues });
   }
 
@@ -227,7 +232,7 @@ class CustomerOnboard extends React.Component {
       <CreatePage Page={Page}
                   PageLength={PageLength}
                   PageId={PageId}
-                  stateOptions={this.state.stateOptions}
+                  //stateOptions={this.state.stateOptions}
                   loadPageDefaults={this.loadPageDefaults}
                   changed={this.onChangeHandler}
                   addElements={this.addElements}

@@ -84,32 +84,50 @@ class FormModel extends React.Component {
         case('select'):
           var link = fieldData.link;
           let value = fieldData.value;
+          let isSelected = true;
           var options = [];
           if (link == "countries") {
+            if(value){
+              isSelected = false;
+            }
             countries.countries.map((cntry, key) => {
               let country = countries.countries[key];
-              if (typeof country.isSelected != 'undefined' && country.isSelected != null) {
-                options.push(<option value={country.abbreviation}
-                                     selected>{country.country}</option>);
-              } else if (typeof country.available != 'undefined' && country.available != null) {
-                options.push(<option value={country.abbreviation}>{country.country}</option>);
-              } else {
-                options.push(<option value={country.abbreviation}
-                                     disabled>{country.country}</option>);
-              }
-
-            })
-          } else if (link == "states") {
-            let statesList = states.US;
-            statesList.map((stateKey, key) => {
-              let state = statesList[key];
-              if(value && value==state.value){
-                options.push(<option value={state.value} selected>{state.label}</option>);
+              
+              if(isSelected){
+                if(typeof country.isSelected != 'undefined' && country.isSelected != null){
+                  options.push(<option value={country.abbreviation} selected>{country.country}</option>);
+                }else if (typeof country.available != 'undefined' && country.available != null) {
+                  options.push(<option value={country.abbreviation}>{country.country}</option>);
+                } else {
+                  options.push(<option value={country.abbreviation} disabled>{country.country}</option>);
+                }
               }else{
-                options.push(<option value={state.value}>{state.label}</option>);
+                if(value && value==country.abbreviation){
+                  options.push(<option value={country.abbreviation} selected>{country.country}</option>);
+                }else if (typeof country.available != 'undefined' && country.available != null) {
+                  options.push(<option value={country.abbreviation}>{country.country}</option>);
+                } else {
+                  options.push(<option value={country.abbreviation} disabled>{country.country}</option>);
+                }
               }
               
-            });
+            })
+          } else if (link == "states") {
+            let countryList  = states.countries;
+            
+            countryList.map((countryKey, index) => {
+              let countryObj = countryList[index];
+              let statesList = states[countryObj.value];
+              options.push(<option value={countryObj.value} disabled>Country: {countryObj.label}</option>);
+              statesList.map((stateKey, key) => {
+                let state = statesList[key];
+                if(value && value==state.value){
+                  options.push(<option value={state.value} selected>{state.label}</option>);
+                }else{
+                  options.push(<option value={state.value}>{state.label}</option>);
+                }                
+              });
+            });            
           } else if (link == "self") {
             var optList = fieldData.options;
             optList.map((optIndex, key) => {
@@ -129,8 +147,9 @@ class FormModel extends React.Component {
                 <select ref={fieldId}
                         id={fieldId}
                         onChange={this.props.changed}
-                        className="form-control">
-                  {this.props.stateOptions[fieldId]}
+                        className="form-control"
+                        >
+                          {options}
                 </select>
               </div>
             );
@@ -188,5 +207,5 @@ class FormModel extends React.Component {
     );
   }
 }
-
+//{this.props.stateOptions[fieldId]}
 export default FormModel;

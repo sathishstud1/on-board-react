@@ -16,7 +16,7 @@ class RecreateForm extends React.Component {
       formfield.push(<FormModel data={lineData} 
                      uniqueId = {uniqueId}
                      changed={this.props.changed} 
-                     stateOptions={this.props.stateOptions}/>);
+                     /*stateOptions={this.props.stateOptions}*//>);
     });
     
     return (

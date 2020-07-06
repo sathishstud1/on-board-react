@@ -143,7 +143,7 @@ class ViewCustomerOnboard extends React.Component {
     );
     return (
       <div>
-          {this.state.isEdit? <CustomerOnboard json={this.props.json}/>:
+          {this.state.isEdit? <CustomerOnboard json={this.props.json} isUpdate={true}/>:
             <div>
                 <button className="btn btn-primary"
                     key='nextPage'

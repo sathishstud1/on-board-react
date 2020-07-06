@@ -12,7 +12,7 @@ class Customers extends Component {
           <Col xl={12}>
             <Card>
               <CardBody>
-                <CustomerOnboard json={customerOnboardJson} />
+                <CustomerOnboard json={customerOnboardJson} isUpdate={false}/>
               </CardBody>
             </Card>
           </Col>

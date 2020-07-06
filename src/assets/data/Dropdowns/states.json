@@ -181,14 +181,20 @@
       "value":"WY"
     }
   ],
-  "GB":[
-    {
-      "label":"Select",
-      "value":""
-    },
+  "GB":[    
     {
       "label":"London",
       "value":"LN"
     }
-  ]
+  ],
+  "countries":[
+    {
+    "value":"US",
+    "label":"United States"
+    }, 
+    {
+      "value":"GB",
+      "label":"United Kingdom"
+      }
+    ]
 }
