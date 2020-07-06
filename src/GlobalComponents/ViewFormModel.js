@@ -40,7 +40,7 @@ class ViewFormModel extends React.Component {
             formfields.push(
                 <div className={'form-group ' + fieldData.colWidth}>
                     <label htmlFor={fieldId}>{fieldData.label}</label> : 
-                    <label>{fieldData.value}</label>
+                    <label>{fieldData.selectedLabel}</label>
                 </div>
             );
 

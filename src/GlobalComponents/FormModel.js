@@ -57,7 +57,7 @@ class FormModel extends React.Component {
                   var ids = fieldId + _index;
                   let val = fieldData.value;
                   let checkFlag = false;
-                  if (val && val === fieldData.values[index]) {
+                  if (val && val === fieldData.values[_index]) {
                     checkFlag = true;
                   }
                   return (
@@ -83,6 +83,7 @@ class FormModel extends React.Component {
           break;
         case('select'):
           var link = fieldData.link;
+          let value = fieldData.value;
           var options = [];
           if (link == "countries") {
             countries.countries.map((cntry, key) => {
@@ -102,13 +103,23 @@ class FormModel extends React.Component {
             let statesList = states.US;
             statesList.map((stateKey, key) => {
               let state = statesList[key];
-              options.push(<option value={state.value}>{state.label}</option>);
+              if(value && value==state.value){
+                options.push(<option value={state.value} selected>{state.label}</option>);
+              }else{
+                options.push(<option value={state.value}>{state.label}</option>);
+              }
+              
             });
           } else if (link == "self") {
             var optList = fieldData.options;
             optList.map((optIndex, key) => {
               let opt = optList[key];
-              options.push(<option value={opt.value}>{opt.label}</option>);
+              if(value && value==opt.value){
+                options.push(<option value={opt.value} selected>{opt.label}</option>);
+              }else{
+                options.push(<option value={opt.value}>{opt.label}</option>);
+              }
+              
             });
           }
           if (typeof fieldData.dependent != 'undefined' && fieldData.dependent) {

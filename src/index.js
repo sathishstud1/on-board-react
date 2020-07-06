@@ -7,10 +7,11 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import axios from "axios";
+
+/*import axios from "axios";
 
 axios.defaults.baseURL =
-  "http://localhost:8080";
+  "http://localhost:8080";*/
 
   // "http://ec2-35-166-58-245.us-west-2.compute.amazonaws.com:8080";
 

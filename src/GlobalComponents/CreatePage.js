@@ -53,6 +53,9 @@ class CreatePage extends React.Component {
                 }
               }else{
                 this.defaultValues[fieldData.name] = fieldData.value;
+                if(fieldData.type=="select"){
+                  this.defaultValues[fieldData.name+"_selectedLabel"] = fieldData.selectedLabel;
+                }
               }
               arr.push(fieldData);
             });//Fields End

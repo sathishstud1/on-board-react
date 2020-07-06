@@ -1,14 +1,12 @@
 import React from 'react';
 import RecreateForm from '../../GlobalComponents/RecreateForm';
 import validator from '../../GlobalComponents/Validation';
-import createJson from '../../GlobalComponents/CreateNewJson';
+import createJson from './CreateNewCustomerJson';
 import CreatePage from '../../GlobalComponents/CreatePage';
-import axios from 'axios';
+import axios from '../../axios-instance';
 import ReactDOM from 'react-dom';
 import {withRouter} from 'react-router';
 import states from "../../assets/data/Dropdowns/states.json";
-import {Redirect} from "react-router-dom";
-
 
 class CustomerOnboard extends React.Component {
   constructor(props) {
@@ -18,10 +16,8 @@ class CustomerOnboard extends React.Component {
       recreateArray: [],
       jsonValues: {},
       stateOptions: {},
-      //redirect: false,
       currentPageId: 0
     };
-    //this.verifyUser();
     this.recreateLines = {};
     this.defaultValues = {};
     this.reqFields = [];
@@ -32,23 +28,6 @@ class CustomerOnboard extends React.Component {
     this.defaultStates = [];
     this.onChangeHandler = this.onChangeHandler.bind(this);
   }
-
-  /*async verifyUser() {
-    let postData = {
-      id_token: localStorage.getItem('login_session_token')
-    };
-    axios.post('http://localhost:8080/verifyGoogleLogin', postData)
-      .then(response => {
-        if (response.data.status) {
-          this.setState({redirect: false});
-        } else {
-          this.setState({redirect: true});
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }*/
 
   addElements = (lines, refVal) => {
     let prev;
@@ -119,7 +98,8 @@ class CustomerOnboard extends React.Component {
         
         console.log(this.state.stateOptions)
       }      
-      this.state.jsonValues[e.target.id] = e.target.value;   
+      this.state.jsonValues[e.target.id] = e.target.value;
+      this.state.jsonValues[e.target.id+"_selectedLabel"] = e.target.options[e.target.selectedIndex].text;  
     } else {
       this.state.jsonValues[e.target.id] = e.target.value;
     }
@@ -258,10 +238,7 @@ class CustomerOnboard extends React.Component {
     </div>;
   }
 
-  render() {
-    /*if (this.state.redirect) {
-      return <Redirect to='/'/>;
-    }*/
+  render() {   
     let items = [];
     let tabs = [];
     let btns = [];

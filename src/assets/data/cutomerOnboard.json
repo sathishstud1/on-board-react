@@ -83,8 +83,9 @@
                       "colWidth": "col-md-4",
                       "type": "select",
                       "link": "countries",
+                      "selectedLabel":"United States",
                       "required": true,
-                      "value": ""
+                      "value": "US"
                     }
                   ]
                 },
@@ -132,9 +133,10 @@
                       "type": "select",
                       "colWidth": "col-md-4",
                       "link": "states",
+                      "selectedLabel":"Alabama",
                       "required": true,
                       "dependent": true,
-                      "value": ""
+                      "value": "AL"
                     },
                     {
                       "label": "ZIP Code",
@@ -241,22 +243,23 @@
                 {
                   "fields": [
                     {
-                      "label": "ProductType",
+                      "label": "Product Type",
                       "name": "producttype",
                       "type": "select",
-                      "value": "",
+                      "value": "CC",
                       "link": "self",
+                      "selectedLabel":"Credit Card",
                       "options": [
                         {
-                          "label": "CreditCard",
+                          "label": "Credit Card",
                           "value": "CC"
                         },
                         {
-                          "label": "DebitCard",
+                          "label": "Debit Card",
                           "value": "DC"
                         },
                         {
-                          "label": "TermLoan",
+                          "label": "Term Loan",
                           "value": "TL"
                         }
                       ]

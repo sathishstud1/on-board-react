@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios from "../../axios-instance";
 import ViewCustomerOnboard from "../Customers/ViewCustomerOnboard";
 import customerOnboardJson from "../../assets/data/cutomerOnboard.json";
 
