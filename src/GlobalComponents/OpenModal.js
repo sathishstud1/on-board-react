@@ -10,34 +10,37 @@ import {
 
   class OpenModal extends Component {
 
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
         this.state = {
-            modal: false
+           openModal: false
         }
         this.toggleModalDialog = this.toggleModalDialog.bind(this);
     }
 
     toggleModalDialog() {
-        this.setState({modal: !this.state.modal});
-    }   
+        this.setState({openModal: false});
+    }
 
-    render() {
+    componentWillReceiveProps(props) {
+        this.setState({openModal: props.isOpenModal});
+    }
+
+    render() {        
         return (
             <div>               
-                <Modal isOpen={this.state.modal}
+                <Modal isOpen={this.state.openModal}
                     toggle={() => this.toggleModalDialog()}
                     backdrop={true}
                     keyboard={true}
-                    container={this.props.container}
                 >
-                    <ModalHeader>On Board</ModalHeader>
+                    <ModalHeader className={this.props.alertClass}>{this.props.headerInfo}</ModalHeader>
                     <ModalBody>
-                        {this.props.data}
+                        {this.props.msg}
                     </ModalBody>
                     <ModalFooter>           
-                        <Button color="secondary"
-                                onClick={() => this.toggleModalDialog()}>Cancel</Button>
+                        <Button className={this.props.alertClass}
+                                onClick={() => this.toggleModalDialog()}>Ok</Button>
                     </ModalFooter>
                 </Modal>
             </div>

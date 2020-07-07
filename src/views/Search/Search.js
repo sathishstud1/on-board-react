@@ -24,11 +24,11 @@ import {
   ListGroupItem,
 } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
+import OpenModal from '../../GlobalComponents/OpenModal';
 
 function SearchRow(props) {
   const search = props.search
   const columnIds  = props.columnIds;
-  const searchLink = `/search/${search._id}`;
   let rowtds = [];
   for(var i=0;i<columnIds.length;i++){
     rowtds.push(<td>{search[columnIds[i]]}</td>);
@@ -53,8 +53,10 @@ class Search extends Component {
     super(props, context);
     this.state = {
       modal: false,
-      modelAlert:false,
+      openModel:false,
       alertMsg:'',
+      alertClassName:'',
+      headerInfo:'',
       selectedSearchItem: null,
       searchBy: "_id",
       searchCondition: "",
@@ -67,7 +69,7 @@ class Search extends Component {
       searchDetails: [],
       pageSize: 5,
       showPaginationDropdown: false,
-      currentPage: 0,
+      currentPage: 0
     }
     this.getSearchPageData = this.getSearchPageData.bind(this);
     this.setSearchBy = this.setSearchBy.bind(this);
@@ -103,8 +105,8 @@ class Search extends Component {
     this.setState({selectedSearchItem, modal: !this.state.modal});
   }
   
-  Alert(alertMsg){
-    this.setState({alertMsg:alertMsg,modelAlert: !this.state.modelAlert});
+  Alert(openModel, alertMsg, alertclassName, headerInfo ){
+    this.setState({openModel:openModel, alertMsg:alertMsg,alertClassName: alertclassName,headerInfo:headerInfo});
   }
 
   togglePaginationDropdown(pageSize) {
@@ -165,15 +167,7 @@ class Search extends Component {
     this.setState({searchCondition});
   }
 
-  setSearchByValue(searchByValue) {
-    /*if (this.state.searchBy === 'id' && this.state.searchByValue.trim().length > 0) {
-      if (!isNaN(searchByValue)) {
-        const convertedNumber = Number(searchByValue);
-        this.setState({searchByValue});
-      }
-    } else {
-      
-    }*/
+  setSearchByValue(searchByValue) {    
     this.setState({searchByValue});
   }
 
@@ -215,13 +209,11 @@ class Search extends Component {
             this.setState({searchData: searchRes, 
               OriginalSearchData: searchRes });            
           }else{
-            this.Alert(response.data.data);                
-          } 
-          
+            this.Alert(true,response.data.message, 'mr-1 btn btn-danger', 'Error');
+          }           
         })
         .catch((error) => {
-          console.log(error);
-          this.Alert(error);  
+          this.Alert(true, error, 'mr-1 btn btn-danger', 'Error');  
         });
         
     } else {
@@ -229,7 +221,7 @@ class Search extends Component {
       this.setState({searchData});
     }
   }
-
+  
   render() {
     let searchOpts = [];
     let searchCondOpts = [];
@@ -445,22 +437,11 @@ class Search extends Component {
                       onClick={() => this.toggleModal(null)}>Cancel</Button>
             </ModalFooter>
         </Modal>
-
-        <Modal isOpen={this.state.modelAlert}
-               toggle={() => this.Alert(null)}
-               backdrop={true}
-               keyboard={true}
-               >
-            <ModalHeader toggle={() => this.Alert(null)}>On Board</ModalHeader>
-            <ModalBody>
-              {this.state.alertMsg}
-            </ModalBody>
-            <ModalFooter>           
-              <Button color="secondary"
-                      onClick={() => this.Alert(null)}>Cancel</Button>
-            </ModalFooter>
-        </Modal>
         
+        <OpenModal isOpenModal={this.state.openModel} 
+                   msg={this.state.alertMsg} 
+                   alertClass = {this.state.alertClassName}
+                   headerInfo = {this.state.headerInfo}/>        
       </div>
     )
   }
