@@ -60,7 +60,7 @@
                       "value": ""
                     },
                     {
-                      "label": "DateOfBirth",
+                      "label": "Date Of Birth",
                       "name": "DOB",
                       "type": "text",
                       "colWidth": "col-md-4",

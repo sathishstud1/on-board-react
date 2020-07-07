@@ -1,12 +1,12 @@
 import React from 'react';
 import RecreateForm from '../../GlobalComponents/RecreateForm';
-import validator from '../../GlobalComponents/Validation';
+import ProcessFields from '../../GlobalComponents/ProcessFields';
 import createJson from './CreateNewCustomerJson';
 import CreatePage from '../../GlobalComponents/CreatePage';
+import PageNavigation from '../../GlobalComponents/PageNavigation';
 import axios from '../../axios-instance';
 import ReactDOM from 'react-dom';
 import {withRouter} from 'react-router';
-import states from "../../assets/data/Dropdowns/states.json";
 
 class CustomerOnboard extends React.Component {
   constructor(props) {
@@ -15,7 +15,6 @@ class CustomerOnboard extends React.Component {
       customerOnboardJson: this.props.json,
       recreateArray: [],
       jsonValues: {},
-      //stateOptions: {},
       currentPageId: 0,
       isUpdate: this.props.isUpdate
     };
@@ -26,40 +25,30 @@ class CustomerOnboard extends React.Component {
     this.addedFields = [];
     this.PageLength = 0;
     this.PageList = [];
-    //this.defaultStates = [];
     this.onChangeHandler = this.onChangeHandler.bind(this);
   }
 
   addElements = (lines, refVal) => {
-    let prev;
+    let arr = [];
     if (!this.state[refVal]) {
       this.state[refVal] = [];
     } else {
-      prev = this.state[refVal];
+      arr = this.state[refVal];
       this.state[refVal] = [];
     }
-    let arr = [];
-    if (prev) {
-      arr.push(...prev);
-    }
-    let divId = refVal + arr.length;
+    
     let removeId = arr.length;
-    //this.state.stateOptions["state"+removeId] = this.defaultStates;
     arr.push(<RecreateForm data={lines}
-                            //stateOptions ={this.state.stateOptions}
                             changed={this.onChangeHandler} 
                             uniqueId ={arr.length}
                             remove={()=>this.removeElement(lines,refVal,removeId)}/>);   
 
-    let processFields = validator.addFields(lines, removeId);
+    let processFields = ProcessFields.addFields(lines, removeId);
     this.addedReqFields = [...this.addedReqFields,...processFields.reqFields];
     this.addedFields = [...this.addedFields,...processFields.allFields];
-    let prevJsonvalues = this.state.jsonValues;
     let newJsonValues = {};
-    Object.assign(newJsonValues, prevJsonvalues, processFields.defaultValues);     
+    Object.assign(newJsonValues, this.state.jsonValues, processFields.defaultValues);     
     this.recreateLines[refVal][removeId] = processFields.addedLines;
-    this.state[refVal].push(arr);
-    this.state.jsonValues = newJsonValues;     
     this.setState({[refVal]:arr,jsonValues:newJsonValues});
   };
 
@@ -72,48 +61,25 @@ class CustomerOnboard extends React.Component {
         arr.push(null);
       }
     }
-    this.state[refVal].push(arr);
-    this.setState({[refVal]: arr});
-    let processFields = validator.removeFields(lines, removeId, this.addedReqFields, this.addedFields, this.state.jsonValues);
+    let processFields = ProcessFields.removeFields(lines, removeId, this.addedReqFields, this.addedFields, this.state.jsonValues);
     this.addedReqFields = [...processFields.reqFields];
     this.addedFields = [...processFields.allFields];
-    Object.assign(this.state.jsonValues, this.state.jsonValues, processFields.defaultValues);
+    let newJsonValues = {};
+    Object.assign(newJsonValues, this.state.jsonValues, processFields.defaultValues);  
+    this.setState({[refVal]: arr, jsonValues:newJsonValues});
     delete this.recreateLines[refVal][removeId];
-    //delete this.state.stateOptions["state"+removeId];
   };
 
   onChangeHandler = function (e) {
     e.persist();
     if (e.target.type == "radio") {
       this.state.jsonValues[e.target.name] = e.target.value;
-    } else if(e.target.type=="select-one"){
-      /*let selectId = e.target.id;
-      if(selectId.indexOf("country")>=0){
-        var stateId = "state"+selectId.replace("country", "");
-        let state = this.getStates(e.target.value);
-
-        var stateProperty = {...this.state.stateOptions}
-        stateProperty[stateId] = state;
-        this.state.stateOptions = stateProperty;
-        this.setState({stateOptions:stateProperty});
-        
-        console.log(this.state.stateOptions)
-      }  */    
+    } else if(e.target.type=="select-one"){     
       this.state.jsonValues[e.target.id] = e.target.value;
       this.state.jsonValues[e.target.id+"_selectedLabel"] = e.target.options[e.target.selectedIndex].text;  
     } else {
       this.state.jsonValues[e.target.id] = e.target.value;
     }
-  }
-
-  getStates = (country) => {
-    let statesList = states[country];
-    let options = [];
-    statesList.map((stateKey, key) => {
-      let state = statesList[key];
-      options.push(<option value={state.value}>{state.label}</option>);
-    });
-    return options;
   }
 
   searchSSN = () => {
@@ -132,56 +98,6 @@ class CustomerOnboard extends React.Component {
     Object.assign(this.defaultValues, this.defaultValues, defaultValues);
   }
 
-  changePage = (pageId) => {
-    for (let i = 0; i < this.PageLength; i++) {
-      ReactDOM.findDOMNode(this.refs["ShowPage" + i]).style.display = 'none';
-    }
-    ReactDOM.findDOMNode(this.refs["ShowPage" + pageId]).style.display = 'block';
-    ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'block';
-    ReactDOM.findDOMNode(this.refs["nextBtn"]).style.display = 'block';
-    if (pageId == (this.PageLength - 1)) {
-      ReactDOM.findDOMNode(this.refs["nextBtn"]).style.display = 'none';
-    }
-    if (pageId == 0) {
-      ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'none';
-    }
-    this.CurrentPageId = pageId;
-    this.setState({currentPageId: pageId});
-  }
-
-  nextPage = () => {
-
-    if (this.CurrentPageId == (this.PageLength - 1)) {
-      return;
-    }
-    ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'block';
-    this.CurrentPageId = this.CurrentPageId + 1;
-    if (this.CurrentPageId == (this.PageLength - 1)) {
-      ReactDOM.findDOMNode(this.refs["nextBtn"]).style.display = 'none';
-    }
-
-    for (let i = 0; i < this.PageLength; i++) {
-      ReactDOM.findDOMNode(this.refs["ShowPage" + i]).style.display = 'none';
-    }
-    ReactDOM.findDOMNode(this.refs["ShowPage" + this.CurrentPageId]).style.display = 'block';
-  }
-
-  previousPage = () => {
-    if (this.CurrentPageId == 0) {
-      return;
-    }
-    ReactDOM.findDOMNode(this.refs["nextBtn"]).style.display = 'block';
-
-    this.CurrentPageId = this.CurrentPageId - 1;
-    if (this.CurrentPageId == 0) {
-      ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'none';
-    }
-    for (let i = 0; i < this.PageLength; i++) {
-      ReactDOM.findDOMNode(this.refs["ShowPage" + i]).style.display = 'none';
-    }
-    ReactDOM.findDOMNode(this.refs["ShowPage" + this.CurrentPageId]).style.display = 'block';
-  }
-
   saveform = () => {
     let customeOnboardNewJson = createJson.create(this.state.jsonValues, this.state.recreateArray,
       this.recreateLines, this.state.customerOnboardJson);
@@ -192,7 +108,6 @@ class CustomerOnboard extends React.Component {
     if(this.state.isUpdate){
       URL = '/update-app-details';
     }
-
     axios.post(URL, customeOnboardNewJson)
       .then(response => {
         alert(response.data.message);
@@ -207,15 +122,11 @@ class CustomerOnboard extends React.Component {
     Object.keys(this.state.recreateArray).map((recreateIndex, index) => {
       linesobj[this.state.recreateArray[index]] = {};
       Object.assign(this.recreateLines, this.recreateLines, linesobj);
-    });
-    let statesList = states.US;
-    /*this.defaultStates = [];
-        statesList.map((stateKey, key) =>{
-           let state = statesList[key];
-           this.defaultStates.push(<option value={state.value}>{state.label}</option>);
-        }); */
-    //this.state.stateOptions["state"] = this.defaultStates;
+    });   
     this.setState({ jsonValues: this.defaultValues });
+    if(this.state.currentPageId==0){
+      ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'none';
+    }    
   }
 
   renderPage = (Page, PageId, PageLength) => {
@@ -232,7 +143,6 @@ class CustomerOnboard extends React.Component {
       <CreatePage Page={Page}
                   PageLength={PageLength}
                   PageId={PageId}
-                  //stateOptions={this.state.stateOptions}
                   loadPageDefaults={this.loadPageDefaults}
                   changed={this.onChangeHandler}
                   addElements={this.addElements}
@@ -249,7 +159,6 @@ class CustomerOnboard extends React.Component {
     let btns = [];
     let pages = this.props.json.PageList;
     this.PageList = [];
-    this.CurrentPageId = 0;
     this.PageLength = 0;
     //Pages
     Object.keys(pages).map((pageIndex, index) => {
@@ -264,7 +173,10 @@ class CustomerOnboard extends React.Component {
       }
       tabs.push(
         <button className={className}
-                onClick={() => this.changePage(i)}
+                onClick={() => {
+                  PageNavigation.changePage(i, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                  this.setState({currentPageId: i});
+                }}
                 id={tabId}
                 type="button">
           {this.PageList[i].PageTitle}
@@ -276,18 +188,24 @@ class CustomerOnboard extends React.Component {
       );
     }
     btns.push(
-      <button ref="previousBtn"
-              className="btn btn-primary mr-3"
-              key='previousPage'
-              onClick={() => this.previousPage()}
-              type="button">
-        Previous</button>
-    );
+        <button ref="previousBtn"
+                className="btn btn-primary mr-3"
+                key='previousPage'
+                onClick={() => {
+                  const pageId = PageNavigation.previousPage(this.state.currentPageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                  this.setState({currentPageId: pageId});
+                }}
+                type="button">
+          Previous</button>
+    );    
     btns.push(
       <button className="btn btn-primary"
               key='nextPage'
               ref="nextBtn"
-              onClick={() => this.nextPage()}
+              onClick={() => {
+                const pageId = PageNavigation.nextPage(this.state.currentPageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                this.setState({currentPageId: pageId});
+              }}
               type="button">
         Next</button>
     );
@@ -306,5 +224,4 @@ class CustomerOnboard extends React.Component {
     );
   }
 }
-
 export default withRouter(CustomerOnboard);

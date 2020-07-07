@@ -1,6 +1,6 @@
 import React from 'react';
 import RecreateForm from '../../GlobalComponents/RecreateForm';
-import validator from '../../GlobalComponents/Validation';
+import ProcessFields from '../../GlobalComponents/ProcessFields';
 import createJson from './CreateNewProductJson';
 import CreatePage from '../../GlobalComponents/CreatePage';
 import axios from '../../axios-instance';
@@ -71,7 +71,7 @@ class CustomerOnboard extends React.Component {
                             uniqueId ={arr.length}
                             remove={()=>this.removeElement(lines,refVal,removeId)}/>);   
 
-    let processFields = validator.addFields(lines, removeId);
+    let processFields = ProcessFields.addFields(lines, removeId);
     this.addedReqFields = [...this.addedReqFields,...processFields.reqFields];
     this.addedFields = [...this.addedFields,...processFields.allFields];
     let prevJsonvalues = this.state.jsonValues;
@@ -94,7 +94,7 @@ class CustomerOnboard extends React.Component {
     }
     this.state[refVal].push(arr);
     this.setState({[refVal]: arr});
-    let processFields = validator.removeFields(lines, removeId, this.addedReqFields, this.addedFields, this.state.jsonValues);
+    let processFields = ProcessFields.removeFields(lines, removeId, this.addedReqFields, this.addedFields, this.state.jsonValues);
     this.addedReqFields = [...processFields.reqFields];
     this.addedFields = [...processFields.allFields];
     Object.assign(this.state.jsonValues, this.state.jsonValues, processFields.defaultValues);
