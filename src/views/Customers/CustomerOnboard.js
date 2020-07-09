@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { isValidElement } from 'react';
 import RecreateForm from '../../GlobalComponents/RecreateForm';
 import ProcessFields from '../../GlobalComponents/ProcessFields';
 import createJson from './CreateNewCustomerJson';
@@ -7,6 +7,8 @@ import PageNavigation from '../../GlobalComponents/PageNavigation';
 import axios from '../../axios-instance';
 import ReactDOM from 'react-dom';
 import {withRouter} from 'react-router';
+import Validation from '../../GlobalComponents/Validation';
+import OpenModal from '../../GlobalComponents/OpenModal';
 
 class CustomerOnboard extends React.Component {
   constructor(props) {
@@ -16,7 +18,11 @@ class CustomerOnboard extends React.Component {
       recreateArray: [],
       jsonValues: {},
       currentPageId: 0,
-      isUpdate: this.props.isUpdate
+      isUpdate: this.props.isUpdate,
+      openModel:false,
+      alertMsg:'',
+      alertClassName:'',
+      headerInfo:''
     };
     this.recreateLines = {};
     this.defaultValues = {};
@@ -26,6 +32,10 @@ class CustomerOnboard extends React.Component {
     this.PageLength = 0;
     this.PageList = [];
     this.onChangeHandler = this.onChangeHandler.bind(this);
+  }
+
+  Alert(openModel, alertMsg, alertclassName, headerInfo ){
+    this.setState({openModel:openModel, alertMsg:alertMsg,alertClassName: alertclassName,headerInfo:headerInfo});
   }
 
   addElements = (lines, refVal) => {
@@ -44,12 +54,16 @@ class CustomerOnboard extends React.Component {
                             remove={()=>this.removeElement(lines,refVal,removeId)}/>);   
 
     let processFields = ProcessFields.addFields(lines, removeId);
-    this.addedReqFields = [...this.addedReqFields,...processFields.reqFields];
+    
     this.addedFields = [...this.addedFields,...processFields.allFields];
     let newJsonValues = {};
     Object.assign(newJsonValues, this.state.jsonValues, processFields.defaultValues);     
     this.recreateLines[refVal][removeId] = processFields.addedLines;
     this.setState({[refVal]:arr,jsonValues:newJsonValues});
+    
+    //this.addedReqFields = [...this.addedReqFields,...processFields.reqFields];   
+    let newReqFileds = [...this.addedReqFields[this.state.currentPageId],...processFields.reqFields];
+    this.addedReqFields.splice(this.state.currentPageId, 0, newReqFileds);
   };
 
   removeElement = (lines, refVal, removeId) => {
@@ -61,8 +75,9 @@ class CustomerOnboard extends React.Component {
         arr.push(null);
       }
     }
-    let processFields = ProcessFields.removeFields(lines, removeId, this.addedReqFields, this.addedFields, this.state.jsonValues);
-    this.addedReqFields = [...processFields.reqFields];
+    let processFields = ProcessFields.removeFields(lines, removeId, this.addedReqFields[this.state.currentPageId], this.addedFields, this.state.jsonValues);
+    let newReqFileds = [...processFields.reqFields];
+    this.addedReqFields.splice(this.state.currentPageId, 0, newReqFileds);
     this.addedFields = [...processFields.allFields];
     let newJsonValues = {};
     Object.assign(newJsonValues, this.state.jsonValues, processFields.defaultValues);  
@@ -92,28 +107,40 @@ class CustomerOnboard extends React.Component {
     return this.state[refVal];
   }
 
-  loadPageDefaults = (reqFields, recreateArray, defaultValues) => {
-    this.reqFields = [...this.reqFields, ...reqFields];
+  loadPageDefaults = (reqFields, recreateArray, defaultValues, currentPageId) => {
+    //this.reqFields = [...this.reqFields, ...reqFields];
+    this.reqFields.splice(currentPageId, 0, reqFields); 
+    this.addedReqFields.splice(currentPageId, 0, []); 
     this.state.recreateArray = [...this.state.recreateArray, ...recreateArray];
     Object.assign(this.defaultValues, this.defaultValues, defaultValues);
+  }
+
+  closeModal = ()=>{
+    this.Alert(false,'', '', '');
   }
 
   saveform = () => {
     let customeOnboardNewJson = createJson.create(this.state.jsonValues, this.state.recreateArray,
       this.recreateLines, this.state.customerOnboardJson);
-    console.log(customeOnboardNewJson)
-    //let validateFields = [...this.reqFields,...this.addedReqFields];
-    //let isValid = validator.validateForm(validateFields, this.state.jsonValues);
+    let validateFields = [];
+    for(let i=0;i<this.PageLength;i++){
+      let valfields = [...this.reqFields[i],...this.addedReqFields[i]];
+      validateFields = [...validateFields,...valfields];
+    }    
+    let isValid = Validation.validateForm(validateFields, this.state.jsonValues);
+    if(!isValid){
+      return;
+    }
     let URL = '/save-app-details';
     if(this.state.isUpdate){
       URL = '/update-app-details';
     }
     axios.post(URL, customeOnboardNewJson)
       .then(response => {
-        alert(response.data.message);
+        this.Alert(true,response.data.message, 'mr-1 btn btn-success', 'Success');
       })
       .catch(error => {
-        console.log(error);
+        this.Alert(true,error, 'mr-1 btn btn-danger', 'Error');
       });
   }
 
@@ -126,7 +153,23 @@ class CustomerOnboard extends React.Component {
     this.setState({ jsonValues: this.defaultValues });
     if(this.state.currentPageId==0){
       ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'none';
-    }    
+    }  
+  }
+
+  validatePage = ()=>{
+    var forms = document.getElementsByClassName('needs-validation');
+    Array.prototype.filter.call(forms, function(form) {
+       form.classList.add('was-validated');
+    });
+    let validateFields = [];
+    if(this.addedReqFields[this.state.currentPageId]){
+      validateFields = [...this.reqFields[this.state.currentPageId],...this.addedReqFields[this.state.currentPageId]];
+    }else{
+      validateFields = [...this.reqFields[this.state.currentPageId]];
+    }
+    
+    let isValid = Validation.validateForm(validateFields, this.state.jsonValues);
+    return isValid;
   }
 
   renderPage = (Page, PageId, PageLength) => {
@@ -149,7 +192,8 @@ class CustomerOnboard extends React.Component {
                   addrecreateDiv={this.addrecreateDiv}
                   searchSSN={this.searchSSN}
                   saveform={this.saveform}
-                  exitform={this.exitform}/>
+                  exitform={this.exitform}
+                  currentPageId={PageId}/>
     </div>;
   }
 
@@ -174,8 +218,10 @@ class CustomerOnboard extends React.Component {
       tabs.push(
         <button className={className}
                 onClick={() => {
-                  PageNavigation.changePage(i, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
-                  this.setState({currentPageId: i});
+                  if(this.validatePage()){
+                    PageNavigation.changePage(i, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                    this.setState({currentPageId: i});
+                  }                  
                 }}
                 id={tabId}
                 type="button">
@@ -192,8 +238,11 @@ class CustomerOnboard extends React.Component {
                 className="btn btn-primary mr-3"
                 key='previousPage'
                 onClick={() => {
-                  const pageId = PageNavigation.previousPage(this.state.currentPageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
-                  this.setState({currentPageId: pageId});
+                  if(this.validatePage()){
+                    const pageId = PageNavigation.previousPage(this.state.currentPageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                    this.setState({currentPageId: pageId});
+                  }
+                 
                 }}
                 type="button">
           Previous</button>
@@ -203,8 +252,11 @@ class CustomerOnboard extends React.Component {
               key='nextPage'
               ref="nextBtn"
               onClick={() => {
-                const pageId = PageNavigation.nextPage(this.state.currentPageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
-                this.setState({currentPageId: pageId});
+                if(this.validatePage()){
+                  const pageId = PageNavigation.nextPage(this.state.currentPageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                  this.setState({currentPageId: pageId});
+                }
+                
               }}
               type="button">
         Next</button>
@@ -214,11 +266,16 @@ class CustomerOnboard extends React.Component {
         <div className="border-bottom">
           {tabs}
         </div>
-        <div>{items} </div>
+        <div ><form class="needs-validation" novalidate>{items} </form></div>
         <div className="text-right float-right">
           {btns}
         </div>
         <div className="clearfix"></div>
+        <OpenModal isOpenModal={this.state.openModel} 
+                   msg={this.state.alertMsg} 
+                   alertClass = {this.state.alertClassName}
+                   headerInfo = {this.state.headerInfo}
+                   closeModal = {this.closeModal}/>
       </div>
 
     );

@@ -7,10 +7,11 @@ class CreatePage extends React.Component {
     this.reqFields = [];
     this.recreateArray = [];
     this.defaultValues = {};
+    this.currentPageId = 0;
   }
 
   componentDidMount() {
-    this.props.loadPageDefaults(this.reqFields,this.recreateArray,this.defaultValues);
+    this.props.loadPageDefaults(this.reqFields,this.recreateArray,this.defaultValues, this.currentPageId);
   }
 
   render() {    
@@ -19,6 +20,7 @@ class CreatePage extends React.Component {
     let items = [];
     let recreateCount = 1;
     let page = this.props.Page;
+    this.currentPageId = this.props.currentPageId;
       //items.push(<h1>{page.PageTitle}</h1>);
       let categoryList = page.CategoryList;
       //Category List
@@ -64,7 +66,7 @@ class CreatePage extends React.Component {
                                     uniqueId = ""
                                     changed={this.props.changed}
                                     /*stateOptions={this.props.stateOptions}*//>);
-          }
+            }
           });//Lines End
           if(section.recreate!=null && section.recreate){
             let refVal = 'recreate'+this.props.PageId+recreateCount;

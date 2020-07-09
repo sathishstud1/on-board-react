@@ -109,6 +109,10 @@ class Search extends Component {
     this.setState({openModel:openModel, alertMsg:alertMsg,alertClassName: alertclassName,headerInfo:headerInfo});
   }
 
+  closeModal = ()=>{
+    this.Alert(false,'', '', '');
+  }
+
   togglePaginationDropdown(pageSize) {
     if (pageSize) {
       const pageCount = Math.ceil(this.state.searchData.length / pageSize);

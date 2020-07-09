@@ -10,7 +10,7 @@ class FormModel extends React.Component {
 
   render() {
     let arr = this.props.data;
-    let formfields = [];
+    let formfields = [];    
     
     Object.keys(arr).map((field, index) => {
       let fieldData = arr[field];
@@ -21,7 +21,7 @@ class FormModel extends React.Component {
       switch (fieldData.type) {
         case('text'):
           formfields.push(
-            <div className={'form-group ' + fieldData.colWidth}>
+            <div className={ fieldData.colWidth+ ' mb-3'}>
               <label htmlFor={fieldId}>{fieldData.label}</label>
               <input className="form-control"
                      type={fieldData.type}
@@ -31,12 +31,16 @@ class FormModel extends React.Component {
                      ref={fieldId}
                      onChange={this.props.changed}
                      defaultValue={fieldData.value}/>
+              <div class="invalid-feedback">
+                Please choose a {fieldData.label}.
+              </div>
             </div>
+           
           );
           break;
         case('textarea'):
           formfields.push(
-            <div className={'form-group ' + fieldData.colWidth}>
+            <div className={ fieldData.colWidth+ ' mb-3'}>
               <label htmlFor={fieldId}>{fieldData.label}</label>
               <textarea className="form-control"
                         defaultValue={fieldData.value}
@@ -45,12 +49,15 @@ class FormModel extends React.Component {
                         name={fieldId}
                         ref={fieldId}
                         onChange={this.props.changed}/>
+              <div class="invalid-feedback">
+                Please choose a {fieldData.label}.
+              </div>
             </div>
           );
           break;
         case('radiogroup'):
           formfields.push(
-            <div className={'form-group ' + fieldData.colWidth}>
+            <div className={ fieldData.colWidth+ ' mb-3'}>
               <label className="d-block mb-3">{fieldData.label}</label>
               {
                 Object.values(fieldData.values).map((value, _index) => {
@@ -142,7 +149,7 @@ class FormModel extends React.Component {
           }
           if (typeof fieldData.dependent != 'undefined' && fieldData.dependent) {
             formfields.push(
-              <div className={'form-group ' + fieldData.colWidth}>
+              <div className={ fieldData.colWidth+ ' mb-3'}>
                 <label htmlFor={fieldId}>{fieldData.label}</label>
                 <select ref={fieldId}
                         id={fieldId}
@@ -155,7 +162,7 @@ class FormModel extends React.Component {
             );
           } else {
             formfields.push(
-              <div className={'form-group ' + fieldData.colWidth}>
+              <div className={ fieldData.colWidth+ ' mb-3'}>
                 <label htmlFor={fieldId}>{fieldData.label}</label>
                 <select ref={fieldId}
                         className="form-control"
@@ -174,7 +181,7 @@ class FormModel extends React.Component {
             formfields.push(
               <div className={'my-auto ' + fieldData.colWidth}>
                 <button onClick={this.props.searchHandler}
-                        className="btn btn-primary mt-2"
+                        className="btn btn-primary mr-3"
                         id={fieldId}
                         type={fieldData.type}>
                   {fieldData.label}
@@ -185,7 +192,7 @@ class FormModel extends React.Component {
             formfields.push(
               <div className={'my-auto ' + fieldData.colWidth}>
                 <button onClick={fieldData.clicked}
-                        className="btn btn-primary mt-2"
+                        className="btn btn-primary mr-3"
                         id={fieldId}
                         type={fieldData.type}>
                   {fieldData.label}
@@ -201,7 +208,7 @@ class FormModel extends React.Component {
     });
 
     return (
-      <div className="form-row mb-3">
+      <div className="form-row">
         {formfields}
       </div>
     );

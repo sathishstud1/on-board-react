@@ -20,6 +20,7 @@ import {
 
     toggleModalDialog() {
         this.setState({openModal: false});
+        this.props.closeModal();
     }
 
     componentWillReceiveProps(props) {
