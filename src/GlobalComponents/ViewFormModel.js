@@ -36,6 +36,14 @@ class ViewFormModel extends React.Component {
             </div>
           );
           break;
+        case('checkbox'):
+          formfields.push(
+            <div className={'form-group ' + fieldData.colWidth}>
+              <label className="d-block mb-3">{fieldData.label}</label>  
+              <label>{fieldData.value==true?"Checked":"Unchecked"}</label>
+            </div>
+          );
+          break;
         case('select'):
             formfields.push(
                 <div className={'form-group ' + fieldData.colWidth}>

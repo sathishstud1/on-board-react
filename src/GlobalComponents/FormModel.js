@@ -32,7 +32,7 @@ class FormModel extends React.Component {
                      onChange={this.props.changed}
                      defaultValue={fieldData.value}/>
               <div class="invalid-feedback">
-                Please choose a {fieldData.label}.
+                Please choose {fieldData.label}.
               </div>
             </div>
            
@@ -50,44 +50,68 @@ class FormModel extends React.Component {
                         ref={fieldId}
                         onChange={this.props.changed}/>
               <div class="invalid-feedback">
-                Please choose a {fieldData.label}.
+                Please choose {fieldData.label}.
               </div>
             </div>
           );
           break;
         case('radiogroup'):
           formfields.push(
-            <div className={ fieldData.colWidth+ ' mb-3'}>
-              <label className="d-block mb-3">{fieldData.label}</label>
-              {
-                Object.values(fieldData.values).map((value, _index) => {
-                  var ids = fieldId + _index;
-                  let val = fieldData.value;
-                  let checkFlag = false;
-                  if (val && val === fieldData.values[_index]) {
-                    checkFlag = true;
-                  }
-                  return (
-                    <div className="form-check form-check-inline">
-                      <input className="form-check-input"
-                             type="radio"
-                             onChange={this.props.changed}
-                             defaultValue={value}
-                             name={fieldId}
-                             id={ids}
-                             ref={fieldId}
-                             defaultChecked={checkFlag}/>
-                      <label className="form-check-label"
-                             for={ids}>
-                        {value}
-                      </label>
-                    </div>
-                  )
-                })
-              }
-            </div>
+              <div className={ fieldData.colWidth+ ' mb-3'}>
+                <label className="d-block mb-3">{fieldData.label}</label>
+                {
+                  Object.values(fieldData.values).map((value, _index) => {
+                    var ids = fieldId + _index;
+                    let val = fieldData.value;
+                    let checkFlag = false;
+                    if (val && val === fieldData.values[_index]) {
+                      checkFlag = true;
+                    }
+                    return (
+                      <div className="form-check form-check-inline">
+                        <input className="form-check-input"
+                              type="radio"
+                              onChange={this.props.changed}
+                              defaultValue={value}
+                              name={fieldId}
+                              id={ids}
+                              ref={fieldId}
+                              defaultChecked={checkFlag}
+                              required={fieldData.required}/>
+                        <label className="form-check-label"
+                              for={ids}>
+                          {value}
+                        </label>
+                       
+                      </div>
+                    )
+                  })
+                }
+                 <div class="invalid-feedback">
+                          Please choose {fieldData.label}.
+                  </div>
+              </div>
           );
           break;
+        case('checkbox'):         
+        formfields.push(
+          <div className={ fieldData.colWidth+ ' mb-3'}>             
+                <div class="form-check form-check-inline">
+                    <input className="form-check-input"
+                           type="checkbox" 
+                           id={fieldId} 
+                           defaultValue={fieldData.value}
+                           onChange={this.props.changed}
+                           defaultChecked={fieldData.value}
+                           required={fieldData.required}/>
+                    <label className="form-check-label">{fieldData.label}</label>
+                    <div class="invalid-feedback">
+                      Please choose {fieldData.label}.
+                    </div>
+                </div>                  
+          </div>
+        );
+        break;
         case('select'):
           var link = fieldData.link;
           let value = fieldData.value;

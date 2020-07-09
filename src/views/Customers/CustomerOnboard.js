@@ -92,6 +92,8 @@ class CustomerOnboard extends React.Component {
     } else if(e.target.type=="select-one"){     
       this.state.jsonValues[e.target.id] = e.target.value;
       this.state.jsonValues[e.target.id+"_selectedLabel"] = e.target.options[e.target.selectedIndex].text;  
+    }if (e.target.type == "checkbox") {
+      this.state.jsonValues[e.target.id] = e.target.checked;
     } else {
       this.state.jsonValues[e.target.id] = e.target.value;
     }
