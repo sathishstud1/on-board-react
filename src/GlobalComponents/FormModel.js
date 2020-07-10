@@ -284,11 +284,11 @@ class FormModel extends React.Component {
           break;
         default:
           formfields.push(
-            <div className={fieldData.colWidth + " mb-3"}>
+            <div className={"col-md-3" + " mb-3"}>
               <label htmlFor={fieldId}>{fieldData.label}</label>
               <input
                 className="form-control"
-                type={fieldData.type}
+                type="text"
                 required={fieldData.required}
                 id={fieldId}
                 name={fieldId}
