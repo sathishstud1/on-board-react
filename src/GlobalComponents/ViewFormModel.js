@@ -54,7 +54,13 @@ class ViewFormModel extends React.Component {
 
           break;        
         default:
-          formfields.push(<br/>);
+          formfields.push(
+            <div className='col-md-3 mb-3'>
+              <label htmlFor={fieldId}>{fieldData.label}</label>
+              <label>{fieldData.value}</label>                
+            </div>
+           
+          );
       }
     });
 
