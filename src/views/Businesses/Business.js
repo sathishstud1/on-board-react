@@ -1,45 +1,23 @@
-import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
-
-import businessesData from './BusinessesData'
+import React, { Component } from "react";
+import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
+import PageLayout from "./PageLayout";
+import importJson from "../../assets/data/businessOnboard.json";
 
 class Business extends Component {
-
   render() {
-
-    const businesses = businessesData.find(businesses => businesses.id.toString() === this.props.match.params.id)
-
-    const businessesDetails = businesses ? Object.entries(businesses) : [['id', (<span><i className="text-muted icon-ban"></i> Not found</span>)]]
-
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col lg={6}>
+          <Col xl={12}>
             <Card>
-              <CardHeader>
-                <strong><i className="icon-info pr-1"></i>Businesses id: {this.props.match.params.id}</strong>
-              </CardHeader>
               <CardBody>
-                  <Table responsive striped hover>
-                    <tbody>
-                      {
-                        businessesDetails.map(([key, value]) => {
-                          return (
-                            <tr key={key}>
-                              <td>{`${key}:`}</td>
-                              <td><strong>{value}</strong></td>
-                            </tr>
-                          )
-                        })
-                      }
-                    </tbody>
-                  </Table>
+                <PageLayout json={importJson} isUpdate={false} />
               </CardBody>
             </Card>
           </Col>
         </Row>
       </div>
-    )
+    );
   }
 }
 

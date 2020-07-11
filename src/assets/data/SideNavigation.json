@@ -10,17 +10,17 @@
       }
     },
     {
-      "name": "Customer Onboard",
+      "name": "Customer 360",
       "url": "/customers",
       "icon": "icon-user"
     },
     {
-      "name": "Business Onboard",
+      "name": "Business 360",
       "url": "/businesses",
       "icon": "icon-briefcase"
     },
     {
-      "name": "Product Onboard",
+      "name": "Product 360",
       "url": "/products",
       "icon": "icon-grid"
     },

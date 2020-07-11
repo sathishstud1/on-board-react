@@ -1,72 +1,49 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from "reactstrap";
+import { Card, CardBody, CardHeader, Col, Row, Table } from "reactstrap";
 
-import productsData from "./ProductsData";
+import businessesData from "./UWData";
 
-function ProductRow(props) {
-  const product = props.product;
-  const productLink = `/products/${product.id}`;
-
-  const getBadge = (status) => {
-    return status === "Active"
-      ? "success"
-      : status === "Inactive"
-      ? "secondary"
-      : status === "Pending"
-      ? "warning"
-      : status === "Banned"
-      ? "danger"
-      : "primary";
-  };
-
-  return (
-    <tr key={product.id.toString()}>
-      <th scope="row">
-        <Link to={productLink}>{product.id}</Link>
-      </th>
-      <td>
-        <Link to={productLink}>{product.name}</Link>
-      </td>
-      <td>{product.registered}</td>
-      <td>{product.role}</td>
-      <td>
-        <Link to={productLink}>
-          <Badge color={getBadge(product.status)}>{product.status}</Badge>
-        </Link>
-      </td>
-    </tr>
-  );
-}
-
-class Products extends Component {
+class Business extends Component {
   render() {
-    const productList = productsData.filter((product) => product.id < 10);
+    const businesses = businessesData.find(
+      (businesses) => businesses.id.toString() === this.props.match.params.id
+    );
+
+    const businessesDetails = businesses
+      ? Object.entries(businesses)
+      : [
+          [
+            "id",
+            <span>
+              <i className="text-muted icon-ban"></i> Not found
+            </span>,
+          ],
+        ];
 
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col xl={6}>
+          <Col lg={6}>
             <Card>
               <CardHeader>
-                <i className="fa fa-align-justify"></i> Products{" "}
-                <small className="text-muted">example</small>
+                <strong>
+                  <i className="icon-info pr-1"></i>Businesses id:{" "}
+                  {this.props.match.params.id}
+                </strong>
               </CardHeader>
               <CardBody>
-                <Table responsive hover>
-                  <thead>
-                    <tr>
-                      <th scope="col">id</th>
-                      <th scope="col">name</th>
-                      <th scope="col">registered</th>
-                      <th scope="col">role</th>
-                      <th scope="col">status</th>
-                    </tr>
-                  </thead>
+                <Table responsive striped hover>
                   <tbody>
-                    {productList.map((product, index) => (
-                      <ProductRow key={index} product={product} />
-                    ))}
+                    {businessesDetails.map(([key, value]) => {
+                      return (
+                        <tr key={key}>
+                          <td>{`${key}:`}</td>
+                          <td>
+                            <strong>{value}</strong>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </Table>
               </CardBody>
@@ -78,4 +55,4 @@ class Products extends Component {
   }
 }
 
-export default Products;
+export default Business;
