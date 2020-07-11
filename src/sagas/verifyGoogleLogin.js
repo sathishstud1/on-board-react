@@ -6,10 +6,7 @@ import {
 import { takeLatest, call, put } from "redux-saga/effects";
 
 function verifyGoogleLogin(id_token) {
-  return axios.post(
-    "/verifyGoogleLogin",
-    { id_token }
-  );
+  return axios.post("/verifyGoogleLogin1", { id_token });
 }
 
 function* verifyGoogleLoginEffect(action) {
