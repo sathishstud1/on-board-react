@@ -35,7 +35,10 @@ this.create = (jsonValues, recreateArray,
               //Fields List
               Object.keys(fields).map((fieldIndex, index) => {
                 let fieldData = fields[index];
-                fieldData.value = jsonValues[fieldData.name];
+                if(fieldData.type){
+                  fieldData.value = jsonValues[fieldData.name];
+                }
+                
                 if(fieldData.type=="select"){
                   fieldData.selectedLabel = jsonValues[fieldData.name+"_selectedLabel"];
                 }

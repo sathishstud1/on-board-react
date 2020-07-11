@@ -234,7 +234,7 @@ class FormModel extends React.Component {
           break;
         default:
             formfields.push(
-                <div className='col-md-3 mb-3'>
+                <div className='col-md-4 mb-3'>
                   <label htmlFor={fieldId}>{fieldData.label}</label>
                   <input className="form-control"
                          type="text"

@@ -44,7 +44,7 @@ class DefaultHeader extends Component {
       id_token: tokenId,
     };
     axios
-      .post("/verifyGoogleLogin1", postData)
+      .post("/verifyGoogleLogin", postData)
       .then((response) => {
         if (!response.data.status) {
           this.props.history.push("/login");

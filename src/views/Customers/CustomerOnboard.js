@@ -14,7 +14,6 @@ class CustomerOnboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      customerOnboardJson: this.props.json,
       recreateArray: [],
       jsonValues: {},
       currentPageId: 0,
@@ -101,7 +100,7 @@ class CustomerOnboard extends React.Component {
 
   searchSSN = () => {
   }
-  
+
   exitform = () => {
     alert('exit')
   }
@@ -124,7 +123,7 @@ class CustomerOnboard extends React.Component {
 
   saveform = () => {
     let customeOnboardNewJson = createJson.create(this.state.jsonValues, this.state.recreateArray,
-      this.recreateLines, this.state.customerOnboardJson);
+      this.recreateLines, this.props.json);
     let validateFields = [];
     for(let i=0;i<this.PageLength;i++){
       let valfields = [...this.reqFields[i],...this.addedReqFields[i]];
@@ -156,7 +155,7 @@ class CustomerOnboard extends React.Component {
     this.setState({ jsonValues: this.defaultValues });
     if(this.state.currentPageId==0){
       ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'none';
-    }  
+    }
   }
 
   validatePage = ()=>{
