@@ -1,6 +1,6 @@
 this.create = (jsonValues, recreateArray,
-    recreateLines, customerOnboardJson) =>{
-    let pages = customerOnboardJson.PageList;
+    recreateLines, OnboardJson) =>{
+    let pages = OnboardJson.PageList;
     let recreateCount = 0;
     //Pages
     Object.keys(pages).map((pageIndex, index) => {
@@ -35,12 +35,18 @@ this.create = (jsonValues, recreateArray,
               //Fields List
               Object.keys(fields).map((fieldIndex, index) => {
                 let fieldData = fields[index];
-                fieldData.value = jsonValues[fieldData.name];
+                if(fieldData.type){
+                  fieldData.value = jsonValues[fieldData.name];
+                }
+                
+                if(fieldData.type=="select"){
+                  fieldData.selectedLabel = jsonValues[fieldData.name+"_selectedLabel"];
+                }
               });//Fields End
             });//Lines End
             
           });//Sections End
         });//Category End
       });//Pages End
-    return customerOnboardJson;
+    return OnboardJson;
 }

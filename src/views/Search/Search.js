@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import SearchAppjson from "../../assets/data/SearchApps.json";
 import axios from "../../axios-instance";
-import OpenCustomerOnBoard from './OpenCustomerOnBoard';
+import OpenOnBoard from './OpenOnBoard';
 
 import {
   Modal,
@@ -433,7 +433,7 @@ class Search extends Component {
                style={{maxWidth: '90%'}}>
             <ModalHeader toggle={() => this.toggleModal(null)}>On Board</ModalHeader>
             <ModalBody>
-              <OpenCustomerOnBoard appId={this.state.selectedSearchItem}/>
+              <OpenOnBoard appId={this.state.selectedSearchItem}/>
             </ModalBody>
             <ModalFooter>           
               <Button color="secondary"

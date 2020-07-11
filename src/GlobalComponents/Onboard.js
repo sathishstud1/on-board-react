@@ -1,16 +1,16 @@
-import React, { isValidElement } from 'react';
-import RecreateForm from '../../GlobalComponents/RecreateForm';
-import ProcessFields from '../../GlobalComponents/ProcessFields';
-import createJson from './CreateNewCustomerJson';
-import CreatePage from '../../GlobalComponents/CreatePage';
-import PageNavigation from '../../GlobalComponents/PageNavigation';
-import axios from '../../axios-instance';
+import React from 'react';
+import RecreateForm from './RecreateForm';
+import ProcessFields from './ProcessFields';
+import createJson from './CreateNewJson';
+import CreatePage from './CreatePage';
+import PageNavigation from './PageNavigation';
+import axios from '../axios-instance';
 import ReactDOM from 'react-dom';
 import {withRouter} from 'react-router';
-import Validation from '../../GlobalComponents/Validation';
-import OpenModal from '../../GlobalComponents/OpenModal';
+import Validation from './Validation';
+import OpenModal from './OpenModal';
 
-class CustomerOnboard extends React.Component {
+class Onboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -162,6 +162,10 @@ class CustomerOnboard extends React.Component {
     if(this.state.currentPageId==0){
       ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'none';
     }
+    if(this.PageLength==1){
+      ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'none';
+      ReactDOM.findDOMNode(this.refs["nextBtn"]).style.display = 'none';
+    }
   }
 
   validatePage = ()=>{
@@ -288,4 +292,4 @@ class CustomerOnboard extends React.Component {
     );
   }
 }
-export default withRouter(CustomerOnboard);
+export default withRouter(Onboard);

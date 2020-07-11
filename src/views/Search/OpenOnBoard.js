@@ -1,16 +1,14 @@
 import React from "react";
 import axios from "../../axios-instance";
-import ViewCustomerOnboard from "../Customers/ViewCustomerOnboard";
-import customerOnboardJson from "../../assets/data/cutomerOnboard.json";
+import ViewOnboard from "../../GlobalComponents/ViewOnboard";
 
-class OpenCustomerOnBoard extends React.Component {
+class OpenOnBoard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
     };
     this.appId = this.props.appId;
-    this.json = customerOnboardJson;
     if (typeof this.appId != "undefined" && this.appId != "") {
       this.getJson();
     } else {
@@ -38,8 +36,8 @@ class OpenCustomerOnBoard extends React.Component {
       return <div className='white-overlay'><span>Loading....</span></div>;
     }
     return (
-      <ViewCustomerOnboard json={this.json}/>
+      <ViewOnboard json={this.json}/>
     );
   }
 }
-export default OpenCustomerOnBoard;
+export default OpenOnBoard;

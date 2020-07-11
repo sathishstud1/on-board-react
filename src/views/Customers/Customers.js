@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardBody, Col, Row} from 'reactstrap';
-import CustomerOnboard from "./CustomerOnboard";
-import customerOnboardJson from "../../assets/data/cutomerOnboard.json";
+import CustomerOnboard from "../../GlobalComponents/Onboard";
+import customerOnboardJson from "../../assets/data/customerOnboard.json";
 
 class Customers extends Component {
 

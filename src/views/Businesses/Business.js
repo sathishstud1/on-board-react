@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
-import PageLayout from "./PageLayout";
+import { Card, CardBody, Col, Row } from "reactstrap";
+import Onboard from "../../GlobalComponents/Onboard";
 import importJson from "../../assets/data/businessOnboard.json";
 
 class Business extends Component {
@@ -11,7 +11,7 @@ class Business extends Component {
           <Col xl={12}>
             <Card>
               <CardBody>
-                <PageLayout json={importJson} isUpdate={false} />
+                <Onboard json={importJson} isUpdate={false} />
               </CardBody>
             </Card>
           </Col>

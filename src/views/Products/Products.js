@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from "reactstrap";
+import {  Card, CardBody, Col, Row } from "reactstrap";
 
-import CustomerOnboard from "./ProductOnboard";
+import ProductOnboard from "../../GlobalComponents/Onboard";
 import productOnboardJson from "../../assets/data/productOnboard.json";
 
 class Products extends Component {
@@ -13,7 +12,7 @@ class Products extends Component {
           <Col xl={12}>
             <Card>
               <CardBody>
-                <CustomerOnboard json={productOnboardJson} />
+                <ProductOnboard json={productOnboardJson} />
               </CardBody>
             </Card>
           </Col>

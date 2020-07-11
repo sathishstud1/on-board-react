@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import CreateViewPage from '../../GlobalComponents/CreateViewPage';
-import CustomerOnboard from './CustomerOnboard';
+import CreateViewPage from './CreateViewPage';
+import Onboard from './Onboard';
+import PageNavigation from './PageNavigation';
 
-class ViewCustomerOnboard extends React.Component {
+class ViewOnboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      customerOnboardJson: this.props.json,
       redirect: false,
       currentPageId: 0,
       isEdit:false
@@ -18,59 +18,6 @@ class ViewCustomerOnboard extends React.Component {
 
   editClicked = ()=>{
     this.setState({isEdit:true});
-  }
-
-  changePage = (pageId) => {
-    for (let i = 0; i < this.PageLength; i++) {
-      ReactDOM.findDOMNode(this.refs["ShowPage" + i]).style.display = 'none';
-    }
-    ReactDOM.findDOMNode(this.refs["ShowPage" + pageId]).style.display = 'block';
-    ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'block';
-    ReactDOM.findDOMNode(this.refs["nextBtn"]).style.display = 'block';
-    if (pageId == (this.PageLength - 1)) {
-      ReactDOM.findDOMNode(this.refs["nextBtn"]).style.display = 'none';
-    }
-    if (pageId == 0) {
-      ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'none';
-    }
-    this.CurrentPageId = pageId;
-    this.setState({currentPageId: pageId});
-  }
-
-  nextPage = () => {
-
-    if (this.CurrentPageId == (this.PageLength - 1)) {
-      return;
-    }
-    ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'block';
-    this.CurrentPageId = this.CurrentPageId + 1;
-    if (this.CurrentPageId == (this.PageLength - 1)) {
-      ReactDOM.findDOMNode(this.refs["nextBtn"]).style.display = 'none';
-    }
-
-    for (let i = 0; i < this.PageLength; i++) {
-      ReactDOM.findDOMNode(this.refs["ShowPage" + i]).style.display = 'none';
-    }
-    ReactDOM.findDOMNode(this.refs["ShowPage" + this.CurrentPageId]).style.display = 'block';
-  }
-
-  previousPage = () => {
-    if (this.CurrentPageId == 0) {
-      return;
-    }
-    ReactDOM.findDOMNode(this.refs["nextBtn"]).style.display = 'block';
-
-    this.CurrentPageId = this.CurrentPageId - 1;
-    if (this.CurrentPageId == 0) {
-      ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'none';
-    }
-    for (let i = 0; i < this.PageLength; i++) {
-      ReactDOM.findDOMNode(this.refs["ShowPage" + i]).style.display = 'none';
-    }
-    ReactDOM.findDOMNode(this.refs["ShowPage" + this.CurrentPageId]).style.display = 'block';
-  }  
-
-  componentDidMount() {    
   }
 
   renderPage = (Page, PageId, PageLength) => {
@@ -90,10 +37,7 @@ class ViewCustomerOnboard extends React.Component {
     </div>;
   }
 
-  render() {
-    /*if (this.state.redirect) {
-      return <Redirect to='/'/>;
-    }*/
+  render() {   
     let items = [];
     let tabs = [];
     let btns = [];
@@ -114,7 +58,11 @@ class ViewCustomerOnboard extends React.Component {
       }
       tabs.push(
         <button className={className}
-                onClick={() => this.changePage(i)}
+                onClick={() => {
+                    PageNavigation.changePage(i, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                    this.setState({currentPageId: i});
+                                  
+                }}
                 id={tabId}
                 type="button">
           {this.PageList[i].PageTitle}
@@ -129,7 +77,10 @@ class ViewCustomerOnboard extends React.Component {
       <button ref="previousBtn"
               className="btn btn-primary mr-3"
               key='previousPage'
-              onClick={() => this.previousPage()}
+              onClick={() => {
+                  const pageId = PageNavigation.previousPage(this.state.currentPageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                  this.setState({currentPageId: pageId});               
+              }}
               type="button">
         Previous</button>
     );
@@ -137,13 +88,16 @@ class ViewCustomerOnboard extends React.Component {
       <button className="btn btn-primary"
               key='nextPage'
               ref="nextBtn"
-              onClick={() => this.nextPage()}
+              onClick={() => {
+                  const pageId = PageNavigation.nextPage(this.state.currentPageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                  this.setState({currentPageId: pageId});                
+              }}
               type="button">
         Next</button>
     );
     return (
       <div>
-          {this.state.isEdit? <CustomerOnboard json={this.props.json} isUpdate={true}/>:
+          {this.state.isEdit? <Onboard json={this.props.json} isUpdate={true}/>:
             <div>
                 <button className="btn btn-primary"
                     key='nextPage'
@@ -169,4 +123,4 @@ class ViewCustomerOnboard extends React.Component {
   }
 }
 
-export default ViewCustomerOnboard;
+export default ViewOnboard;
