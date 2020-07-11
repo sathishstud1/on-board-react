@@ -2,14 +2,22 @@ import {createStore, applyMiddleware, combineReducers} from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import authentication from './authentication/reducer';
 import role from './roles/reducer';
-import rootSaga from "../sagas";
+import {persistStore, persistReducer} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import {verifyGoogleEffect} from "../sagas/verifyGoogleLogin";
 
+const persistConfig = {
+  key:'root',
+  storage,
+  whiteList:[authentication, role]
+}
 const combinedReducers = combineReducers({authentication, role})
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
-  combinedReducers,
+  persistReducer(persistConfig, combinedReducers),
   applyMiddleware(sagaMiddleware)
 );
 sagaMiddleware.run(verifyGoogleEffect);
-export default store;
+
+const persistor = persistStore(store);
+export  {store, persistor};

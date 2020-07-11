@@ -101,6 +101,7 @@ class CustomerOnboard extends React.Component {
 
   searchSSN = () => {
   }
+  
   exitform = () => {
     alert('exit')
   }

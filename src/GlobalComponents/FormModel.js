@@ -23,6 +23,7 @@ class FormModel extends React.Component {
           formfields.push(
             <div className={ fieldData.colWidth+ ' mb-3'}>
               <label htmlFor={fieldId}>{fieldData.label}</label>
+              {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
               <input className="form-control"
                      type={fieldData.type}
                      required={fieldData.required}
@@ -42,6 +43,7 @@ class FormModel extends React.Component {
           formfields.push(
             <div className={ fieldData.colWidth+ ' mb-3'}>
               <label htmlFor={fieldId}>{fieldData.label}</label>
+              {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
               <textarea className="form-control"
                         defaultValue={fieldData.value}
                         required={fieldData.required}
@@ -58,7 +60,8 @@ class FormModel extends React.Component {
         case('radiogroup'):
           formfields.push(
               <div className={ fieldData.colWidth+ ' mb-3'}>
-                <label className="d-block mb-3">{fieldData.label}</label>
+                <label className="d-block mb-3">{fieldData.label}
+                {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}</label>
                 {
                   Object.values(fieldData.values).map((value, _index) => {
                     var ids = fieldId + _index;
@@ -105,6 +108,7 @@ class FormModel extends React.Component {
                            defaultChecked={fieldData.value}
                            required={fieldData.required}/>
                     <label className="form-check-label">{fieldData.label}</label>
+                    {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
                     <div class="invalid-feedback">
                       Please choose {fieldData.label}.
                     </div>
@@ -175,6 +179,7 @@ class FormModel extends React.Component {
             formfields.push(
               <div className={ fieldData.colWidth+ ' mb-3'}>
                 <label htmlFor={fieldId}>{fieldData.label}</label>
+                {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
                 <select ref={fieldId}
                         id={fieldId}
                         onChange={this.props.changed}
@@ -188,6 +193,7 @@ class FormModel extends React.Component {
             formfields.push(
               <div className={ fieldData.colWidth+ ' mb-3'}>
                 <label htmlFor={fieldId}>{fieldData.label}</label>
+                {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
                 <select ref={fieldId}
                         className="form-control"
                         id={fieldId}

@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {HashRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 // import { renderRoutes } from 'react-router-config';
 import './App.scss';
 import {Provider} from 'react-redux';
-import store from './store';
+import {store, persistor} from './store';
+import {PersistGate} from 'redux-persist/integration/react';
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 
@@ -21,11 +22,12 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <HashRouter>
+        <BrowserRouter>
+        <PersistGate persistor={persistor}>
           <React.Suspense fallback={loading()}>
             <Switch>
               <Route exact
-                     path="/login"
+                     path={["/", "/login"]}
                      name="Login Page"
                      render={props => <Login {...props}/>}/>
               <Route exact
@@ -40,12 +42,13 @@ class App extends Component {
                      path="/500"
                      name="Page 500"
                      render={props => <Page500 {...props}/>}/>
-              <Route path="/"
+              <Route path="*"
                      name="Home"
                      render={props => <DefaultLayout {...props}/>}/>
             </Switch>
           </React.Suspense>
-        </HashRouter>
+          </PersistGate>
+        </BrowserRouter>
       </Provider>
     );
   }
