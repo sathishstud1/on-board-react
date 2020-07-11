@@ -20,7 +20,6 @@ class CustomerOnboard extends React.Component {
       isUpdate: this.props.isUpdate,
       openModel:false,
       alertMsg:'',
-      alertClassName:'',
       headerInfo:''
     };
     this.recreateLines = {};
@@ -33,8 +32,8 @@ class CustomerOnboard extends React.Component {
     this.onChangeHandler = this.onChangeHandler.bind(this);
   }
 
-  Alert(openModel, alertMsg, alertclassName, headerInfo ){
-    this.setState({openModel:openModel, alertMsg:alertMsg,alertClassName: alertclassName,headerInfo:headerInfo});
+  Alert(openModel, alertMsg, headerInfo ){
+    this.setState({openModel:openModel, alertMsg:alertMsg,headerInfo:headerInfo});
   }
 
   addElements = (lines, refVal) => {
@@ -117,8 +116,11 @@ class CustomerOnboard extends React.Component {
     Object.assign(this.defaultValues, this.defaultValues, defaultValues);
   }
 
-  closeModal = ()=>{
-    this.Alert(false,'', '', '');
+  closeModal = (info)=>{
+    this.Alert(false,'', '');
+    if(info==="Success"){
+      window.location.reload(false);
+    }
   }
 
   saveform = () => {
@@ -131,6 +133,10 @@ class CustomerOnboard extends React.Component {
     }    
     let isValid = Validation.validateForm(validateFields, this.state.jsonValues);
     if(!isValid){
+      var forms = document.getElementsByClassName('needs-validation-'+this.state.currentPageId);
+      Array.prototype.filter.call(forms, function(form) {
+        form.classList.add('was-validated');
+      });
       return;
     }
     let URL = '/save-app-details';
@@ -139,10 +145,10 @@ class CustomerOnboard extends React.Component {
     }
     axios.post(URL, customeOnboardNewJson)
       .then(response => {
-        this.Alert(true,response.data.message, 'mr-1 btn btn-success', 'Success');
+        this.Alert(true,response.data.message, 'Success');
       })
       .catch(error => {
-        this.Alert(true,error, 'mr-1 btn btn-danger', 'Error');
+        this.Alert(true,error, 'Error');
       });
   }
 
@@ -159,7 +165,7 @@ class CustomerOnboard extends React.Component {
   }
 
   validatePage = ()=>{
-    var forms = document.getElementsByClassName('needs-validation');
+    var forms = document.getElementsByClassName('needs-validation-'+this.state.currentPageId);
     Array.prototype.filter.call(forms, function(form) {
        form.classList.add('was-validated');
     });
@@ -232,7 +238,7 @@ class CustomerOnboard extends React.Component {
       );
 
       items.push(
-        this.renderPage(this.PageList[i], i, this.PageLength)
+        <form className={"needs-validation-"+i} novalidate >{this.renderPage(this.PageList[i], i, this.PageLength)}</form>
       );
     }
     btns.push(
@@ -268,14 +274,13 @@ class CustomerOnboard extends React.Component {
         <div className="border-bottom">
           {tabs}
         </div>
-        <div ><form class="needs-validation" novalidate>{items} </form></div>
+        <div >{items} </div>
         <div className="text-right float-right">
           {btns}
         </div>
         <div className="clearfix"></div>
         <OpenModal isOpenModal={this.state.openModel} 
                    msg={this.state.alertMsg} 
-                   alertClass = {this.state.alertClassName}
                    headerInfo = {this.state.headerInfo}
                    closeModal = {this.closeModal}/>
       </div>

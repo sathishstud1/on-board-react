@@ -1,12 +1,38 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import {verifyGoogleLogin} from "../../../store/authentication/acions";
 import {connect} from "react-redux";
 import GoogleLogin from "react-google-login";
+import axios from "../../../axios-instance";
 
 class Login extends Component {
+
+  async verifyToken(tokenId) {
+    let postData = {
+      id_token: tokenId,
+    };
+    axios
+      .post("/verifyGoogleLogin", postData)
+      .then((response) => {
+        if (response.data.status) {
+          this.props.history.push("/dashboard");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        this.props.history.push("/error");
+      });
+  }
+
+  verifyProfile(profileObj) {
+      if (this.props.profileObj && this.props.profileObj.tokenId) {
+        this.verifyToken(this.props.profileObj.tokenId);
+      }  
+  }
   render() {
+    this.verifyProfile(this.props.profileObj);
+    
     const props = this.props;
     return (
       <div className="app flex-row align-items-center">
@@ -78,7 +104,8 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.isAuthenticated
+    isAuthenticated: state.authentication.isAuthenticated,
+    profileObj: state.authentication.profileObj
   };
 }
 
@@ -86,4 +113,4 @@ const mapDispatchToProps = dispatch => ({
   verifyGoogleLogin: (googleLoginResponse, history, path) => dispatch(verifyGoogleLogin(googleLoginResponse, history, path))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

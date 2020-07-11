@@ -55,7 +55,6 @@ class Search extends Component {
       modal: false,
       openModel:false,
       alertMsg:'',
-      alertClassName:'',
       headerInfo:'',
       selectedSearchItem: null,
       searchBy: "_id",
@@ -105,12 +104,12 @@ class Search extends Component {
     this.setState({selectedSearchItem, modal: !this.state.modal});
   }
   
-  Alert(openModel, alertMsg, alertclassName, headerInfo ){
-    this.setState({openModel:openModel, alertMsg:alertMsg,alertClassName: alertclassName,headerInfo:headerInfo});
+  Alert(openModel, alertMsg, headerInfo ){
+    this.setState({openModel:openModel, alertMsg:alertMsg,headerInfo:headerInfo});
   }
 
   closeModal = ()=>{
-    this.Alert(false,'', '', '');
+    this.Alert(false,'', '');
   }
 
   togglePaginationDropdown(pageSize) {
@@ -213,11 +212,11 @@ class Search extends Component {
             this.setState({searchData: searchRes, 
               OriginalSearchData: searchRes });            
           }else{
-            this.Alert(true,response.data.message, 'mr-1 btn btn-danger', 'Error');
+            this.Alert(true,response.data.message, 'Error');
           }           
         })
         .catch((error) => {
-          this.Alert(true, error, 'mr-1 btn btn-danger', 'Error');  
+          this.Alert(true, error, 'Error');  
         });
         
     } else {
@@ -444,7 +443,6 @@ class Search extends Component {
         
         <OpenModal isOpenModal={this.state.openModel} 
                    msg={this.state.alertMsg} 
-                   alertClass = {this.state.alertClassName}
                    headerInfo = {this.state.headerInfo}/>        
       </div>
     )

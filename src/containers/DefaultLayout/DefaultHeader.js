@@ -52,6 +52,7 @@ class DefaultHeader extends Component {
       })
       .catch((error) => {
         console.log(error);
+        this.props.history.push("/error");
       });
   }
 
@@ -200,10 +201,10 @@ class DefaultHeader extends Component {
               <DropdownItem
                 onClick={(e) => {
                   this.props.logOut();
-                  this.props.onLogout();
+                  this.props.onLogout();                  
                 }}
               >
-                <i className="fa fa-lock"></i>Logout
+                <i className="fa fa-lock"></i>Logout                
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>

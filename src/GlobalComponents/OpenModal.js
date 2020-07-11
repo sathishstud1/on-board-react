@@ -20,14 +20,20 @@ import {
 
     toggleModalDialog() {
         this.setState({openModal: false});
-        this.props.closeModal();
+        this.props.closeModal(this.props.headerInfo);
     }
 
     componentWillReceiveProps(props) {
         this.setState({openModal: props.isOpenModal});
     }
 
-    render() {        
+    render() {   
+        let class_name = 'mr-1 btn btn-info';  
+        if(this.props.headerInfo==="Error"){
+            class_name = 'mr-1 btn btn-danger';
+        }else if(this.props.headerInfo==="Success"){
+            class_name = 'mr-1 btn btn-success';
+        }
         return (
             <div>               
                 <Modal isOpen={this.state.openModal}
@@ -35,12 +41,12 @@ import {
                     backdrop={true}
                     keyboard={true}
                 >
-                    <ModalHeader className={this.props.alertClass}>{this.props.headerInfo}</ModalHeader>
+                    <ModalHeader className={class_name}>{this.props.headerInfo}</ModalHeader>
                     <ModalBody>
                         {this.props.msg}
                     </ModalBody>
                     <ModalFooter>           
-                        <Button className={this.props.alertClass}
+                        <Button className={class_name}
                                 onClick={() => this.toggleModalDialog()}>Ok</Button>
                     </ModalFooter>
                 </Modal>
