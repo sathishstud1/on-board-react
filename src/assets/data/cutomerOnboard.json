@@ -23,6 +23,51 @@
                       "value": ""
                     },
                     {
+                      "label": "TIN1",
+                      "value": "7166856325"
+                    },
+                    {
+                      "label": "TIN2",
+                      "value": "7166856325"
+                    },
+                    {
+                      "label": "TIN3",
+                      "value": "7166856325"
+                    },
+                    {
+                      "label": "TIN4",
+                      "value": "7166856325"
+                    },
+                    {
+                      "label": "TIN5",
+                      "value": ""
+                    },
+                    {
+                      "label": "TIN6",
+                      "value": "7166856325"
+                    },
+                    {
+                      "label": "TIN7",
+                      "value": "7166856325"
+                    },
+                    {
+                      "label": "8",
+                      "value": "7166856325"
+                    },
+                    {
+                      "label": "TIN9",
+                      "value": "7166856325"
+                    },
+                    {
+                      "label": "11",
+                      "value": ""
+                    },
+                    {
+                      "label": "TIN",
+                      "value": ""
+                    },
+
+                    {
                       "label": "Click here if you are already a customer to the bank",
                       "name": "search",
                       "colWidth": "col-md-4",
@@ -83,7 +128,7 @@
                       "colWidth": "col-md-4",
                       "type": "select",
                       "link": "countries",
-                      "selectedLabel":"United States",
+                      "selectedLabel": "United States",
                       "required": true,
                       "value": "US"
                     }
@@ -133,7 +178,7 @@
                       "type": "select",
                       "colWidth": "col-md-4",
                       "link": "states",
-                      "selectedLabel":"Alabama",
+                      "selectedLabel": "Alabama",
                       "required": true,
                       "dependent": true,
                       "value": "AL"
@@ -225,7 +270,7 @@
                   ]
                 }
               ]
-            }           
+            }
           ]
         }
       ]
@@ -249,7 +294,7 @@
                       "type": "select",
                       "value": "CC",
                       "link": "self",
-                      "selectedLabel":"Credit Card",
+                      "selectedLabel": "Credit Card",
                       "options": [
                         {
                           "label": "Credit Card",

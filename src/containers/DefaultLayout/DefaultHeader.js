@@ -23,8 +23,8 @@ import {
   verifyGoogleLogin,
 } from "../../store/authentication/acions";
 import { connect } from "react-redux";
-import axios from '../../axios-instance';
-import GoogleLogout from 'react-google-login';
+import axios from "../../axios-instance";
+import GoogleLogout from "react-google-login";
 
 const propTypes = {
   children: PropTypes.node,
@@ -33,7 +33,6 @@ const propTypes = {
 const defaultProps = {};
 
 class DefaultHeader extends Component {
-
   /*componentDidMount() {
     if(!this.props.profileObj){
       this.props.history.push('/login')
@@ -42,34 +41,35 @@ class DefaultHeader extends Component {
 
   async verifyToken(tokenId) {
     let postData = {
-      id_token: tokenId
+      id_token: tokenId,
     };
-    axios.post('/verifyGoogleLogin', postData)
-      .then(response => {
+    axios
+      .post("/verifyGoogleLogin1", postData)
+      .then((response) => {
         if (!response.data.status) {
-          this.props.history.push('/login')
+          this.props.history.push("/login");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
 
-  verifyProfile(profileObj){
-    if(!this.props.profileObj){
-      this.props.history.push('/login')
-    }else{
-      if(this.props.profileObj.tokenId){
+  verifyProfile(profileObj) {
+    if (!this.props.profileObj) {
+      this.props.history.push("/login");
+    } else {
+      if (this.props.profileObj.tokenId) {
         this.verifyToken(this.props.profileObj.tokenId);
-      }else{
-        this.props.history.push('/login')
+      } else {
+        this.props.history.push("/login");
       }
     }
   }
 
   render() {
     // eslint-disable-next-line
-    const { children, ...attributes } = this.props;    
+    const { children, ...attributes } = this.props;
     this.verifyProfile(this.props.profileObj);
     return (
       <React.Fragment>
@@ -132,14 +132,14 @@ class DefaultHeader extends Component {
             </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>
-        
+
         <Nav className="ml-auto" navbar>
-        {this.props.profileObj ? (
-          <label>{this.props.profileObj.profileObj.name}</label>
-        ):(
-          <label></label>
-        )}
-        
+          {this.props.profileObj ? (
+            <label>{this.props.profileObj.profileObj.name}</label>
+          ) : (
+            <label></label>
+          )}
+
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>
               {this.props.profileObj ? (
@@ -204,7 +204,6 @@ class DefaultHeader extends Component {
                 }}
               >
                 <i className="fa fa-lock"></i>Logout
-                
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -226,12 +225,14 @@ const mapStateToProps = (state) => {
   };
 };
 
-
 const mapDispatchToProps = (dispatch) => ({
   logOut: () => dispatch(authenticated(false, null)),
-  verifyGoogleLogin: (googleLoginResponse, history, path) => dispatch(verifyGoogleLogin(googleLoginResponse, history, path))
+  verifyGoogleLogin: (googleLoginResponse, history, path) =>
+    dispatch(verifyGoogleLogin(googleLoginResponse, history, path)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DefaultHeader));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(DefaultHeader)
+);
 
 // export default DefaultHeader;
