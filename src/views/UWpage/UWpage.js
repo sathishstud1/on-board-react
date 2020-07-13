@@ -1,49 +1,74 @@
 import React, { Component } from "react";
-import { Card, CardBody, CardHeader, Col, Row, Table } from "reactstrap";
+import { Link } from "react-router-dom";
+import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from "reactstrap";
 
 import businessesData from "./UWData";
 
-class Business extends Component {
-  render() {
-    const businesses = businessesData.find(
-      (businesses) => businesses.id.toString() === this.props.match.params.id
-    );
+function BusinessesRow(props) {
+  const businesses = props.businesses;
+  const businessesLink = `/businesses/${businesses.id}`;
 
-    const businessesDetails = businesses
-      ? Object.entries(businesses)
-      : [
-          [
-            "id",
-            <span>
-              <i className="text-muted icon-ban"></i> Not found
-            </span>,
-          ],
-        ];
+  const getBadge = (status) => {
+    return status === "Active"
+      ? "success"
+      : status === "Inactive"
+      ? "secondary"
+      : status === "Pending"
+      ? "warning"
+      : status === "Banned"
+      ? "danger"
+      : "primary";
+  };
+
+  return (
+    <tr key={businesses.id.toString()}>
+      <th scope="row">
+        <Link to={businessesLink}>{businesses.id}</Link>
+      </th>
+      <td>
+        <Link to={businessesLink}>{businesses.name}</Link>
+      </td>
+      <td>{businesses.registered}</td>
+      <td>{businesses.role}</td>
+      <td>
+        <Link to={businessesLink}>
+          <Badge color={getBadge(businesses.status)}>{businesses.status}</Badge>
+        </Link>
+      </td>
+    </tr>
+  );
+}
+
+class Businesses extends Component {
+  render() {
+    const businessesList = businessesData.filter(
+      (businesses) => businesses.id < 10
+    );
 
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col lg={6}>
+          <Col xl={6}>
             <Card>
               <CardHeader>
-                <strong>
-                  <i className="icon-info pr-1"></i>Businesses id:{" "}
-                  {this.props.match.params.id}
-                </strong>
+                <i className="fa fa-align-justify"></i> Businessess{" "}
+                <small className="text-muted">example</small>
               </CardHeader>
               <CardBody>
-                <Table responsive striped hover>
+                <Table responsive hover>
+                  <thead>
+                    <tr>
+                      <th scope="col">id</th>
+                      <th scope="col">name</th>
+                      <th scope="col">registered</th>
+                      <th scope="col">role</th>
+                      <th scope="col">status</th>
+                    </tr>
+                  </thead>
                   <tbody>
-                    {businessesDetails.map(([key, value]) => {
-                      return (
-                        <tr key={key}>
-                          <td>{`${key}:`}</td>
-                          <td>
-                            <strong>{value}</strong>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {businessesList.map((businesses, index) => (
+                      <BusinessesRow key={index} businesses={businesses} />
+                    ))}
                   </tbody>
                 </Table>
               </CardBody>
@@ -55,4 +80,4 @@ class Business extends Component {
   }
 }
 
-export default Business;
+export default Businesses;

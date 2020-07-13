@@ -74,10 +74,10 @@
                 {
                   "fields": [
                     {
-                      "label": "Apply",
-                      "name": "save",
+                      "label": "Update Product",
+                      "name": "update",
                       "type": "button",
-                      "colWidth": "col-md-1"
+                      "colWidth": "col-md-3"
                     },
                     {
                       "label": "Exit",

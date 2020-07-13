@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import { Card, CardBody, Col, Row} from 'reactstrap';
-import CustomerOnboard from "../../GlobalComponents/Onboard";
-import customerOnboardJson from "../../assets/data/customerOnboard.json";
+import React, { Component } from "react";
+import { Card, CardBody, Col, Row } from "reactstrap";
+import PageLayout from "../../GlobalComponents/Onboard";
+import importJson from "../../assets/data/customerOnboard.json";
 
-class Customers extends Component {
-
+class View extends Component {
   render() {
     return (
       <div className="animated fadeIn">
@@ -12,14 +11,14 @@ class Customers extends Component {
           <Col xl={12}>
             <Card>
               <CardBody>
-                <CustomerOnboard json={customerOnboardJson} isUpdate={false}/>
+                <PageLayout json={importJson} isUpdate={false} />
               </CardBody>
             </Card>
           </Col>
         </Row>
       </div>
-    )
+    );
   }
 }
 
-export default Customers;
+export default View;

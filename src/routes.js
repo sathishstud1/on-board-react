@@ -15,10 +15,10 @@ const Customers = React.lazy(() => import("./views/Customers/Customers"));
 const Business = React.lazy(() => import("./views/Businesses/Business"));
 const Products = React.lazy(() => import("./views/Products/Products"));
 //const Product = React.lazy(() => import("./views/Products/Product"));
-const UWpage = React.lazy(() => import("./views/UWpage/UWpage"));
-const UWs = React.lazy(() => import("./views/UWpage/UWs"));
+const UWPage = React.lazy(() => import("./views/UWpage/UWPage"));
 const Bureau = React.lazy(() => import("./views/Bureau/Bureau"));
-const ErrorPage = React.lazy(() => import('./views/Pages/Error/Error'));
+const Booking = React.lazy(() => import("./views/Booking/Booking"));
+const ErrorPage = React.lazy(() => import("./views/Pages/Error/Error"));
 
 const routes = [
   { path: "/dashboard", name: "Dashboard", component: Dashboard },
@@ -34,7 +34,12 @@ const routes = [
     name: "Application Details",
     component: Application,
   },
-  { path: "/customers", exact: true, name: "Customer OnBoard", component: Customers },
+  {
+    path: "/customers",
+    exact: true,
+    name: "Customer OnBoard",
+    component: Customers,
+  },
   /*{
     path: "/customers/:id",
     exact: true,
@@ -61,9 +66,10 @@ const routes = [
     component: Product,
   },*/
   { path: "/search", exact: true, name: "Search", component: Search },
-  { path: "/uws", exact: true, name: "UWs", component: UWs },
-  { path: "/uwpage/:id", exact: true, name: "UWpage", component: UWpage },
+  { path: "/uwpage", exact: true, name: "UW Decision", component: UWPage },
+  /*{ path: "/uwpage/:id", exact: true, name: "UWpage", component: UWpage },*/
   { path: "/bureau", exact: true, name: "Bureau", component: Bureau },
+  { path: "/booking", exact: true, name: "Book Product", component: Booking },
   { path: "/error", exact: true, name: "ERROR", component: ErrorPage },
   /*  --------------------------------------  */
 ];
