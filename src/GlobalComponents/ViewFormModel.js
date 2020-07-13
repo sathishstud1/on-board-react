@@ -1,4 +1,5 @@
 import React from 'react';
+import DatePicker from "react-datepicker/es";
 
 class ViewFormModel extends React.Component {
   constructor(props) {
@@ -52,7 +53,19 @@ class ViewFormModel extends React.Component {
                 </div>
             );
 
-          break;        
+          break; 
+        case('DatePicker'): 
+          let dateVal = new Date();
+          if(fieldData.value && fieldData.value!=='' && !isNaN(fieldData.value)){
+            dateVal = new Date(parseInt(fieldData.value));
+          }
+          formfields.push(
+            <div className={'form-group ' + fieldData.colWidth}>
+                <label htmlFor={fieldId}>{fieldData.label}</label> :                 
+                <DatePicker selected = {dateVal} disabled={true}/>
+            </div>
+          );   
+          break;            
         default:
           formfields.push(
             <div className='col-md-4 mb-3'>

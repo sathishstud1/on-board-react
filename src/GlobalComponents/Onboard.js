@@ -30,6 +30,7 @@ class Onboard extends React.Component {
     this.PageLength = 0;
     this.PageList = [];
     this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.onChangeDateHandler = this.onChangeDateHandler.bind(this);
   }
 
   Alert(openModel, alertMsg, headerInfo ){
@@ -82,6 +83,12 @@ class Onboard extends React.Component {
     this.setState({[refVal]: arr, jsonValues:newJsonValues});
     delete this.recreateLines[refVal][removeId];
   };
+
+  onChangeDateHandler = function (e, id) {
+    if(e && e!==""){
+      this.state.jsonValues[id] = ''+e.getTime();
+    }
+  }
 
   onChangeHandler = function (e) {
     e.persist();
@@ -200,6 +207,7 @@ class Onboard extends React.Component {
                   PageId={PageId}
                   loadPageDefaults={this.loadPageDefaults}
                   changed={this.onChangeHandler}
+                  dateChanged = {this.onChangeDateHandler}
                   addElements={this.addElements}
                   addrecreateDiv={this.addrecreateDiv}
                   searchSSN={this.searchSSN}

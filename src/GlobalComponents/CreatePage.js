@@ -65,6 +65,7 @@ class CreatePage extends React.Component {
               items.push(<FormModel data={arr}
                                     uniqueId = ""
                                     changed={this.props.changed}
+                                    dateChanged = {this.props.dateChanged}
                                     /*stateOptions={this.props.stateOptions}*//>);
             }
           });//Lines End

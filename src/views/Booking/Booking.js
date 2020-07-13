@@ -11,16 +11,12 @@ class Bureau extends Component {
       file: null,
     };
     this.setSelectedDate = this.setSelectedDate.bind(this);
-    this.setFile = this.setFile.bind(this);
   }
 
   setSelectedDate(selectedDate) {
     this.setState({ selectedDate });
   }
 
-  setFile(event) {
-    this.setState();
-  }
 
   render() {
     return (
