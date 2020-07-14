@@ -15,7 +15,7 @@ const Customers = React.lazy(() => import("./views/Customers/Customers"));
 const Business = React.lazy(() => import("./views/Businesses/Business"));
 const Products = React.lazy(() => import("./views/Products/Products"));
 //const Product = React.lazy(() => import("./views/Products/Product"));
-const UWPage = React.lazy(() => import("./views/UWPage/UWPage"));
+const UWPage = React.lazy(() => import("./views/UWpage/UWPage"));
 const Bureau = React.lazy(() => import("./views/Bureau/Bureau"));
 const Booking = React.lazy(() => import("./views/Booking/Booking"));
 const ErrorPage = React.lazy(() => import("./views/Pages/Error/Error"));
