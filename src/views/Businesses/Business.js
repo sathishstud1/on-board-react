@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardBody, Col, Row } from "reactstrap";
-import PageLayout from "../../GlobalComponents/Onboard";
+import PageLayout from "../../Components/Onboard";
 import importJson from "../../assets/data/businessOnboard.json";
 
 class View extends Component {

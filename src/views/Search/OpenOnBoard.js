@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "../../axios-instance";
-import ViewOnboard from "../../GlobalComponents/ViewOnboard";
+import ViewOnboard from "../../Components/ViewOnboard";
 
 class OpenOnBoard extends React.Component {
   constructor(props) {
@@ -12,40 +12,42 @@ class OpenOnBoard extends React.Component {
     if (typeof this.appId != "undefined" && this.appId != "") {
       this.getJson();
     } else {
-    this.setState({ loading: false });
+      this.setState({ loading: false });
     }
   }
 
   async getJson() {
     let postData = {
-      appId:this.appId
+      appId: this.appId,
     };
     return axios
-      .post("/getJson" ,postData)
+      .post("/getJson", postData)
       .then((response) => {
-        if(response.data.status){
-            this.json = JSON.parse(response.data.data);
-            this.setState({ loading: false });
-        }else{
+        if (response.data.status) {
+          this.json = JSON.parse(response.data.data);
+          this.setState({ loading: false });
+        } else {
           console.log(response.data.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.props.history.push({
-          pathname: '/error',
+          pathname: "/error",
           errorObj: error,
-          curr_loc: this.props.location.pathname
+          curr_loc: this.props.location.pathname,
         });
       });
   }
-  
+
   render() {
     if (this.state.loading) {
-      return <div className='white-overlay'><span>Loading....</span></div>;
+      return (
+        <div className="white-overlay">
+          <span>Loading....</span>
+        </div>
+      );
     }
-    return (
-      <ViewOnboard json={this.json}/>
-    );
+    return <ViewOnboard json={this.json} />;
   }
 }
 export default OpenOnBoard;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import {  Card, CardBody, Col, Row } from "reactstrap";
+import { Card, CardBody, Col, Row } from "reactstrap";
 
-import ProductOnboard from "../../GlobalComponents/Onboard";
+import ProductOnboard from "../../Components/Onboard";
 import productOnboardJson from "../../assets/data/productOnboard.json";
 
 class Products extends Component {
