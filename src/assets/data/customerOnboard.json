@@ -19,7 +19,7 @@
                       "type": "text",
                       "colWidth": "col-md-4",
                       "required": true,
-                      "validation": "number",
+                      "validation": "ssn",
                       "value": ""
                     },
                     {
