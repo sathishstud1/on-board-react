@@ -125,14 +125,15 @@ class Onboard extends React.Component {
 
   closeModal = (info)=>{
     this.Alert(false,'', '');
-    if(info==="Success"){
-      window.location.reload(false);
+    if(info==="Success"){      
+      this.props.history.pushState(null, '/customers');
     }
   }
 
   saveform = () => {
+    const cloneJson = JSON.parse(JSON.stringify(this.props.json));
     let customeOnboardNewJson = createJson.create(this.state.jsonValues, this.state.recreateArray,
-      this.recreateLines, this.props.json);
+      this.recreateLines, cloneJson);      
     let validateFields = [];
     for(let i=0;i<this.PageLength;i++){
       let valfields = [...this.reqFields[i],...this.addedReqFields[i]];
@@ -152,10 +153,18 @@ class Onboard extends React.Component {
     }
     axios.post(URL, customeOnboardNewJson)
       .then(response => {
-        this.Alert(true,response.data.message, 'Success');
+        if(response.data.status){
+          this.Alert(true,response.data.message, 'Success');
+        }else{
+          this.Alert(true,response.data.message, 'Error');
+        }        
       })
       .catch(error => {
-        this.Alert(true,error, 'Error');
+        this.props.history.push({
+          pathname: '/error',
+          errorObj: error,
+          curr_loc: this.props.location.pathname
+        });
       });
   }
 

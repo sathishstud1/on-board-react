@@ -51,8 +51,10 @@ class DefaultHeader extends Component {
         }
       })
       .catch((error) => {
-        console.log(error);
-        this.props.history.push("/error");
+        this.props.history.push({
+          pathname: '/error_page',
+          errorObj: error,
+        });
       });
   }
 

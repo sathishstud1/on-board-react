@@ -26,10 +26,18 @@ class OpenOnBoard extends React.Component {
         if(response.data.status){
             this.json = JSON.parse(response.data.data);
             this.setState({ loading: false });
-        }      
+        }else{
+          console.log(response.data.message);
+        }
+      })
+      .catch(error => {
+        this.props.history.push({
+          pathname: '/error',
+          errorObj: error,
+          curr_loc: this.props.location.pathname
+        });
       });
   }
-
   
   render() {
     if (this.state.loading) {

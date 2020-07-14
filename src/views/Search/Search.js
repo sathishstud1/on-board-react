@@ -216,7 +216,11 @@ class Search extends Component {
           }           
         })
         .catch((error) => {
-          this.Alert(true, error, 'Error');  
+          this.props.history.push({
+            pathname: '/error',
+            errorObj: error,
+            curr_loc: this.props.location.pathname
+          });
         });
         
     } else {

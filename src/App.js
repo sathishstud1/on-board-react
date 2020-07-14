@@ -14,7 +14,7 @@ const DefaultLayout = React.lazy(() => import('./containers/DefaultLayout'));
 // Pages
 const Login = React.lazy(() => import('./views/Pages/Login/Login'));
 const Register = React.lazy(() => import('./views/Pages/Register/Register'));
-const ErrorPage = React.lazy(() => import('./views/Pages/Error/Error'));
+const ErrorPage = React.lazy(() => import('./views/Pages/Error/LoginError'));
 const Page500 = React.lazy(() => import('./views/Pages/Page500/Page500'));
 
 class App extends Component {
@@ -35,7 +35,7 @@ class App extends Component {
                      name="Register Page"
                      render={props => <Register {...props}/>}/>
               <Route exact
-                     path="/404"
+                     path="/error_page"
                      name="Error Page"
                      render={props => <ErrorPage {...props}/>}/>
               <Route exact
