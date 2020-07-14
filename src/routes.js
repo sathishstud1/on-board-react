@@ -37,7 +37,7 @@ const routes = [
   {
     path: "/customers",
     exact: true,
-    name: "Customer OnBoard",
+    name: "Customer 360",
     component: Customers,
   },
   /*{
@@ -49,7 +49,7 @@ const routes = [
   {
     path: "/businesses",
     exact: true,
-    name: "Business",
+    name: "Business 360",
     component: Business,
   },
   /*{
@@ -58,7 +58,7 @@ const routes = [
     name: "Business Details",
     component: Business,
   },*/
-  { path: "/products", exact: true, name: "Products", component: Products },
+  { path: "/products", exact: true, name: "Product 360", component: Products },
   /*{
     path: "/products/:id",
     exact: true,
