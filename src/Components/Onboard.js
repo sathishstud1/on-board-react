@@ -126,14 +126,15 @@ class Onboard extends React.Component {
   closeModal = (info)=>{
     this.Alert(false,'', '');
     if(info==="Success"){      
-      this.props.history.pushState(null, '/customers');
+      //window.location.reload(false);      
+      this.props.history.push({
+        pathname: '/newcustomer',
+        json: this.props.json
+      });
     }
   }
 
-  saveform = () => {
-    const cloneJson = JSON.parse(JSON.stringify(this.props.json));
-    let customeOnboardNewJson = createJson.create(this.state.jsonValues, this.state.recreateArray,
-      this.recreateLines, cloneJson);      
+  saveform = () => {          
     let validateFields = [];
     for(let i=0;i<this.PageLength;i++){
       let valfields = [...this.reqFields[i],...this.addedReqFields[i]];
@@ -147,6 +148,11 @@ class Onboard extends React.Component {
       });
       return;
     }
+
+    const cloneJson = JSON.parse(JSON.stringify(this.props.json));
+    let customeOnboardNewJson = createJson.create(this.state.jsonValues, this.state.recreateArray,
+      this.recreateLines, cloneJson);
+
     let URL = '/save-app-details';
     if(this.state.isUpdate){
       URL = '/update-app-details';

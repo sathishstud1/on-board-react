@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import countries from "../../assets/data/Dropdowns/countries.json";
 import states from "../../assets/data/Dropdowns/states.json";
 

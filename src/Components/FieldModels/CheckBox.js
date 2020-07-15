@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 class CheckBox extends React.Component {
     constructor(props) {

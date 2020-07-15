@@ -54,9 +54,12 @@ class CreatePage extends React.Component {
                   fieldData.clicked = this.props.exitform;
                 }
               }else{
-                this.defaultValues[fieldData.name] = fieldData.value;
-                if(fieldData.type=="select"){
+                if(fieldData.type==="DatePicker"){
+                  this.defaultValues[fieldData.name] = (new Date()).getTime();
+                }else if(fieldData.type=="select"){
                   this.defaultValues[fieldData.name+"_selectedLabel"] = fieldData.selectedLabel;
+                }else{
+                  this.defaultValues[fieldData.name] = fieldData.value;
                 }
               }
               arr.push(fieldData);

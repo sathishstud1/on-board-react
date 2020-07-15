@@ -39,7 +39,7 @@ this.create = (jsonValues, recreateArray,
                   fieldData.value = jsonValues[fieldData.name];
                 }
                 
-                if(fieldData.type=="select"){
+                if(fieldData.type==="select"){
                   fieldData.selectedLabel = jsonValues[fieldData.name+"_selectedLabel"];
                 }
               });//Fields End

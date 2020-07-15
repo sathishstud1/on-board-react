@@ -69,7 +69,6 @@
                       "type": "DatePicker",
                       "colWidth": "col-md-4",
                       "required": true,
-                      "validation": "",
                       "value": "",
                       "order": "desc",
                       "totalyears": 50
@@ -281,7 +280,7 @@
                       "name": "amount",
                       "type": "text",
                       "required": true,
-                      "validation": "",
+                      "validation": "onlyNumbers",
                       "value": ""
                     }
                   ]
@@ -294,7 +293,7 @@
                       "name": "term",
                       "type": "text",
                       "required": true,
-                      "validation": "number",
+                      "validation": "onlyNumbers",
                       "value": ""
                     }
                   ]

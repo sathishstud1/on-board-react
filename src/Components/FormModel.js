@@ -103,6 +103,7 @@ class FormModel extends React.Component {
                 name={fieldId}
                 ref={fieldId}
                 defaultValue={fieldData.value}
+                readOnly={true}
               />
             </div>
           );

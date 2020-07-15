@@ -1,10 +1,7 @@
 import React from 'react';
 import DatePicker from "react-datepicker/es";
 
-class ViewFormModel extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+class ViewFormModel extends React.Component { 
 
   render() {
     let arr = this.props.data;
@@ -41,7 +38,7 @@ class ViewFormModel extends React.Component {
           formfields.push(
             <div className={'form-group ' + fieldData.colWidth}>
               <label className="d-block mb-3">{fieldData.label}</label>  
-              <label>{fieldData.value==true?"Checked":"Unchecked"}</label>
+              <label>{fieldData.value===true?"Checked":"Unchecked"}</label>
             </div>
           );
           break;

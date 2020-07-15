@@ -51,7 +51,7 @@ class Register extends Component {
   updateFormValue(controlName, controlValue) {
     const form = this.state.form;
     form[controlName] = controlValue;
-    const disableCreatAccount = Object.values(form).filter(value => value.trim().length == '').length > 0;
+    const disableCreatAccount = Object.values(form).filter(value => value.trim().length === '').length > 0;
     this.setState({form, disableCreatAccount});
   }
 
@@ -82,20 +82,20 @@ class Register extends Component {
                        className="flex-nowrap border-bottom-0"
                        style={{overflowX: 'auto', overflowY: 'hidden'}}>
                     <NavItem>
-                      <NavLink className={this.state.currentTab == 0 ? 'active text-center' : 'text-center'}
+                      <NavLink className={this.state.currentTab === 0 ? 'active text-center' : 'text-center'}
                                onClick={() => this.setState({currentTab: 0})}>
                         With Email
                       </NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink className={this.state.currentTab == 1 ? 'active text-center' : 'text-center'}
+                      <NavLink className={this.state.currentTab === 1 ? 'active text-center' : 'text-center'}
                                onClick={() => this.setState({currentTab: 1})}>
                         With Google
                       </NavLink>
                     </NavItem>
 
                     <NavItem>
-                      <NavLink className={this.state.currentTab == 2 ? 'active text-center' : 'text-center'}
+                      <NavLink className={this.state.currentTab === 2 ? 'active text-center' : 'text-center'}
                                onClick={() => this.setState({currentTab: 2})}>
                         With Facebook
                       </NavLink>
@@ -197,7 +197,7 @@ class Register extends Component {
                           <Input type="select"
                                  onChange={
                                    (event) => {
-                                     const disableGoogleRegistration = event.target.value.trim().length == 0;
+                                     const disableGoogleRegistration = event.target.value.trim().length === 0;
                                      this.setState({roleForGoogle: event.target.value, disableGoogleRegistration});
                                    }
                                  }

@@ -110,7 +110,7 @@ class DatePick extends Component {
             name={fieldId}
             ref={fieldId}
             onChange={(event)=>{
-              if(years.includes(event.getFullYear())){
+              if(event && years.includes(event.getFullYear())){
                 this.props.dateChanged(event,fieldId);
                 this.setState({selectedDate: event });
               }else{

@@ -142,7 +142,6 @@ class Search extends Component {
   }
 
   handlePageClick(data) {
-    let selected = data.selected;
     this.setState({ currentPage: data.selected });
   }
 

@@ -1,12 +1,7 @@
 import React from 'react';
 import ViewFormModel from './ViewFormModel';
 
-class CreateViewPage extends React.Component {
-  constructor(props) {
-    super(props);    
-  }
-  componentDidMount() {
-  }
+class CreateViewPage extends React.Component { 
   render() {   
     this.reqFields = [];
     this.recreateArray = [];
@@ -35,12 +30,12 @@ class CreateViewPage extends React.Component {
               if(fieldData.required){
                 this.reqFields.push(fieldData.name);
               }
-              if(fieldData.type!="button"){
+              if(fieldData.type!=="button"){
                 arr.push(fieldData);
               }
               
             });//Fields End
-            if(arr.length!=0){
+            if(arr.length!==0){
               items.push(<ViewFormModel data={arr}/>);
           }
           });//Lines End

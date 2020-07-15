@@ -10,6 +10,7 @@ const Application = React.lazy(() =>
   import("./views/Applications/Application")
 );
 const Customers = React.lazy(() => import("./views/Customers/Customers"));
+const RouteCustomer = React.lazy(() => import("./views/Customers/RouteCustomer"));
 //const Customer = React.lazy(() => import("./views/Customers/Customer"));
 //const Businesses = React.lazy(() => import("./views/Businesses/Businesses"));
 const Business = React.lazy(() => import("./views/Businesses/Business"));
@@ -39,6 +40,12 @@ const routes = [
     exact: true,
     name: "Customer 360",
     component: Customers,
+  },
+  {
+    path: "/newcustomer",
+    exact: true,
+    name: "Customer 360",
+    component: RouteCustomer,
   },
   /*{
     path: "/customers/:id",

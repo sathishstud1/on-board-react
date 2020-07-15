@@ -1,10 +1,7 @@
 import React from 'react';
 import FormModel from './FormModel';
 
-class RecreateForm extends React.Component {
-  constructor(props) {
-    super(props);   
-  }
+class RecreateForm extends React.Component {  
 
   render() {
     let arr = this.props.data;

@@ -24,7 +24,6 @@ import {
 } from "../../store/authentication/acions";
 import { connect } from "react-redux";
 import axios from "../../axios-instance";
-import GoogleLogout from "react-google-login";
 
 const propTypes = {
   children: PropTypes.node,
