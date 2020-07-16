@@ -18,6 +18,7 @@ const Products = React.lazy(() => import("./views/Products/Products"));
 //const Product = React.lazy(() => import("./views/Products/Product"));
 const UWPage = React.lazy(() => import("./views/UWPage/UWPage"));
 const Bureau = React.lazy(() => import("./views/Bureau/Bureau"));
+const BBureau = React.lazy(() => import("./views/Business Bureau/Bureau"));
 const Booking = React.lazy(() => import("./views/Booking/Booking"));
 const ErrorPage = React.lazy(() => import("./views/Pages/Error/Error"));
 
@@ -76,6 +77,7 @@ const routes = [
   { path: "/uwpage", exact: true, name: "UW Decision", component: UWPage },
   /*{ path: "/uwpage/:id", exact: true, name: "UWpage", component: UWpage },*/
   { path: "/bureau", exact: true, name: "Bureau", component: Bureau },
+  { path: "/bbureau", exact: true, name: "Business Bureau", component: BBureau },
   { path: "/booking", exact: true, name: "Book Product", component: Booking },
   { path: "/error", exact: true, name: "ERROR", component: ErrorPage },
   /*  --------------------------------------  */
