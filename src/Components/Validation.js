@@ -19,8 +19,12 @@ this.setMessage = (isReq, type, label)=>{
     return label+" should be numbers only.";
   }else if(type && type==="onlyAlphabets"){
     return label+" should be alphabets only.";
-  }else if(type && type==="onlyLetters"){
-    return label+" should be letters only.";
+  }else if(type && type==="emailValidation"){
+    return label+" is Invalid.";
+  }else if(type && type==="phoneValidation"){
+    return label+" is Invalid.";
+  }else if(type && type==="ssn"){
+    return label+" is Invalid.";
   }else if(isReq){
     return label+" is required.";
   }
@@ -31,8 +35,12 @@ this.isValid = (value, isReq, type)=>{
     return this.isInteger(value);
   }else if(type && type==="onlyAlphabets"){
     return this.isAlphabets(value);
-  }else if(type && type==="onlyLetters"){
-    return this.isLetters(value);
+  }else if(type && type==="emailValidation"){
+    return this.isEmailValid(value);
+  }else if(type && type==="phoneValidation"){
+    return this.isPhoneValid(value);
+  }else if(type && type==="ssn"){
+    return this.isSSN(value);
   }else if(isReq){
     return this.isRequired(value);
   }
@@ -67,6 +75,31 @@ this.isAlphabets = (value)=>{
   return true;
 }
 
-this.isLetters = (value)=>{
-  return true;
+this.isEmailValid = (value)=>{
+  var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        if (reg.test(value) == false) 
+        {
+            return false;
+        }
+        return true;
+}
+
+this.isPhoneValid = (value)=>{  
+  if(this.isInteger(value)){
+    //if(value.length > 6 && value.length < 11) {
+    if(value.length ===10) {
+      return true;
+    }
+  }
+  return false; 
+}
+
+this.isSSN = (value)=>{  
+  value = value.replace(/-/g,"");
+  if(this.isInteger(value)){
+    if(value.length ===9) {
+      return true;
+    }
+  }
+  return false; 
 }

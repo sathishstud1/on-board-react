@@ -20,6 +20,7 @@
                       "colWidth": "col-md-4",
                       "required": true,
                       "validation": "ssn",
+                      "validationType": "onblur",
                       "value": ""
                     },
                     {
@@ -169,7 +170,8 @@
                       "colWidth": "col-md-4",
                       "type": "text",
                       "required": true,
-                      "validation": "phoneValid",
+                      "validation": "phoneValidation",
+                      "validationType": "onblur",
                       "value": ""
                     },
                     {
@@ -197,7 +199,8 @@
                       "type": "text",
                       "colWidth": "col-md-4",
                       "required": true,
-                      "validation": "emailValid",
+                      "validation": "emailValidation",
+                      "validationType": "onblur",
                       "value": ""
                     }
                   ]

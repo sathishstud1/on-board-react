@@ -299,11 +299,15 @@ class Onboard extends React.Component {
     return (
       <div>
         <div className="border-bottom">
-          {tabs}
+          {tabs.length>1?tabs:null}
         </div>
         <div >{items} </div>
         <div className="text-right float-right">
           {btns}
+        </div>
+        <br/>
+        <div className="border-bottom">
+        {tabs.length>1?tabs:null}
         </div>
         <div className="clearfix"></div>
         <OpenModal isOpenModal={this.state.openModel} 

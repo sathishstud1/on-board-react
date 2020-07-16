@@ -42,6 +42,9 @@ this.create = (jsonValues, recreateArray,
                 if(fieldData.type==="select"){
                   fieldData.selectedLabel = jsonValues[fieldData.name+"_selectedLabel"];
                 }
+                if(fieldData.type==="button" && fieldData.label==="Apply"){
+                  fieldData.label = "Update";
+                }
               });//Fields End
             });//Lines End
             

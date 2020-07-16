@@ -17,43 +17,77 @@ class Input extends React.Component {
             message =  Validation.setMessage(isReq, type, label);
             setTimeout(function(){ 
                 ReactDOM.findDOMNode(thisObj.refs[thisObj.props.fieldId]).value='';
-            }, 3000);
+            }, 2000);
        }else{
             this.props.changed(e);
        }
        this.setState({message});       
-    } 
+    }
+
+    getReqInputTag = (fieldData, fieldId)=>{
+        let arr = [];
+        arr.push(<span className="asterisk" style={{color:'red'}}> *</span>);
+        let validation = "";
+        if(fieldData.validation){
+            validation = fieldData.validation;
+        }
+        if(fieldData.validationType && fieldData.validationType==="onblur"){
+            arr.push(<input className="form-control"
+                            type={fieldData.type}
+                            required={fieldData.required}
+                            id={fieldId}
+                            name={fieldId}
+                            ref={fieldId}                    
+                            onBlur={(e) => {
+                                this.validate(e, fieldData.required, validation, fieldData.label, this)
+                            }}
+                            defaultValue={fieldData.value}/>);
+        }else{
+            arr.push(<input className="form-control"
+                            type={fieldData.type}
+                            required={fieldData.required}
+                            id={fieldId}
+                            name={fieldId}
+                            ref={fieldId}                    
+                            onKeyUp={(e) => {
+                                this.validate(e, fieldData.required, validation, fieldData.label, this)
+                            }}
+                            defaultValue={fieldData.value}/>);
+        }
+        return arr;
+    }
+
+    getInputTag = (fieldData, fieldId)=>{
+        return <input className="form-control"
+                        type={fieldData.type}
+                        required={fieldData.required}
+                        id={fieldId}
+                        name={fieldId}
+                        ref={fieldId}                    
+                        onChange={this.props.changed}
+                        defaultValue={fieldData.value}/>
+    }
+
+    renderInput = (fieldData, fieldId) =>{
+        if(fieldData.required){
+            return this.getReqInputTag(fieldData, fieldId);
+        }else{
+            return this.getInputTag(fieldData, fieldId);
+        }
+    }
 
     render() {  
         const fieldData = this.props.fieldData;
-        const fieldId = this.props.fieldId;
-        let validationType = "";
-        if(fieldData.validation){
-            validationType = fieldData.validation;
-        }      
+        const fieldId = this.props.fieldId;        
         return (
             <div className={ fieldData.colWidth+ ' mb-3'}>
                 <label htmlFor={fieldId}>{fieldData.label}</label>
-                {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
-                <input className="form-control"
-                    type={fieldData.type}
-                    required={fieldData.required}
-                    id={fieldId}
-                    name={fieldId}
-                    ref={fieldId}                    
-                    onKeyUp={(e) => {
-                        if(fieldData.required){
-                            this.validate(e, fieldData.required, validationType, fieldData.label, this)
-                        }else{
-                            this.props.changed(e);
-                        }
-                      }}
-                    defaultValue={fieldData.value}/>
+                    {this.renderInput(fieldData, fieldId)}                
                 <div class="invalid-feedback">
                     Please choose {fieldData.label}.
                 </div>
                 <div style={{width: '100%', marginTop: '0.25rem',fontSize: '80%',color: '#f86c6b'}}>
-                    {this.state.message}
+                    {this.state.message}                   
                 </div>
             </div>
         ); 
