@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom';
 import {withRouter} from 'react-router';
 import Validation from './Validation';
 import OpenModal from './OpenModal';
+import ParentChildActions from './ParentChildActions';
 
 class Onboard extends React.Component {
   constructor(props) {
@@ -29,12 +30,36 @@ class Onboard extends React.Component {
     this.addedFields = [];
     this.PageLength = 0;
     this.PageList = [];
+    this.refObjects = {};
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.onChangeDateHandler = this.onChangeDateHandler.bind(this);
+    this.loadRefObjects = this.loadRefObjects.bind(this);
   }
 
   Alert(openModel, alertMsg, headerInfo ){
     this.setState({openModel:openModel, alertMsg:alertMsg,headerInfo:headerInfo});
+  }
+
+  parentChildHandler = (e,dependent,fieldName) =>{
+    if(dependent){
+      const isValidationReq = ParentChildActions.honorActions(fieldName, e.target.id, e.target.value, dependent, this.refObjects, ReactDOM );
+      if(isValidationReq){
+        const ext = e.target.id.replace(fieldName, "");
+        const childId = dependent.dependentName + ext;
+        let req =  this.reqFields[this.state.currentPageId];
+        for(let i=0;i<req.length;i++){
+          if(childId===req[i]){
+            req.pop(childId);
+          }
+        }
+        let addedReq =  this.addedReqFields[this.state.currentPageId];
+        for(let i=0;i<addedReq.length;i++){
+          if(childId===addedReq[i]){
+            addedReq.pop(childId);
+          }
+        }        
+      }
+    }
   }
 
   addElements = (lines, refVal) => {
@@ -49,6 +74,8 @@ class Onboard extends React.Component {
     let removeId = arr.length;
     arr.push(<RecreateForm data={lines}
                             changed={this.onChangeHandler} 
+                            loadRefObjects = {this.loadRefObjects}
+                            parentChildHandler= {this.parentChildHandler}
                             uniqueId ={arr.length}
                             remove={()=>this.removeElement(lines,refVal,removeId)}/>);   
 
@@ -60,9 +87,9 @@ class Onboard extends React.Component {
     this.recreateLines[refVal][removeId] = processFields.addedLines;
     this.setState({[refVal]:arr,jsonValues:newJsonValues});
     
-    //this.addedReqFields = [...this.addedReqFields,...processFields.reqFields];   
     let newReqFileds = [...this.addedReqFields[this.state.currentPageId],...processFields.reqFields];
     this.addedReqFields.splice(this.state.currentPageId, 0, newReqFileds);
+    
   };
 
   removeElement = (lines, refVal, removeId) => {
@@ -82,6 +109,13 @@ class Onboard extends React.Component {
     Object.assign(newJsonValues, this.state.jsonValues, processFields.defaultValues);  
     this.setState({[refVal]: arr, jsonValues:newJsonValues});
     delete this.recreateLines[refVal][removeId];
+
+    const refKeys = Object.keys(this.refObjects);
+    for(let i =0;i<refKeys.length;i++){
+      if(refKeys[i].endsWith(removeId)){
+        delete this.refObjects[refKeys[i]];
+      }
+    }  
   };
 
   onChangeDateHandler = function (e, id) {
@@ -116,17 +150,19 @@ class Onboard extends React.Component {
   }
 
   loadPageDefaults = (reqFields, recreateArray, defaultValues, currentPageId) => {
-    //this.reqFields = [...this.reqFields, ...reqFields];
     this.reqFields.splice(currentPageId, 0, reqFields); 
     this.addedReqFields.splice(currentPageId, 0, []); 
     this.state.recreateArray = [...this.state.recreateArray, ...recreateArray];
     Object.assign(this.defaultValues, this.defaultValues, defaultValues);
   }
 
+  loadRefObjects = (fieldID, obj)=>{   
+    this.refObjects[fieldID] = obj;
+  }
+
   closeModal = (info)=>{
     this.Alert(false,'', '');
     if(info==="Success"){      
-      //window.location.reload(false);      
       this.props.history.push({
         pathname: '/newcustomer',
         json: this.props.json
@@ -221,10 +257,12 @@ class Onboard extends React.Component {
                   PageLength={PageLength}
                   PageId={PageId}
                   loadPageDefaults={this.loadPageDefaults}
+                  loadRefObjects = {this.loadRefObjects}
                   changed={this.onChangeHandler}
                   dateChanged = {this.onChangeDateHandler}
                   addElements={this.addElements}
                   addrecreateDiv={this.addrecreateDiv}
+                  parentChildHandler= {this.parentChildHandler}
                   searchSSN={this.searchSSN}
                   saveform={this.saveform}
                   exitform={this.exitform}

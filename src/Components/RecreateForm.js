@@ -12,7 +12,9 @@ class RecreateForm extends React.Component {
       let lineData = arr[index].fields;
       formfield.push(<FormModel data={lineData} 
                      uniqueId = {uniqueId}
-                     changed={this.props.changed} 
+                     changed={this.props.changed}
+                     loadRefObjects = {this.props.loadRefObjects}
+                     parentChildHandler= {this.props.parentChildHandler}
                      /*stateOptions={this.props.stateOptions}*//>);
     });
     

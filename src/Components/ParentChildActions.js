@@ -1,0 +1,29 @@
+this.honorActions= (fieldName, id, value, dependent, refObjects, dom)=>{
+      const ext = id.replace(fieldName, "");
+      const childId =   dependent.dependentName + ext;
+      const dependentVal = dependent.forValue;
+      const refObj = refObjects[childId];
+      if(dependent.action==="enable"){
+        return this.enableElement(value, childId, dependentVal, refObj,dom);
+      }else if(dependent.action==="disable"){
+        return this.disbaleElement(value, childId, dependentVal, refObj,dom);
+      }
+}
+
+this.enableElement = (value, childId, dependentVal, refObj,dom) =>{
+    if(value === dependentVal){
+        dom.findDOMNode(refObj.refs[childId+"div"]).style.display = "block";
+    }else{
+        dom.findDOMNode(refObj.refs[childId+"div"]).style.display = "none";
+    }
+    return true;
+}
+
+this.disbaleElement = (value, childId, dependentVal, refObj,dom) =>{
+    if(value === dependentVal){
+        dom.findDOMNode(refObj.refs[childId+"div"]).style.display = "none";
+    }else{
+        dom.findDOMNode(refObj.refs[childId+"div"]).style.display = "block";
+    }
+    return true;
+}

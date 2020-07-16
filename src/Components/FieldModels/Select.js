@@ -7,48 +7,30 @@ class Select extends React.Component {
       super(props);
       this.state = {    
       };
-    }     
+    }
 
-    render() {  
-          const fieldData = this.props.fieldData;
-          const fieldId = this.props.fieldId;
-          var link = fieldData.link;
-          let value = fieldData.value;
-          let isSelected = true;
-          var options = [];
-          if (link == "countries") {
-            if(value){
-              isSelected = false;
-            }
-            countries.countries.map((cntry, key) => {
-              let country = countries.countries[key];
-              
-              if(isSelected){
-                if(typeof country.isSelected != 'undefined' && country.isSelected != null){
-                  options.push(<option value={country.abbreviation} selected>{country.country}</option>);
-                }else if (typeof country.available != 'undefined' && country.available != null) {
-                  options.push(<option value={country.abbreviation}>{country.country}</option>);
-                } else {
-                  options.push(<option value={country.abbreviation} disabled>{country.country}</option>);
-                }
-              }else{
-                if(value && value==country.abbreviation){
-                  options.push(<option value={country.abbreviation} selected>{country.country}</option>);
-                }else if (typeof country.available != 'undefined' && country.available != null) {
-                  options.push(<option value={country.abbreviation}>{country.country}</option>);
-                } else {
-                  options.push(<option value={country.abbreviation} disabled>{country.country}</option>);
-                }
-              }
-              
-            })
-          } else if (link == "states") {
-            let countryList  = states.countries;
-            
+    componentDidMount() {
+      this.props.loadRefObjects(this.props.fieldId,this);
+    }
+
+    getStates = (value, country)=>{
+      let options = [];
+            /*let countryList  = states.countries;            
             countryList.map((countryKey, index) => {
               let countryObj = countryList[index];
               let statesList = states[countryObj.value];
               options.push(<option value={countryObj.value} disabled>Country: {countryObj.label}</option>);
+              statesList.map((stateKey, key) => {
+                let state = statesList[key];
+                if(fieldData.value && fieldData.value==state.value){
+                  options.push(<option value={state.value} selected>{state.label}</option>);
+                }else{
+                  options.push(<option value={state.value}>{state.label}</option>);
+                }                
+              });
+            });*/
+            let statesList = states[country];
+              //options.push(<option value={countryObj.value} disabled>Country: {countryObj.label}</option>);
               statesList.map((stateKey, key) => {
                 let state = statesList[key];
                 if(value && value==state.value){
@@ -57,9 +39,42 @@ class Select extends React.Component {
                   options.push(<option value={state.value}>{state.label}</option>);
                 }                
               });
-            });            
-          } else if (link == "self") {
-            var optList = fieldData.options;
+      return options;
+    }
+    
+    getCountries = (value)=>{
+      let options = [];
+      let isSelected = true;
+      if(value){
+        isSelected = false;
+      }
+      countries.countries.map((cntry, key) => {
+        let country = countries.countries[key];
+        
+        if(isSelected){
+          if(typeof country.isSelected != 'undefined' && country.isSelected != null){
+            options.push(<option value={country.abbreviation} selected>{country.country}</option>);
+          }else if (typeof country.available != 'undefined' && country.available != null) {
+            options.push(<option value={country.abbreviation}>{country.country}</option>);
+          } else {
+            options.push(<option value={country.abbreviation} disabled>{country.country}</option>);
+          }
+        }else{
+          if(value && value==country.abbreviation){
+            options.push(<option value={country.abbreviation} selected>{country.country}</option>);
+          }else if (typeof country.available != 'undefined' && country.available != null) {
+            options.push(<option value={country.abbreviation}>{country.country}</option>);
+          } else {
+            options.push(<option value={country.abbreviation} disabled>{country.country}</option>);
+          }
+        }        
+      })
+
+      return options;
+    }
+
+    getOptions = (value, optList)=>{
+      let options = [];
             optList.map((optIndex, key) => {
               let opt = optList[key];
               if(value && value==opt.value){
@@ -69,6 +84,25 @@ class Select extends React.Component {
               }
               
             });
+      return options;
+    }
+
+    render() {  
+          const fieldData = this.props.fieldData;
+          const fieldId = this.props.fieldId;
+          var link = fieldData.link;
+          var options = [];
+          if (link == "countries") {
+
+            options = this.getCountries(fieldData.value);
+
+          } else if (link == "states") {
+
+            options = this.getStates(fieldData.value,"US");
+
+          } else if (link == "self") {       
+
+            options = this.getOptions(fieldData.value, fieldData.options);  
           }
           /*if (typeof fieldData.dependent != 'undefined' && fieldData.dependent) {
             formfields.push(
@@ -101,12 +135,16 @@ class Select extends React.Component {
           }*/
 
         return (
-            <div className={ fieldData.colWidth+ ' mb-3'}>
+            <div className={ fieldData.colWidth+ ' mb-3'} ref={fieldId+"div"}>
                 <label htmlFor={fieldId}>{fieldData.label}</label>
                 {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
                 <select ref={fieldId}
                         id={fieldId}
-                        onChange={this.props.changed}
+                        onChange={(e) => {
+                          this.props.changed(e);
+                          this.props.parentChildHandler(e,fieldData.isDependent, fieldData.name);
+                        }}
+                        //onChange={this.props.changed}
                         className="form-control">
                     {options}
                 </select>

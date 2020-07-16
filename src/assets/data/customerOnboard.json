@@ -61,7 +61,7 @@
                       "type": "text",
                       "colWidth": "col-md-4",
                       "required": true,
-                      "validation": "onlyLetters",
+                      "validation": "onlyAlphabets",
                       "value": ""
                     },
                     {
@@ -88,10 +88,15 @@
                       "name": "country",
                       "colWidth": "col-md-4",
                       "type": "select",
-                      "link": "countries",
+                      "link": "countries",                      
                       "selectedLabel": "United States",
                       "required": true,
-                      "value": "US"
+                      "value": "US",
+                      "isDependent":{
+                                      "dependentName":"state",
+                                      "action":"select",
+                                      "forValue":""
+                                    }
                     }
                   ]
                 },
@@ -140,8 +145,7 @@
                       "colWidth": "col-md-4",
                       "link": "states",
                       "selectedLabel": "Alabama",
-                      "required": true,
-                      "dependent": true,
+                      "required": true,                     
                       "value": "AL"
                     },
                     {
@@ -254,24 +258,29 @@
                       "label": "Product Type",
                       "name": "producttype",
                       "colWidth": "col-md-4",
-                      "type": "select",
-                      "value": "CC",
+                      "type": "select", 
+                      "value": "TL",
                       "link": "self",
-                      "selectedLabel": "Credit Card",
+                      "selectedLabel": "Term Loan",
                       "options": [
-                        {
-                          "label": "Credit Card",
-                          "value": "CC"
-                        },
-                        {
-                          "label": "Debit Card",
-                          "value": "DC"
-                        },
-                        {
-                          "label": "Term Loan",
-                          "value": "TL"
-                        }
-                      ]
+                                    {
+                                      "label": "Term Loan",
+                                      "value": "TL"
+                                    },
+                                    {
+                                      "label": "Credit Card",
+                                      "value": "CC"
+                                    },
+                                    {
+                                      "label": "Debit Card",
+                                      "value": "DC"
+                                    }                                    
+                                  ],
+                      "isDependent":{
+                                        "dependentName":"term",
+                                        "action":"enable",
+                                        "forValue":"TL"
+                                    }
                     }
                   ]
                 },

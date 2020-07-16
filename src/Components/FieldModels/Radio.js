@@ -10,7 +10,10 @@ class Radio extends React.Component {
     /*ref={element => { 
       if (element) element.style.setProperty('margin-bottom', '-1rem', 'important'); 
     }}*/
-    
+    componentDidMount() {
+      this.props.loadRefObjects(this.props.fieldId,this);
+    }
+
     renderRadio = (fieldData, fieldId)=>{
       let arr = []
       Object.values(fieldData.values).map((value, _index) => {
@@ -22,7 +25,10 @@ class Radio extends React.Component {
         }
         arr.push(<div><input className="custom-control-input"
                   type="radio"
-                  onChange={this.props.changed}
+                  onChange={(e) => {
+                    this.props.changed(e);
+                    this.props.parentChildHandler(e,fieldData.isDependent, fieldData.name);
+                  }}
                   defaultValue={value}
                   name={fieldId}
                   id={ids}
@@ -39,7 +45,7 @@ class Radio extends React.Component {
         const fieldId = this.props.fieldId;
         this.renderRadio(fieldData.values);      
         return (
-            <div className={ fieldData.colWidth+ ' mb-3'}>
+            <div className={ fieldData.colWidth+ ' mb-3'} ref={fieldId+"div"}>
                 <label className="d-block mb-3" >
                                     {fieldData.label}
                 {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}</label>

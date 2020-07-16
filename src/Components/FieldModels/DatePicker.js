@@ -12,6 +12,7 @@ class DatePick extends Component {
   }
   componentDidMount() {
     this.setState({selectedDate:  this.selectedValue });
+    this.props.loadRefObjects(this.props.fieldId,this);
   }
 
   getYear = (date)=>{
@@ -51,7 +52,7 @@ class DatePick extends Component {
       this.selectedValue = new Date(parseInt(fieldData.value));
     }
     return (     
-      <div className={ fieldData.colWidth+ ' mb-3'}>
+      <div className={ fieldData.colWidth+ ' mb-3'} ref={fieldId+"div"}>
         <label htmlFor={fieldId}>{fieldData.label} <label style={{color:'grey'}}>(MM/DD/YYYY)</label></label>
         {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
         <br/>
@@ -116,7 +117,8 @@ class DatePick extends Component {
               }else{
                 this.props.dateChanged(new Date(),fieldId);
                 this.setState({selectedDate: new Date() });
-              }            
+              } 
+              this.props.parentChildHandler(event,fieldData.isDependent,fieldData.name);           
             }}          
             selected = {this.state.selectedDate}
           />

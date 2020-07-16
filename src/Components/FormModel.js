@@ -14,10 +14,7 @@ class FormModel extends React.Component {
 
     Object.keys(arr).map((field, index) => {
       let fieldData = arr[field];
-      let fieldId = fieldData.name + this.props.uniqueId;
-      /*if (fieldData.type != "button") {
-        formfields.push(<label style={mystyle}>{fieldData.label}</label>);
-      }*/
+      let fieldId = fieldData.name + this.props.uniqueId;      
       switch (fieldData.type) {
         case "text":
           formfields.push(
@@ -25,6 +22,8 @@ class FormModel extends React.Component {
               fieldData={fieldData}
               fieldId={fieldId}
               changed={this.props.changed}
+              parentChildHandler= {this.props.parentChildHandler}
+              loadRefObjects={this.props.loadRefObjects}
             />
           );
           break;
@@ -43,6 +42,8 @@ class FormModel extends React.Component {
               fieldData={fieldData}
               fieldId={fieldId}
               changed={this.props.changed}
+              parentChildHandler= {this.props.parentChildHandler}
+              loadRefObjects={this.props.loadRefObjects}
             />
           );
           break;
@@ -52,6 +53,8 @@ class FormModel extends React.Component {
               fieldData={fieldData}
               fieldId={fieldId}
               changed={this.props.changed}
+              parentChildHandler= {this.props.parentChildHandler}
+              loadRefObjects={this.props.loadRefObjects}
             />
           );
           break;
@@ -61,6 +64,8 @@ class FormModel extends React.Component {
               fieldData={fieldData}
               fieldId={fieldId}
               changed={this.props.changed}
+              parentChildHandler= {this.props.parentChildHandler}
+              loadRefObjects={this.props.loadRefObjects}
             />
           );
           break;
@@ -89,6 +94,7 @@ class FormModel extends React.Component {
               fieldData={fieldData}
               fieldId={fieldId}
               dateChanged={this.props.dateChanged}
+              loadRefObjects={this.props.loadRefObjects}
             />
           );
           break;

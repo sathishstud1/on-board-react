@@ -69,6 +69,8 @@ class CreatePage extends React.Component {
                                     uniqueId = ""
                                     changed={this.props.changed}
                                     dateChanged = {this.props.dateChanged}
+                                    parentChildHandler = {this.props.parentChildHandler}
+                                    loadRefObjects={this.props.loadRefObjects}
                                     /*stateOptions={this.props.stateOptions}*//>);
             }
           });//Lines End

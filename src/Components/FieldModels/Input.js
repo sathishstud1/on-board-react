@@ -10,7 +10,11 @@ class Input extends React.Component {
       };
     }
 
-    validate = (e, isReq, type, label, thisObj)=>{
+    componentDidMount() {
+        this.props.loadRefObjects(this.props.fieldId,this);
+      }
+
+    validate = (e, isReq, type, label, dependent, name, thisObj)=>{
        const isValid =  Validation.isValid(e.target.value, isReq, type);
        let message = "";
        if(!isValid){
@@ -20,6 +24,7 @@ class Input extends React.Component {
             }, 2000);
        }else{
             this.props.changed(e);
+            this.props.parentChildHandler(e, dependent, name);
        }
        this.setState({message});       
     }
@@ -39,7 +44,7 @@ class Input extends React.Component {
                             name={fieldId}
                             ref={fieldId}                    
                             onBlur={(e) => {
-                                this.validate(e, fieldData.required, validation, fieldData.label, this)
+                                this.validate(e, fieldData.required, validation, fieldData.label, fieldData.isDependent, fieldData.name, this)
                             }}
                             defaultValue={fieldData.value}/>);
         }else{
@@ -50,7 +55,7 @@ class Input extends React.Component {
                             name={fieldId}
                             ref={fieldId}                    
                             onKeyUp={(e) => {
-                                this.validate(e, fieldData.required, validation, fieldData.label, this)
+                                this.validate(e, fieldData.required, validation, fieldData.label, fieldData.isDependent, fieldData.name, this)
                             }}
                             defaultValue={fieldData.value}/>);
         }
@@ -64,7 +69,10 @@ class Input extends React.Component {
                         id={fieldId}
                         name={fieldId}
                         ref={fieldId}                    
-                        onChange={this.props.changed}
+                        onChange={(e) => {
+                            this.props.changed(e);
+                            this.props.parentChildHandler(e,fieldData.isDependent, fieldData.name);
+                          }}
                         defaultValue={fieldData.value}/>
     }
 
@@ -80,7 +88,7 @@ class Input extends React.Component {
         const fieldData = this.props.fieldData;
         const fieldId = this.props.fieldId;        
         return (
-            <div className={ fieldData.colWidth+ ' mb-3'}>
+            <div className={ fieldData.colWidth+ ' mb-3'} ref={fieldId+"div"}>
                 <label htmlFor={fieldId}>{fieldData.label}</label>
                     {this.renderInput(fieldData, fieldId)}                
                 <div class="invalid-feedback">

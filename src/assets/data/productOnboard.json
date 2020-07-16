@@ -17,9 +17,13 @@
                       "label": "ProductType",
                       "name": "producttype",
                       "type": "select",
-                      "value": "",
+                      "value": "TL",
                       "link": "self",
                       "options": [
+                        {
+                          "label": "TermLoan",
+                          "value": "TL"
+                        },
                         {
                           "label": "OneCard",
                           "value": "OC"
@@ -31,12 +35,14 @@
                         {
                           "label": "DebitCard",
                           "value": "DC"
-                        },
-                        {
-                          "label": "TermLoan",
-                          "value": "TL"
                         }
-                      ]
+                        
+                      ],
+                        "isDependent":{
+                          "dependentName":"term",
+                          "action":"enable",
+                          "forValue":"TL"
+                        }
                     }
                   ]
                 },
@@ -75,7 +81,7 @@
                   "fields": [
                     {
                       "label": "Update Product",
-                      "name": "update",
+                      "name": "save",
                       "type": "button",
                       "colWidth": "col-md-3"
                     },

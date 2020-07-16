@@ -5,19 +5,26 @@ class CheckBox extends React.Component {
       super(props);
       this.state = {    
       };
-    }     
+    }   
+    
+    componentDidMount() {
+      this.props.loadRefObjects(this.props.fieldId,this);
+    }
 
     render() {  
         const fieldData = this.props.fieldData;
         const fieldId = this.props.fieldId;
         return (
-            <div className={ fieldData.colWidth+ ' mb-3'}>             
+            <div className={ fieldData.colWidth+ ' mb-3'} ref={fieldId+"div"}>             
                 <div class="form-check form-check-inline">
                     <input className="form-check-input"
                            type="checkbox" 
                            id={fieldId} 
                            defaultValue={fieldData.value}
-                           onChange={this.props.changed}
+                           onChange={(e) => {
+                            this.props.changed(e);
+                            this.props.parentChildHandler(e,fieldData.isDependent,fieldData.name);
+                          }}
                            defaultChecked={fieldData.value}
                            required={fieldData.required}/>
                     <label className="form-check-label">{fieldData.label}</label>
