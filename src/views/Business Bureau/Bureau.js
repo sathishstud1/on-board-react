@@ -22,12 +22,13 @@ class Bureau extends Component {
   async getJson() {
     let postData = {
       tin: "800914632",
+      "id": "200030"
     };
     return axios
-      .post("/experianBusBureau", postData)
+      .post("/pullExperianBusBureau", postData)
       .then((response) => {
         if(response.data.status){
-          this.json = JSON.parse(response.data.data.body);
+          this.json = JSON.parse(response.data.data);
           let commericalScore = this.json.results.scoreInformation.commercialScore.score;
           this.setState({ loading: false, commericalScore:commericalScore });
         }else{
