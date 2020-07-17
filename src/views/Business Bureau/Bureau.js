@@ -1,81 +1,85 @@
-import React, {Component} from 'react';
-import {Card, CardBody, Col, Row} from "reactstrap";
-import GaugeChart from 'react-gauge-chart';
+import React, { Component } from "react";
+import { Card, CardBody, Col, Row } from "reactstrap";
+import GaugeChart from "react-gauge-chart";
 import "./Bureau.scss";
 import bureauReport from "../../assets/data/BureauReport.json";
 import jsonSchemaGenerator from "json-schema-generator";
 import JSONSchemaForm from "@rjsf/core";
-import JSONTree from 'react-json-tree';
-import axios from '../../axios-instance';
+import JSONTree from "react-json-tree";
+import axios from "../../axios-instance";
 
 class Bureau extends Component {
-
   constructor(props, context) {
     super(props, context);
     this.state = {
-      loading: true
-    }
+      loading: true,
+    };
     this.getJson();
   }
 
   async getJson() {
     let postData = {
-      bin: "800914632"
+      tin: "800914632",
     };
     return axios
-      .post("/experianBusBureau", postData)
+      .post("/pullExperianBusBureau", postData)
       .then((response) => {
         this.json = JSON.parse(response.data.data.body);
-        this.setState({ loading: false });        
+        this.setState({ loading: false });
       })
       .catch((error) => {
-        console.log(error)        
+        console.log(error);
       });
   }
 
   updateStyles() {
-    Array.from(document.getElementById('json-report-view').getElementsByTagName('ul')).forEach(d => {
-      d.classList.add('list-group');
-      d.classList.add('m-3')
+    Array.from(
+      document.getElementById("json-report-view").getElementsByTagName("ul")
+    ).forEach((d) => {
+      d.classList.add("list-group");
+      d.classList.add("m-3");
     });
 
-    Array.from(document.getElementById('json-report-view').getElementsByTagName('li')).forEach(d => {
-      d.classList.add('list-group-item');
-      d.classList.add('bureau-item');
-      d.classList.add('mt-1');
+    Array.from(
+      document.getElementById("json-report-view").getElementsByTagName("li")
+    ).forEach((d) => {
+      d.classList.add("list-group-item");
+      d.classList.add("bureau-item");
+      d.classList.add("mt-1");
     });
 
-    Array.from(document.getElementById('json-report-view')
-      .getElementsByTagName('span')).forEach(d => {
+    Array.from(
+      document.getElementById("json-report-view").getElementsByTagName("span")
+    ).forEach((d) => {
       // console.log(d.innerText);
     });
 
-    Array.from(document.getElementById('json-report-view').getElementsByTagName('label')).forEach(d => {
-      d.innerText = d.innerText.replace(/([A-Z]+)/g, " $1").replace(/([A-Z][a-z])/g, " $1")
+    Array.from(
+      document.getElementById("json-report-view").getElementsByTagName("label")
+    ).forEach((d) => {
+      d.innerText = d.innerText
+        .replace(/([A-Z]+)/g, " $1")
+        .replace(/([A-Z][a-z])/g, " $1");
     });
 
-    Array.from(document.querySelectorAll('.bureau-item > div')).forEach(
-      d => {
-        if (!d.classList.contains('open')) {
-          d.click();
-          d.classList.add('open');
-        }
+    Array.from(document.querySelectorAll(".bureau-item > div")).forEach((d) => {
+      if (!d.classList.contains("open")) {
+        d.click();
+        d.classList.add("open");
       }
-    )
+    });
 
-    Array.from(document.querySelectorAll('.bureau-item > span'))
+    Array.from(document.querySelectorAll(".bureau-item > span"))
+      .filter((d) => d.innerText.includes("key"))
+      .forEach((d) => d.classList.add("d-none"));
+    Array.from(document.querySelectorAll(".bureau-item > span"))
       .filter(
-        d => d.innerText.includes('key')).forEach(d => d.classList.add('d-none')
-    )
-    Array.from(document.querySelectorAll('.bureau-item > span'))
-      .filter(
-        d => (d.innerText.includes('null') || d.innerText.includes('undefined'))
-      ).forEach(d => d.parentElement.classList.add('d-none'))
-
+        (d) => d.innerText.includes("null") || d.innerText.includes("undefined")
+      )
+      .forEach((d) => d.parentElement.classList.add("d-none"));
   }
 
   render() {
-
     if (this.state.loading) {
       return (
         <div className="white-overlay">
@@ -89,7 +93,6 @@ class Bureau extends Component {
     setTimeout(this.updateStyles, 0);
 
     return (
-
       <div className="animated fadeIn bureau">
         <Row>
           <Col lg={6}>
@@ -97,12 +100,20 @@ class Bureau extends Component {
               <CardBody className="card-body">
                 <div className="row">
                   <div className="col-6">
-                    <GaugeChart id="gauge-chart5"
-                                nrOfLevels={420}
-                                arcsLength={[0.4, 0.15, 0.15, 0.15, 0.15]}
-                                colors={['#EA4228', '#F5CD19', '#5BE12C', '#EA4228', '#F5CD19', '#5BE12C']}
-                                percent={0.512}
-                                arcPadding={0.02}
+                    <GaugeChart
+                      id="gauge-chart5"
+                      nrOfLevels={420}
+                      arcsLength={[0.4, 0.15, 0.15, 0.15, 0.15]}
+                      colors={[
+                        "#EA4228",
+                        "#F5CD19",
+                        "#5BE12C",
+                        "#EA4228",
+                        "#F5CD19",
+                        "#5BE12C",
+                      ]}
+                      percent={0.512}
+                      arcPadding={0.02}
                     />
                   </div>
 
@@ -122,9 +133,10 @@ class Bureau extends Component {
               <CardBody className="card-body">
                 <div className="row">
                   <div className="col-6">
-                    <GaugeChart id="gauge-chart6"
-                                nrOfLevels={20}
-                                percent={0.812}
+                    <GaugeChart
+                      id="gauge-chart6"
+                      nrOfLevels={20}
+                      percent={0.812}
                     />
                   </div>
 
@@ -139,28 +151,25 @@ class Bureau extends Component {
               </CardBody>
             </Card>
           </Col>
-          
-        </Row>              
+        </Row>
 
         <Row>
           <Col lg={12}>
             <Card>
-              <CardBody className="card-body"
-                        style={{overflow: 'auto'}}>
-                <div className="json-report-view"
-                     id="json-report-view"
-                     onClick={() => setTimeout(this.updateStyles, 0)}
+              <CardBody className="card-body" style={{ overflow: "auto" }}>
+                <div
+                  className="json-report-view"
+                  id="json-report-view"
+                  onClick={() => setTimeout(this.updateStyles, 0)}
                 >
-                  <JSONTree hideRoot={true}
-                            data={this.json}/>
+                  <JSONTree hideRoot={true} data={this.json} />
                 </div>
               </CardBody>
             </Card>
           </Col>
         </Row>
-
       </div>
-    )
+    );
   }
 }
 
