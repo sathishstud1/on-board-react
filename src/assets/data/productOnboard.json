@@ -41,7 +41,7 @@
                         "isDependent":{
                           "dependentName":"term",
                           "action":"enable",
-                          "forValue":"TL"
+                          "forValue":["TL","CC"]
                         }
                     }
                   ]

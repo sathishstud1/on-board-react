@@ -14,23 +14,8 @@ class Select extends React.Component {
     }
 
     getStates = (value, country)=>{
-      let options = [];
-            /*let countryList  = states.countries;            
-            countryList.map((countryKey, index) => {
-              let countryObj = countryList[index];
-              let statesList = states[countryObj.value];
-              options.push(<option value={countryObj.value} disabled>Country: {countryObj.label}</option>);
-              statesList.map((stateKey, key) => {
-                let state = statesList[key];
-                if(fieldData.value && fieldData.value==state.value){
-                  options.push(<option value={state.value} selected>{state.label}</option>);
-                }else{
-                  options.push(<option value={state.value}>{state.label}</option>);
-                }                
-              });
-            });*/
+      let options = [];            
             let statesList = states[country];
-              //options.push(<option value={countryObj.value} disabled>Country: {countryObj.label}</option>);
               statesList.map((stateKey, key) => {
                 let state = statesList[key];
                 if(value && value==state.value){
@@ -103,36 +88,7 @@ class Select extends React.Component {
           } else if (link == "self") {       
 
             options = this.getOptions(fieldData.value, fieldData.options);  
-          }
-          /*if (typeof fieldData.dependent != 'undefined' && fieldData.dependent) {
-            formfields.push(
-              <div className={ fieldData.colWidth+ ' mb-3'}>
-                <label htmlFor={fieldId}>{fieldData.label}</label>
-                {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
-                <select ref={fieldId}
-                        id={fieldId}
-                        onChange={this.props.changed}
-                        className="form-control"
-                        >
-                          {options}
-                </select>
-              </div>
-            );
-          } else {
-            formfields.push(
-              <div className={ fieldData.colWidth+ ' mb-3'}>
-                <label htmlFor={fieldId}>{fieldData.label}</label>
-                {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
-                <select ref={fieldId}
-                        className="form-control"
-                        id={fieldId}
-                        onChange={this.props.changed}
-                        >
-                  {options}
-                </select>
-              </div>
-            );
-          }*/
+          }          
 
         return (
             <div className={ fieldData.colWidth+ ' mb-3'} ref={fieldId+"div"}>
@@ -144,7 +100,6 @@ class Select extends React.Component {
                           this.props.changed(e);
                           this.props.parentChildHandler(e,fieldData.isDependent, fieldData.name);
                         }}
-                        //onChange={this.props.changed}
                         className="form-control">
                     {options}
                 </select>

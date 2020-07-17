@@ -10,6 +10,7 @@ import {withRouter} from 'react-router';
 import Validation from './Validation';
 import OpenModal from './OpenModal';
 import ParentChildActions from './ParentChildActions';
+import states from '../assets/data/Dropdowns/states.json';
 
 class Onboard extends React.Component {
   constructor(props) {
@@ -42,7 +43,13 @@ class Onboard extends React.Component {
 
   parentChildHandler = (e,dependent,fieldName) =>{
     if(dependent){
-      const isValidationReq = ParentChildActions.honorActions(fieldName, e.target.id, e.target.value, dependent, this.refObjects, ReactDOM );
+      const isValidationReq = ParentChildActions.honorActions(fieldName, 
+                                                              e.target.id, 
+                                                              e.target.value, 
+                                                              dependent, 
+                                                              this.refObjects, 
+                                                              states,
+                                                              ReactDOM );
       if(isValidationReq){
         const ext = e.target.id.replace(fieldName, "");
         const childId = dependent.dependentName + ext;
@@ -59,8 +66,8 @@ class Onboard extends React.Component {
           }
         }        
       }
-    }
-  }
+    }   
+  }  
 
   addElements = (lines, refVal) => {
     let arr = [];

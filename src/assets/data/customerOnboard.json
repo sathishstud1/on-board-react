@@ -95,7 +95,7 @@
                       "isDependent":{
                                       "dependentName":"state",
                                       "action":"select",
-                                      "forValue":""
+                                      "forValue":"changeOptions"
                                     }
                     }
                   ]
@@ -279,7 +279,7 @@
                       "isDependent":{
                                         "dependentName":"term",
                                         "action":"enable",
-                                        "forValue":"TL"
+                                        "forValue":["TL","CC"]
                                     }
                     }
                   ]

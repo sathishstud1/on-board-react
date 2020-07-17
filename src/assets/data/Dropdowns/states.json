@@ -1,9 +1,5 @@
 {
-  "US":[
-    {
-      "label":"Select",
-      "value":""
-    },
+  "US":[    
     {
       "label":"Alabama",
       "value":"AL"
@@ -181,7 +177,7 @@
       "value":"WY"
     }
   ],
-  "GB":[    
+  "GB":[   
     {
       "label":"London",
       "value":"LN"

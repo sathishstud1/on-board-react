@@ -2,17 +2,19 @@ import React, { Component } from "react";
 import { Card, CardBody, Col, Row } from "reactstrap";
 import GaugeChart from "react-gauge-chart";
 import "./Bureau.scss";
-import bureauReport from "../../assets/data/BureauReport.json";
 import jsonSchemaGenerator from "json-schema-generator";
 import JSONSchemaForm from "@rjsf/core";
 import JSONTree from "react-json-tree";
 import axios from "../../axios-instance";
+import {withRouter} from 'react-router';
+
 
 class Bureau extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       loading: true,
+      commericalScore:0
     };
     this.getJson();
   }
@@ -22,13 +24,27 @@ class Bureau extends Component {
       tin: "800914632",
     };
     return axios
-      .post("/pullExperianBusBureau", postData)
+      .post("/experianBusBureau", postData)
       .then((response) => {
-        this.json = JSON.parse(response.data.data.body);
-        this.setState({ loading: false });
+        if(response.data.status){
+          this.json = JSON.parse(response.data.data.body);
+          let commericalScore = this.json.results.scoreInformation.commercialScore.score;
+          this.setState({ loading: false, commericalScore:commericalScore });
+        }else{
+          this.props.history.push({
+            pathname: "/error",
+            errorObj: response.data.message,
+            curr_loc: this.props.location.pathname,
+          });
+        }        
       })
       .catch((error) => {
         console.log(error);
+        this.props.history.push({
+          pathname: "/error",
+          errorObj: error,
+          curr_loc: this.props.location.pathname,
+        });
       });
   }
 
@@ -91,6 +107,29 @@ class Bureau extends Component {
     const Form = JSONSchemaForm;
     const formSchema = jsonSchemaGenerator(this.json);
     setTimeout(this.updateStyles, 0);
+    let commercial_score  = this.state.commericalScore;
+    let scorePercentage = this.state.commericalScore;
+    if(scorePercentage!=0){
+      scorePercentage = scorePercentage/100;
+    }
+    let bureauclassName = "ml-5 mt-2 text-danger";
+    let scoreText = "Poor";
+    if(commercial_score<=20){
+      scoreText = "Poor";
+      bureauclassName = "ml-5 mt-2 text-danger";
+    }else if(commercial_score>20 && commercial_score<=40){
+      scoreText = "Average";
+      bureauclassName = "ml-5 mt-2 text-danger";
+    }else if(commercial_score>40 && commercial_score<=60){
+      scoreText = "Good";
+      bureauclassName = "ml-5 mt-2 text-primary";
+    }else if(commercial_score>60 && commercial_score<=80){
+      scoreText = "Very Good";
+      bureauclassName = "ml-5 mt-2 text-success";
+    }else if(commercial_score>80 && commercial_score<=100){
+      scoreText = "Excellent";
+      bureauclassName = "ml-5 mt-2 text-success";
+    }
 
     return (
       <div className="animated fadeIn bureau">
@@ -103,7 +142,7 @@ class Bureau extends Component {
                     <GaugeChart
                       id="gauge-chart5"
                       nrOfLevels={420}
-                      arcsLength={[0.4, 0.15, 0.15, 0.15, 0.15]}
+                      arcsLength={[0.2, 0.2, 0.2, 0.2, 0.2]}
                       colors={[
                         "#EA4228",
                         "#F5CD19",
@@ -112,17 +151,15 @@ class Bureau extends Component {
                         "#F5CD19",
                         "#5BE12C",
                       ]}
-                      percent={0.512}
+                      percent={scorePercentage}
                       arcPadding={0.02}
                     />
                   </div>
 
                   <div className="col-6">
-                    <h6 className="ml-5 mt-5 text-success">5 pts</h6>
-                    <h1 className="ml-5 mt-2 text-primary">512</h1>
-                    <h5 className="ml-5 mt-2 text-success">Excellent</h5>
-                    <h6 className="ml-5 mt-2 text-muted">TRANSUNION</h6>
-                    <h6 className="ml-5 mt-2 text-muted">Updated dally</h6>
+                    <h6 className="ml-5 mt-5 text-success">Commercial Score</h6>
+                    <h1 className="ml-5 mt-2 text-primary">{this.state.commericalScore}</h1>
+                    <h5 className={bureauclassName}>{scoreText}</h5>
                   </div>
                 </div>
               </CardBody>
@@ -136,16 +173,22 @@ class Bureau extends Component {
                     <GaugeChart
                       id="gauge-chart6"
                       nrOfLevels={20}
-                      percent={0.812}
+                      colors={[
+                        "#EA4228",
+                        "#F5CD19",
+                        "#5BE12C",
+                        "#EA4228",
+                        "#F5CD19",
+                        "#5BE12C",
+                      ]}
+                      percent={scorePercentage}
                     />
                   </div>
 
                   <div className="col-6">
-                    <h6 className="ml-5 mt-5 text-success">5 pts</h6>
-                    <h1 className="ml-5 mt-2 text-primary">812</h1>
-                    <h5 className="ml-5 mt-2 text-success">Excellent</h5>
-                    <h6 className="ml-5 mt-2 text-muted">TRANSUNION</h6>
-                    <h6 className="ml-5 mt-2 text-muted">Updated dally</h6>
+                    <h6 className="ml-5 mt-5 text-success">Commercial Score</h6>
+                    <h1 className="ml-5 mt-2 text-primary">{this.state.commericalScore}</h1>
+                    <h5 className={bureauclassName}>{scoreText}</h5>
                   </div>
                 </div>
               </CardBody>
@@ -173,4 +216,4 @@ class Bureau extends Component {
   }
 }
 
-export default Bureau;
+export default withRouter(Bureau);
