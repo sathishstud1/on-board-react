@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import CreateViewPage from './CreateViewPage';
 import Onboard from './Onboard';
 import PageNavigation from './PageNavigation';
+import Bureau from '../views/Business Bureau/Bureau';
 
 class ViewOnboard extends React.Component {
   constructor(props) {
@@ -50,14 +51,15 @@ class ViewOnboard extends React.Component {
       this.PageList.push(pages[index]);
     });
     this.PageLength = this.PageList.length;
+    let className  = 'btn btn-outline-light rounded-0 text-dark';
     for (let i = 0; i < this.PageLength; i++) {
       let tabId = 'pagebtn' + i;
-      let className  = 'btn btn-outline-light rounded-0 text-dark';
+      let tabStyle = className;
       if(this.state.currentPageId === i){
-        className = className + ' active';
+        tabStyle = tabStyle + ' active';
       }
       tabs.push(
-        <button className={className}
+        <button className={tabStyle}
                 onClick={() => {
                     PageNavigation.changePage(i, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
                     this.setState({currentPageId: i});
@@ -73,6 +75,25 @@ class ViewOnboard extends React.Component {
         this.renderPage(this.PageList[i], i, this.PageLength)
       );
     }
+    const pageId = this.PageLength;
+      tabs.push(
+        <button className={className}
+                onClick={() => {
+                  PageNavigation.changePage(pageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                  this.setState({currentPageId: pageId});
+                }}
+                id="bureauId"
+                type="button">
+          Bureau
+        </button>
+      );
+      items.push(<div ref={'ShowPage' + pageId}
+                      key={'createPage' + pageId}
+                      style={{}}>
+                  <Bureau tin={800914632} id={200030}/>
+                </div>);
+      this.PageLength = pageId +1;
+
     btns.push(
       <button ref="previousBtn"
               className="btn btn-primary mr-3"

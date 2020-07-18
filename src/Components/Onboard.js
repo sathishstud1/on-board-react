@@ -11,6 +11,7 @@ import Validation from './Validation';
 import OpenModal from './OpenModal';
 import ParentChildActions from './ParentChildActions';
 import states from '../assets/data/Dropdowns/states.json';
+import Bureau from '../views/Business Bureau/Bureau';
 
 class Onboard extends React.Component {
   constructor(props) {
@@ -233,8 +234,11 @@ class Onboard extends React.Component {
     }
   }
 
-  validatePage = ()=>{
+  validatePage = ()=>{    
     var forms = document.getElementsByClassName('needs-validation-'+this.state.currentPageId);
+    if(forms.length==0){
+      return true;
+    }
     Array.prototype.filter.call(forms, function(form) {
        form.classList.add('was-validated');
     });
@@ -289,14 +293,15 @@ class Onboard extends React.Component {
       this.PageList.push(pages[index]);
     });
     this.PageLength = this.PageList.length;
+    let className  = 'btn btn-outline-light rounded-0 text-dark';
     for (let i = 0; i < this.PageLength; i++) {
-      let tabId = 'pagebtn' + i;
-      let className  = 'btn btn-outline-light rounded-0 text-dark';
+      let tabId = 'pagebtn' + i; 
+      let tabStyle = className;
       if(this.state.currentPageId === i){
-        className = className + ' active';
+        tabStyle = tabStyle + ' active';
       }
       tabs.push(
-        <button className={className}
+        <button className={tabStyle}
                 onClick={() => {
                   if(this.validatePage()){
                     PageNavigation.changePage(i, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
@@ -313,6 +318,29 @@ class Onboard extends React.Component {
         <form className={"needs-validation-"+i} novalidate >{this.renderPage(this.PageList[i], i, this.PageLength)}</form>
       );
     }
+    //Bureau
+    if(this.state.isUpdate){ 
+      const pageId = this.PageLength;
+      tabs.push(
+        <button className={className}
+                onClick={() => {
+                  PageNavigation.changePage(pageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                  this.setState({currentPageId: pageId});
+                }}
+                id="bureauId"
+                type="button">
+          Bureau
+        </button>
+      );
+      items.push(<div ref={'ShowPage' + pageId}
+                      key={'createPage' + pageId}
+                      style={{}}>
+                  <Bureau tin={800914632} id={200030}/>
+                </div>);
+       this.PageLength = pageId +1;
+    }
+    //end bureau
+
     btns.push(
         <button ref="previousBtn"
                 className="btn btn-primary mr-3"
@@ -341,6 +369,7 @@ class Onboard extends React.Component {
               type="button">
         Next</button>
     );
+    
     return (
       <div>
         <div className="border-bottom">

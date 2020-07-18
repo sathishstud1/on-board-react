@@ -16,13 +16,19 @@ class Bureau extends Component {
       loading: true,
       commericalScore:0
     };
+    this.tin = "800914632";
+    this.id = "200030";
     this.getJson();
   }
 
   async getJson() {
+    if(this.props.tin){
+      this.tin = this.props.tin;
+      this.id = this.props.id;
+    }
     let postData = {
-      tin: "800914632",
-      "id": "200030"
+      tin: this.tin,
+      "id": this.id
     };
     return axios
       .post("/pullExperianBusBureau", postData)
@@ -50,6 +56,9 @@ class Bureau extends Component {
   }
 
   updateStyles() {
+    if(!document.getElementById("json-report-view")){
+      return;
+    }
     Array.from(
       document.getElementById("json-report-view").getElementsByTagName("ul")
     ).forEach((d) => {
