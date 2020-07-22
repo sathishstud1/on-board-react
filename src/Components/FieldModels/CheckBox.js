@@ -16,7 +16,7 @@ class CheckBox extends React.Component {
         const fieldId = this.props.fieldId;
         return (
             <div className={ fieldData.colWidth+ ' mb-3'} ref={fieldId+"div"}>             
-                <div class="form-check form-check-inline">
+                <div className="form-check form-check-inline">
                     <input className="form-check-input"
                            type="checkbox" 
                            id={fieldId} 
@@ -29,7 +29,7 @@ class CheckBox extends React.Component {
                            required={fieldData.required}/>
                     <label className="form-check-label">{fieldData.label}</label>
                     {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
-                    <div class="invalid-feedback">
+                    <div className="invalid-feedback">
                       Please choose {fieldData.label}.
                     </div>
                 </div>                  

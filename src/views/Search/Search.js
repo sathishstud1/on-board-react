@@ -31,7 +31,7 @@ function SearchRow(props) {
   const columnIds = props.columnIds;
   let rowtds = [];
   for (var i = 0; i < columnIds.length; i++) {
-    rowtds.push(<td>{search[columnIds[i]]}</td>);
+    rowtds.push(<td key={i}>{search[columnIds[i]]}</td>);
   }
   return (
     <tr key={search._id.toString()}>
@@ -308,7 +308,7 @@ class Search extends Component {
           <Col lg={12}>
             <Card>
               <CardBody>
-                <h4>Search By</h4>
+                
                 <Form className="row">
                   <FormGroup className="col-md-3 offset-md-1">
                     <Input
@@ -316,6 +316,7 @@ class Search extends Component {
                       type="select"
                       name="searchBy"
                       id="searchBy"
+                      key={"searchBy"}
                       onChange={(e) => this.setSearchBy(e.target.value)}
                       value={this.state.searchBy}
                       placeholder="Search By"
@@ -330,6 +331,7 @@ class Search extends Component {
                       type="select"
                       name="condition"
                       id="condition"
+                      key={"condition"}
                       onChange={(e) => this.setSearchCondition(e.target.value)}
                       value={this.state.searchCondition}
                       placeholder="Select Condition"
@@ -344,6 +346,7 @@ class Search extends Component {
                       type="text"
                       name="Search Value"
                       id="searchByValue"
+                      key={"searchByValue"}
                       onChange={(e) => this.setSearchByValue(e.target.value)}
                       value={this.state.searchByValue}
                       placeholder="Value"
@@ -351,7 +354,7 @@ class Search extends Component {
                   </FormGroup>
 
                   <div className="col-md-2">
-                    <Button type="button" onClick={this.applySearchByFilter}>
+                    <Button type="button" key={"searchBtn"} onClick={this.applySearchByFilter}>
                       Search
                     </Button>
                   </div>
@@ -489,7 +492,7 @@ class Search extends Component {
           toggle={() => this.toggleModal(null)}
           backdrop={true}
           keyboard={true}
-          style={{ maxWidth: "90%" }}
+          style={{ maxWidth: "100%" }}
         >
           <ModalHeader toggle={() => this.toggleModal(null)}>
             On Board

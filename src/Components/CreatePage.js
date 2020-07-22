@@ -20,18 +20,20 @@ class CreatePage extends React.Component {
     let items = [];
     let recreateCount = 1;
     let page = this.props.Page;
+    let formModelCount = 0;
+    let countryName = "US";
     this.currentPageId = this.props.currentPageId;
       //items.push(<h1>{page.PageTitle}</h1>);
       let categoryList = page.CategoryList;
       //Category List
       Object.keys(categoryList).map((categoryIndex, index) => {
         let category = categoryList[index];
-        items.push(<h4 className="mt-3 text-muted">{category.categoryTitle}</h4>);
+        items.push(<h4 key={"category"+this.currentPageId+index} className="mt-3 text-muted">{category.categoryTitle}</h4>);
         let sectionList = category.sectionList;
         //Section List
         Object.keys(sectionList).map((sectionIndex, index) => {
           let section = sectionList[index];
-          items.push(<h6 className="mt-4">{section.sectionName}</h6>);
+          items.push(<h6 key={"section"+this.currentPageId+index} className="mt-4">{section.sectionName}</h6>);
           let linesList = section.linesList;
           //Lines List
           Object.keys(linesList).map((lineIndex, index) => {
@@ -43,6 +45,9 @@ class CreatePage extends React.Component {
               var fieldData = fields[index];
               if(fieldData.required){
                 this.reqFields.push(fieldData.name);
+              }
+              if(fieldData.name==="country" && fieldData.value){
+                countryName = fieldData.value;
               }
               if(fieldData.type=="button"){
                 if(fieldData.name==""){
@@ -58,6 +63,7 @@ class CreatePage extends React.Component {
                   this.defaultValues[fieldData.name] = (new Date()).getTime();
                 }else if(fieldData.type=="select"){
                   this.defaultValues[fieldData.name+"_selectedLabel"] = fieldData.selectedLabel;
+                  this.defaultValues[fieldData.name] = fieldData.value;
                 }else{
                   this.defaultValues[fieldData.name] = fieldData.value;
                 }
@@ -66,12 +72,15 @@ class CreatePage extends React.Component {
             });//Fields End
             if(arr.length!=0){
               items.push(<FormModel data={arr}
+                                    key={"formModel"+this.currentPageId+formModelCount}
                                     uniqueId = ""
                                     changed={this.props.changed}
                                     dateChanged = {this.props.dateChanged}
                                     parentChildHandler = {this.props.parentChildHandler}
                                     loadRefObjects={this.props.loadRefObjects}
+                                    countryName={countryName}
                                     /*stateOptions={this.props.stateOptions}*//>);
+              formModelCount ++;
             }
           });//Lines End
           if(section.recreate!=null && section.recreate){
@@ -81,7 +90,9 @@ class CreatePage extends React.Component {
 
               items.push(<div contentEditable='true'
                               id={refVal}
-                              ref={refVal}>
+                              key={refVal}
+                              ref={refVal}
+                              suppressContentEditableWarning={true}>
                                 {this.props.addrecreateDiv(refVal)}
                           </div>);
              // items.push(<button onClick={()=>this.props.addElements(linesList, refVal)} style={mystyle}
@@ -90,12 +101,13 @@ class CreatePage extends React.Component {
               items.push(
                 <button onClick={()=>this.props.addElements(linesList, refVal)}
                         className="btn btn-primary mr-3"                      
-                        type="button">
+                        type="button"
+                        key={"recreateBtn"+refVal}>
                   {section.recreatelabel}
                 </button>
                 );
 
-              items.push(<br/>);
+              items.push(<br key={"br"+refVal}/>);
           }
         });//Sections End
       });//Category End

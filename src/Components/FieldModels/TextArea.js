@@ -49,7 +49,7 @@ class TextArea extends React.Component {
                           }
                         }}
                         />
-              <div class="invalid-feedback">
+              <div className="invalid-feedback">
                 Please choose {fieldData.label}.
               </div>
               <div style={{width: '100%', marginTop: '0.25rem',fontSize: '80%',color: '#f86c6b'}}>

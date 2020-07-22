@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import CreateViewPage from './CreateViewPage';
 import Onboard from './Onboard';
 import PageNavigation from './PageNavigation';
-import Bureau from '../views/Business Bureau/Bureau';
+
+const Bureau = React.lazy(() => import("../views/Business Bureau/Bureau"));
 
 class ViewOnboard extends React.Component {
   constructor(props) {
@@ -34,7 +35,8 @@ class ViewOnboard extends React.Component {
                 style={divstyle}>
       <CreateViewPage Page={Page}
                   PageLength={PageLength}
-                  PageId={PageId}/>
+                  PageId={PageId}
+                  currentPageId={PageId}/>
     </div>;
   }
 
@@ -66,6 +68,7 @@ class ViewOnboard extends React.Component {
                                   
                 }}
                 id={tabId}
+                key={tabId}
                 type="button">
           {this.PageList[i].PageTitle}
         </button>
@@ -83,13 +86,14 @@ class ViewOnboard extends React.Component {
                   this.setState({currentPageId: pageId});
                 }}
                 id="bureauId"
+                key={"bureauId"}
                 type="button">
           Bureau
         </button>
       );
       items.push(<div ref={'ShowPage' + pageId}
                       key={'createPage' + pageId}
-                      style={{}}>
+                      style={{display: 'none'}}>
                   <Bureau tin={800914632} id={200030}/>
                 </div>);
       this.PageLength = pageId +1;

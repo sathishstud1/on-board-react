@@ -122,7 +122,7 @@ class DatePick extends Component {
             }}          
             selected = {this.state.selectedDate}
           />
-        <div class="invalid-feedback">
+        <div className="invalid-feedback">
           Please choose {fieldData.label}.
         </div>
     </div>

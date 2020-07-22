@@ -31,7 +31,7 @@ class Input extends React.Component {
 
     getReqInputTag = (fieldData, fieldId)=>{
         let arr = [];
-        arr.push(<span className="asterisk" style={{color:'red'}}> *</span>);
+        arr.push(<span className="asterisk" style={{color:'red'}} key={"req"+fieldId}> *</span>);
         let validation = "";
         if(fieldData.validation){
             validation = fieldData.validation;
@@ -42,7 +42,8 @@ class Input extends React.Component {
                             required={fieldData.required}
                             id={fieldId}
                             name={fieldId}
-                            ref={fieldId}                    
+                            ref={fieldId} 
+                            key={fieldId}                   
                             onBlur={(e) => {
                                 this.validate(e, fieldData.required, validation, fieldData.label, fieldData.isDependent, fieldData.name, this)
                             }}
@@ -53,7 +54,8 @@ class Input extends React.Component {
                             required={fieldData.required}
                             id={fieldId}
                             name={fieldId}
-                            ref={fieldId}                    
+                            ref={fieldId}  
+                            key={fieldId}                  
                             onKeyUp={(e) => {
                                 this.validate(e, fieldData.required, validation, fieldData.label, fieldData.isDependent, fieldData.name, this)
                             }}
@@ -91,7 +93,7 @@ class Input extends React.Component {
             <div className={ fieldData.colWidth+ ' mb-3'} ref={fieldId+"div"}>
                 <label htmlFor={fieldId}>{fieldData.label}</label>
                     {this.renderInput(fieldData, fieldId)}                
-                <div class="invalid-feedback">
+                <div className="invalid-feedback">
                     Please choose {fieldData.label}.
                 </div>
                 <div style={{width: '100%', marginTop: '0.25rem',fontSize: '80%',color: '#f86c6b'}}>

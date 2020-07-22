@@ -11,7 +11,7 @@ import Validation from './Validation';
 import OpenModal from './OpenModal';
 import ParentChildActions from './ParentChildActions';
 import states from '../assets/data/Dropdowns/states.json';
-import Bureau from '../views/Business Bureau/Bureau';
+const Bureau = React.lazy(() => import("../views/Business Bureau/Bureau"));
 
 class Onboard extends React.Component {
   constructor(props) {
@@ -67,7 +67,14 @@ class Onboard extends React.Component {
           }
         }        
       }
-    }   
+    }
+    if(dependent && dependent.forValue==="changeOptions" && dependent.dependentName==="state"){
+      const ext = e.target.id.replace(fieldName, "");
+      const childId =   dependent.dependentName + ext;
+      const refObj = this.refObjects[childId];
+      this.state.jsonValues[childId] = ReactDOM.findDOMNode(refObj.refs[childId]).options[0].value;
+      this.state.jsonValues[childId+"_selectedLabel"] = ReactDOM.findDOMNode(refObj.refs[childId]).options[0].text;
+    }  
   }  
 
   addElements = (lines, refVal) => {
@@ -80,7 +87,8 @@ class Onboard extends React.Component {
     }
     
     let removeId = arr.length;
-    arr.push(<RecreateForm data={lines}
+    arr.push(<RecreateForm  data={lines}
+                            key={"addElements-"+removeId}
                             changed={this.onChangeHandler} 
                             loadRefObjects = {this.loadRefObjects}
                             parentChildHandler= {this.parentChildHandler}
@@ -309,13 +317,14 @@ class Onboard extends React.Component {
                   }                  
                 }}
                 id={tabId}
+                key={tabId}
                 type="button">
           {this.PageList[i].PageTitle}
         </button>
       );
 
       items.push(
-        <form className={"needs-validation-"+i} novalidate >{this.renderPage(this.PageList[i], i, this.PageLength)}</form>
+        <form key={"form"+i} className={"needs-validation-"+i} noValidate >{this.renderPage(this.PageList[i], i, this.PageLength)}</form>
       );
     }
     //Bureau
@@ -328,13 +337,14 @@ class Onboard extends React.Component {
                   this.setState({currentPageId: pageId});
                 }}
                 id="bureauId"
+                key="bureauId"
                 type="button">
           Bureau
         </button>
       );
       items.push(<div ref={'ShowPage' + pageId}
                       key={'createPage' + pageId}
-                      style={{}}>
+                      style={{display: 'none'}}>
                   <Bureau tin={800914632} id={200030}/>
                 </div>);
        this.PageLength = pageId +1;

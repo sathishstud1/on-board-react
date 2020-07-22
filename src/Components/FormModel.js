@@ -19,6 +19,7 @@ class FormModel extends React.Component {
         case "text":
           formfields.push(
             <Input
+              key={"inputField"+fieldId}
               fieldData={fieldData}
               fieldId={fieldId}
               changed={this.props.changed}
@@ -32,6 +33,7 @@ class FormModel extends React.Component {
             <TextArea
               fieldData={fieldData}
               fieldId={fieldId}
+              key={"textAreaField"+fieldId}
               changed={this.props.changed}
             />
           );
@@ -41,6 +43,7 @@ class FormModel extends React.Component {
             <Radio
               fieldData={fieldData}
               fieldId={fieldId}
+              key={"radioField"+fieldId}
               changed={this.props.changed}
               parentChildHandler= {this.props.parentChildHandler}
               loadRefObjects={this.props.loadRefObjects}
@@ -52,6 +55,7 @@ class FormModel extends React.Component {
             <CheckBox
               fieldData={fieldData}
               fieldId={fieldId}
+              key={"checkboxField"+fieldId}
               changed={this.props.changed}
               parentChildHandler= {this.props.parentChildHandler}
               loadRefObjects={this.props.loadRefObjects}
@@ -63,9 +67,11 @@ class FormModel extends React.Component {
             <Select
               fieldData={fieldData}
               fieldId={fieldId}
+              key={"selectField"+fieldId}
               changed={this.props.changed}
               parentChildHandler= {this.props.parentChildHandler}
               loadRefObjects={this.props.loadRefObjects}
+              countryName={this.props.countryName}
             />
           );
           break;
@@ -75,6 +81,7 @@ class FormModel extends React.Component {
               <Button
                 fieldData={fieldData}
                 fieldId={fieldId}
+                key={"buttonField"+fieldId}
                 clicked={this.props.searchHandler}
               />
             );
@@ -84,6 +91,7 @@ class FormModel extends React.Component {
                 fieldData={fieldData}
                 fieldId={fieldId}
                 clicked={fieldData.clicked}
+                key={"buttonField"+fieldId}
               />
             );
           }
@@ -93,14 +101,16 @@ class FormModel extends React.Component {
             <DatePick
               fieldData={fieldData}
               fieldId={fieldId}
+              key={"datePicker"+fieldId}
               dateChanged={this.props.dateChanged}
               loadRefObjects={this.props.loadRefObjects}
+              parentChildHandler= {this.props.parentChildHandler}
             />
           );
           break;
         default:
           formfields.push(
-            <div className="col-md-4 mb-3">
+            <div className="col-md-4 mb-3" key={"defaultField"+fieldId}>
               <label htmlFor={fieldId}>{fieldData.label}</label>
               <input
                 className="form-control"

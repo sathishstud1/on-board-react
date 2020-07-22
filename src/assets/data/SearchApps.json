@@ -9,7 +9,7 @@
           "label": "Search By",
           "name": "searchCriteria",
           "type": "select",
-          "value": "",
+          "value": "_id",
           "link": "self",
           "colWidth": "col-md-4",
           "options": [
@@ -31,7 +31,7 @@
           "label": "Search Condition",
           "name": "searchCondition",
           "type": "select",
-          "value": "",
+          "value": "=",
           "link": "self",
           "colWidth": "col-md-3",
           "options": [
