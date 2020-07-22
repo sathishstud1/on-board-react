@@ -23,7 +23,7 @@ class Radio extends React.Component {
         if (val && val === fieldData.values[_index]) {
           checkFlag = true;
         }
-        arr.push(<input className="custom-control-input"
+        arr.push(<div key={"radioBtn"+fieldId+_index}><input className="custom-control-input"
                   type="radio"
                   onChange={(e) => {
                     this.props.changed(e);
@@ -36,9 +36,9 @@ class Radio extends React.Component {
                   key={ids}
                   defaultChecked={checkFlag}
                   required={fieldData.required}/>
+                  <label className="custom-control-label" htmlFor={ids} key={"radioLabel"+ids}>{value} </label>
+                  </div>
                   );
-        arr.push(<br/>);
-        arr.push(<label className="custom-control-label" htmlFor={ids} key={"radioLabel"+ids}>{value} </label> );  
       })
       return arr;
     }
