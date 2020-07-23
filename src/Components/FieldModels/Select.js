@@ -55,15 +55,15 @@ class Select extends React.Component {
           const link = fieldData.link;
           const countryName = this.props.countryName;
           let options = [];
-          if (link == "countries") {
+          if (link === "countries") {
 
             options = this.getCountries();
 
-          } else if (link == "states") {
+          } else if (link === "states") {
 
             options = this.getStates(countryName);
 
-          } else if (link == "self") {       
+          } else if (link === "self") {       
 
             options = this.getOptions(fieldData.options);  
           }          

@@ -27,7 +27,7 @@ class ViewOnboard extends React.Component {
     let divstyle = {
       display: 'none'
     }
-    if (PageId == 0) {
+    if (PageId === 0) {
       divstyle = {}
     }
     return <div ref={refId}

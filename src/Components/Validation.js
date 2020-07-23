@@ -77,7 +77,7 @@ this.isAlphabets = (value)=>{
 
 this.isEmailValid = (value)=>{
   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-        if (reg.test(value) == false) 
+        if (reg.test(value) === false) 
         {
             return false;
         }

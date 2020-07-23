@@ -9,7 +9,7 @@ class OpenOnBoard extends React.Component {
       loading: true,
     };
     this.appId = this.props.appId;
-    if (typeof this.appId != "undefined" && this.appId != "") {
+    if (typeof this.appId !== "undefined" && this.appId !== "") {
       this.getJson();
     } else {
       this.setState({ loading: false });

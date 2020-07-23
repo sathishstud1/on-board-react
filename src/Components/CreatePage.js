@@ -49,19 +49,19 @@ class CreatePage extends React.Component {
               if(fieldData.name==="country" && fieldData.value){
                 countryName = fieldData.value;
               }
-              if(fieldData.type=="button"){
-                if(fieldData.name==""){
+              if(fieldData.type==="button"){
+                if(fieldData.name===""){
                   fieldData.clicked = this.props.searchSSN;
-                }else if(fieldData.name=="save"){
+                }else if(fieldData.name==="save"){
                   fieldData.clicked = this.props.saveform;
                 }
-                else if(fieldData.name=="exit"){
+                else if(fieldData.name==="exit"){
                   fieldData.clicked = this.props.exitform;
                 }
               }else{
                 if(fieldData.type==="DatePicker"){
                   this.defaultValues[fieldData.name] = (new Date()).getTime();
-                }else if(fieldData.type=="select"){
+                }else if(fieldData.type==="select"){
                   this.defaultValues[fieldData.name+"_selectedLabel"] = fieldData.selectedLabel;
                   this.defaultValues[fieldData.name] = fieldData.value;
                 }else{
@@ -70,7 +70,7 @@ class CreatePage extends React.Component {
               }
               arr.push(fieldData);
             });//Fields End
-            if(arr.length!=0){
+            if(arr.length!==0){
               items.push(<FormModel data={arr}
                                     key={"formModel"+this.currentPageId+formModelCount}
                                     uniqueId = ""
@@ -92,6 +92,7 @@ class CreatePage extends React.Component {
                               id={refVal}
                               key={refVal}
                               ref={refVal}
+                              style={{outline:"0px solid transparent"}}
                               suppressContentEditableWarning={true}>
                                 {this.props.addrecreateDiv(refVal)}
                           </div>);

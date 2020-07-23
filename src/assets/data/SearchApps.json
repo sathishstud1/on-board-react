@@ -28,7 +28,7 @@
           ]
         },
         {
-          "label": "Search Condition",
+          "label": "Condition",
           "name": "searchCondition",
           "type": "select",
           "value": "=",
@@ -54,7 +54,7 @@
           ]
         },
         {
-          "label": "Search Value",
+          "label": "Value",
           "name": "searchValue",
           "type": "text",
           "required": true,

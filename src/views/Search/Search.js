@@ -10,6 +10,7 @@ import {
   ModalFooter,
   Button,
   Card,
+  CardHeader,
   CardBody,
   Col,
   Form,
@@ -72,6 +73,7 @@ class Search extends Component {
       pageSize: 5,
       showPaginationDropdown: false,
       currentPage: 0,
+      loading:false
     };
     this.getSearchPageData = this.getSearchPageData.bind(this);
     this.setSearchBy = this.setSearchBy.bind(this);
@@ -166,7 +168,7 @@ class Search extends Component {
         return isReferenceFound;
       });
 
-      if (searchData.length == 0) {
+      if (searchData.length === 0) {
         searchData = this.state.OriginalSearchData;
       }
       this.setState({ searchData });
@@ -198,18 +200,18 @@ class Search extends Component {
       let searchCriteria = this.state.searchBy;
       let searchCondition = this.state.searchCondition;
 
-      if (searchCondition == null || typeof searchCondition == "undefined") {
+      if (searchCondition === null || typeof searchCondition === "undefined") {
         searchCondition = "=";
       }
 
-      if (searchCriteria == null || typeof searchCriteria == "undefined") {
+      if (searchCriteria === null || typeof searchCriteria === "undefined") {
         searchCriteria = "_id";
       } else {
         searchCriteria = this.searchStrings[searchCriteria];
       }
       let isInteger = false;
 
-      if (this.searchTypes[searchCriteria] == "number") {
+      if (this.searchTypes[searchCriteria] === "number") {
         isInteger = true;
       }
 
@@ -220,6 +222,7 @@ class Search extends Component {
         columnIds: this.columnIds,
         isInteger: isInteger,
       };
+      this.setState({loading:true});
       axios
         .post("/searchAppData", postData)
         .then((response) => {
@@ -228,12 +231,14 @@ class Search extends Component {
             this.setState({
               searchData: searchRes,
               OriginalSearchData: searchRes,
+              loading:false
             });
           } else {
             this.Alert(true, response.data.message, "Error");
           }
         })
         .catch((error) => {
+          this.setState({loading:false});
           this.props.history.push({
             pathname: "/error",
             errorObj: error,
@@ -255,9 +260,12 @@ class Search extends Component {
     this.searchStrings = SearchAppjson.searchStrings;
     this.searchTypes = SearchAppjson.searchTypes;
     let sectionList = SearchAppjson.sectionList;
+    let searchByName = "";
+    let searchConditionName = "";
+    let searchValueName = "";
     Object.keys(sectionList).map((sectionIndex, index) => {
       let section = sectionList[index];
-      if (typeof section.isSearch != "undefined" && section.isSearch) {
+      if (typeof section.isSearch !== "undefined" && section.isSearch) {
         let fields = section.fields;
         Object.keys(fields).map((fieldIndex, index) => {
           let field = fields[index];
@@ -268,6 +276,7 @@ class Search extends Component {
               let opt = options[key];
               searchOpts.push(<option value={opt.value}>{opt.label}</option>);
             });
+            searchByName = field.label;
           }
           if (field.name === "searchCondition") {
             let options = field.options;
@@ -277,10 +286,14 @@ class Search extends Component {
                 <option value={opt.value}>{opt.label}</option>
               );
             });
+            searchConditionName = field.label;
+          }
+          if(field.name === "searchValue"){
+            searchValueName = field.label;
           }
         });
       }
-      if (typeof section.isTable != "undefined" && section.isTable) {
+      if (typeof section.isTable !== "undefined" && section.isTable) {
         this.columnLabels = section.ColumnLabels;
         this.columnIds = section.ColumnIds;
 
@@ -307,10 +320,13 @@ class Search extends Component {
         <Row>
           <Col lg={12}>
             <Card>
-              <CardBody>
-                
+            <CardHeader>
+                  <i className="fa fa-align-justify"></i> Search
+            </CardHeader>     
+              <CardBody>                
                 <Form className="row">
                   <FormGroup className="col-md-3 offset-md-1">
+                    <label>{searchByName}</label>
                     <Input
                       autoComplete="off"
                       type="select"
@@ -326,6 +342,7 @@ class Search extends Component {
                   </FormGroup>
 
                   <FormGroup className="col-md-3">
+                  <label>{searchConditionName}</label>
                     <Input
                       autoComplete="off"
                       type="select"
@@ -341,6 +358,7 @@ class Search extends Component {
                   </FormGroup>
 
                   <FormGroup className="col-md-3">
+                  <label>{searchValueName}</label>
                     <Input
                       autoComplete="off"
                       type="text"
@@ -354,20 +372,34 @@ class Search extends Component {
                   </FormGroup>
 
                   <div className="col-md-2">
-                    <Button type="button" key={"searchBtn"} onClick={this.applySearchByFilter}>
-                      Search
+                    <Button 
+                            key={"searchBtn"} 
+                            style={{marginTop: '2vw',width: '100%',
+                            backgroundColor: '#20a8d8',
+                            borderColor: '#20a8d8'}} 
+                            className="btn-primary mr-3"
+                            onClick={this.applySearchByFilter}><i className="fa fa-search"></i>
+                       <span style={{fontSize: '15px',fontWeight: '600'}}>Search</span>
                     </Button>
                   </div>
                 </Form>
               </CardBody>
             </Card>
           </Col>
-        </Row>
-        {this.state.searchData.length != 0 ? (
+        </Row>  
+        {/*************Loader***** */}
+        {this.state.loading? (<div style={{fontSize:'30px',marginLeft: '30%'}}>
+          <i className="fa fa-spinner fa-spin" /> Please wait, Loading...
+        </div> ):null}  
+
+        {this.state.searchData.length !== 0 && !this.state.loading? (
           <Row>
             <Col lg={12}>
-              <Card>
-                <CardBody>
+              <Card>  
+                <CardHeader>
+                  <i className="fa fa-align-justify"></i> Search Result
+                </CardHeader>                
+                <CardBody> 
                   {/* ___________________ Global Search ___________________ */}
                   <FormGroup className="col-md-3 float-left">
                     <Input
@@ -426,7 +458,7 @@ class Search extends Component {
                       <DropdownMenu>
                         <ListGroup>
                           <ListGroupItem
-                            active={this.state.pageSize == 5}
+                            active={this.state.pageSize === 5}
                             tag="a"
                             onClick={() => this.togglePaginationDropdown(5)}
                             action
@@ -436,7 +468,7 @@ class Search extends Component {
                           <ListGroupItem
                             tag="a"
                             onClick={() => this.togglePaginationDropdown(10)}
-                            active={this.state.pageSize == 10}
+                            active={this.state.pageSize === 10}
                             action
                           >
                             10
@@ -444,7 +476,7 @@ class Search extends Component {
                           <ListGroupItem
                             tag="a"
                             onClick={() => this.togglePaginationDropdown(15)}
-                            active={this.state.pageSize == 15}
+                            active={this.state.pageSize === 15}
                             action
                           >
                             15
@@ -452,7 +484,7 @@ class Search extends Component {
                           <ListGroupItem
                             tag="a"
                             onClick={() => this.togglePaginationDropdown(20)}
-                            active={this.state.pageSize == 20}
+                            active={this.state.pageSize === 20}
                             action
                           >
                             20
@@ -460,8 +492,7 @@ class Search extends Component {
                         </ListGroup>
                       </DropdownMenu>
                     </Dropdown>
-                  </div>
-
+                  </div>                
                   <Table responsive striped className="border">
                     <thead className="bg-dark border-dark">
                       <tr>{tabHeaders}</tr>

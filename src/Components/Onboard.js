@@ -111,7 +111,7 @@ class Onboard extends React.Component {
   removeElement = (lines, refVal, removeId) => {
     let arr = [];
     for (let i = 0; i < this.state[refVal].length; i++) {
-      if (removeId != i) {
+      if (removeId !== i) {
         arr.push(this.state[refVal][i]);
       } else {
         arr.push(null);
