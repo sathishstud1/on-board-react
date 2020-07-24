@@ -216,9 +216,6 @@ class Onboard extends React.Component {
     let URL = '/save-app-details';
     if(this.state.isUpdate){
       URL = '/update-app-details';
-    }else{
-      //uw decision
-      customeOnboardNewJson["app_status"] = 'submitted';
     }
     axios.post(URL, customeOnboardNewJson)
       .then(response => {
