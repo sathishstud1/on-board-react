@@ -186,9 +186,17 @@ class Onboard extends React.Component {
     }
   }
 
+  updateUWDecision = () => {
+    this.saveform();    
+  }
+
   saveform = () => {          
     let validateFields = [];
-    for(let i=0;i<this.PageLength;i++){
+    let forLength = this.PageLength;
+    if(this.state.isUpdate){
+      forLength--;
+    }
+    for(let i=0;i<forLength;i++){
       let valfields = [...this.reqFields[i],...this.addedReqFields[i]];
       validateFields = [...validateFields,...valfields];
     }    
@@ -203,11 +211,14 @@ class Onboard extends React.Component {
 
     const cloneJson = JSON.parse(JSON.stringify(this.props.json));
     let customeOnboardNewJson = createJson.create(this.state.jsonValues, this.state.recreateArray,
-      this.recreateLines, cloneJson);
+      this.recreateLines, cloneJson, this.state.isUpdate);
 
     let URL = '/save-app-details';
     if(this.state.isUpdate){
       URL = '/update-app-details';
+    }else{
+      //uw decision
+      customeOnboardNewJson["app_status"] = 'submitted';
     }
     axios.post(URL, customeOnboardNewJson)
       .then(response => {
@@ -285,6 +296,7 @@ class Onboard extends React.Component {
                   searchSSN={this.searchSSN}
                   saveform={this.saveform}
                   exitform={this.exitform}
+                  updateUWDecision={this.updateUWDecision}
                   currentPageId={PageId}/>
     </div>;
   }
@@ -303,8 +315,17 @@ class Onboard extends React.Component {
     this.PageLength = this.PageList.length;
     let className  = 'btn btn-outline-light rounded-0 text-dark';
     for (let i = 0; i < this.PageLength; i++) {
+      const isCustomerData = this.PageList[i].isCustomerData;
+      if(!this.state.isUpdate){
+        if(!isCustomerData){
+          this.PageLength--;
+          continue;
+        }
+      }
+
       let tabId = 'pagebtn' + i; 
       let tabStyle = className;
+      
       if(this.state.currentPageId === i){
         tabStyle = tabStyle + ' active';
       }

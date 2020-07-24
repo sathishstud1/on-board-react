@@ -1,10 +1,11 @@
 {
   "page": "Pages",
-  "app_status":"",
+  "app_status":"",  
   "PageList": [
     {
       "PageTitle": "Cusomter Details",
       "PageID": "CUST_ON_BOARD_001",
+      "isCustomerData":true,
       "CategoryList": [
         {
           "categoryTitle": "Principle/Customer Details",
@@ -246,6 +247,7 @@
     {
       "PageTitle": "Product Details",
       "PageID": "CUST_ON_BOARD_002",
+      "isCustomerData":true,
       "CategoryList": [
         {
           "categoryTitle": "Product onboard",
@@ -351,6 +353,56 @@
                     }
                   ]
                 }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "PageTitle": "UW Decision",
+      "PageID": "CUST_ON_BOARD_003",
+      "isCustomerData":false,
+      "CategoryList": [
+        {
+          "categoryTitle": "UW Decision",
+          "sectionList": [
+            {
+              "sectionName": "UW Decision",
+              "linesList": [
+                {
+                  "fields": [
+                      {
+                          "label": "UW Decision",
+                          "name": "app_status",
+                          "type": "select",
+                          "value": "submitted",
+                          "selectedLabel": "Submitted",
+                          "link": "self",
+                          "colWidth": "col-md-3",
+                          "options": [
+                            {
+                              "label": "Submitted",
+                              "value": "submitted"
+                            },
+                            {
+                              "label": "In Progress",
+                              "value": "inprogress"
+                            },
+                            {
+                              "label": "Approved",
+                              "value": "approved"
+                            }
+                          ]
+                      },
+                      {
+                          "label": "Update",
+                          "name": "uwdecisionBtn",
+                          "type": "button",
+                          "colWidth": "col-md-1"
+                      }
+                  ]
+                }             
               ]
             }
           ]

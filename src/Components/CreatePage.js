@@ -50,13 +50,15 @@ class CreatePage extends React.Component {
                 countryName = fieldData.value;
               }
               if(fieldData.type==="button"){
-                if(fieldData.name===""){
+                if(fieldData.name==="ssn"){
                   fieldData.clicked = this.props.searchSSN;
                 }else if(fieldData.name==="save"){
                   fieldData.clicked = this.props.saveform;
                 }
                 else if(fieldData.name==="exit"){
                   fieldData.clicked = this.props.exitform;
+                }else if(fieldData.name==="uwdecisionBtn"){
+                  fieldData.clicked = this.props.updateUWDecision;
                 }
               }else{
                 if(fieldData.type==="DatePicker"){

@@ -1,5 +1,5 @@
 this.create = (jsonValues, recreateArray,
-    recreateLines, OnboardJson) =>{
+    recreateLines, OnboardJson, isUpdate) =>{
     let pages = OnboardJson.PageList;
     let recreateCount = 0;
     //Pages
@@ -44,6 +44,12 @@ this.create = (jsonValues, recreateArray,
                 }
                 if(fieldData.type==="button" && fieldData.label==="Apply"){
                   fieldData.label = "Update";
+                }
+                if(!isUpdate){
+                  if(fieldData.type==="select" && fieldData.name==="app_status"){
+                    fieldData.value = "submitted";
+                    fieldData.selectedLabel = "Submitted";
+                  }
                 }
               });//Fields End
             });//Lines End
