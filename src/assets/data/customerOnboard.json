@@ -3,7 +3,7 @@
   "app_status":"",  
   "PageList": [
     {
-      "PageTitle": "Cusomter Details",
+      "PageTitle": "Customer Details",
       "PageID": "CUST_ON_BOARD_001",
       "isCustomerData":true,
       "CategoryList": [

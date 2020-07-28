@@ -319,7 +319,18 @@ class Onboard extends React.Component {
       this.PageList.push(pages[index]);
     });
     this.PageLength = this.PageList.length;
-    let className  = 'btn btn-outline-light rounded-0 text-dark';
+    //let className  = 'btn btn-outline-light rounded-0 text-dark';
+    let tabStyle = {backgroundColor: '#20a8d8', 
+                    borderColor: '#20a8d8',
+                    paddingTop: '1%',
+                    width: '16%', 
+                    float: 'left', 
+                    fontSize: '18px', 
+                    cursor: 'pointer',
+                    paddingRight: '2%',
+                    paddingLeft: '2%'}
+    let activeTab = {borderBottom:'1px solid white'}
+
     for (let i = 0; i < this.PageLength; i++) {
       const isCustomerData = this.PageList[i].isCustomerData;
       if(!this.state.isUpdate){
@@ -330,24 +341,26 @@ class Onboard extends React.Component {
       }
 
       let tabId = 'pagebtn' + i; 
-      let tabStyle = className;
+      let currtabStyle = Object.assign({}, tabStyle);
       
       if(this.state.currentPageId === i){
-        tabStyle = tabStyle + ' active';
+        currtabStyle ['border-bottom'] = '1px solid white';
       }
       tabs.push(
-        <button className={tabStyle}
-                onClick={() => {
-                  if(this.validatePage()){
-                    PageNavigation.changePage(i, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
-                    this.setState({currentPageId: i});
-                  }                  
-                }}
-                id={tabId}
-                key={tabId}
-                type="button">
-          {this.PageList[i].PageTitle}
-        </button>
+        <li >
+          <a style={currtabStyle}
+                  onClick={() => {
+                    if(this.validatePage()){
+                      PageNavigation.changePage(i, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                      this.setState({currentPageId: i});
+                    }                  
+                  }}
+                  id={tabId}
+                  key={tabId}
+                >
+            <span style={{color:'white'}}>{this.PageList[i].PageTitle}</span>
+          </a>
+        </li>
       );
 
       items.push(
@@ -358,16 +371,18 @@ class Onboard extends React.Component {
     if(this.state.isUpdate){ 
       const pageId = this.PageLength;
       tabs.push(
-        <button className={className}
-                onClick={() => {
-                  PageNavigation.changePage(pageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
-                  this.setState({currentPageId: pageId});
-                }}
-                id="bureauId"
-                key="bureauId"
-                type="button">
-          Bureau
-        </button>
+        <li >
+          <a style={tabStyle}
+                  onClick={() => {
+                    PageNavigation.changePage(pageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                    this.setState({currentPageId: pageId});
+                  }}
+                  id="bureauId"
+                  key="bureauId"
+                  >
+            <span style={{color:'white'}}>Bureau</span>
+          </a>
+        </li>
       );
       items.push(<div ref={'ShowPage' + pageId}
                       key={'createPage' + pageId}
@@ -408,18 +423,17 @@ class Onboard extends React.Component {
     );
     
     return (
-      <div>
-        <div className="border-bottom">
-          {tabs.length>1?tabs:null}
-        </div>
-        <div >{items} </div>
+      <div style={{boxSizing: 'border-box', boxShadow: '0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)'}}>
+        
+        <ul style={{backgroundColor: '#20a8d8',height:'7vh', borderRadius: '.3rem .3rem 0 0',listStyleType:'none'}}>
+              {tabs.length>1?tabs:null}
+        </ul>
+        <div style={{paddingRight: '2%',paddingLeft: '2%',paddingBottom: '5%'}}>{items} </div>
         <div className="text-right float-right">
           {btns}
         </div>
         <br/>
-        <div className="border-bottom">
-        {tabs.length>1?tabs:null}
-        </div>
+        
         <div className="clearfix"></div>
         <OpenModal isOpenModal={this.state.openModel} 
                    msg={this.state.alertMsg} 
