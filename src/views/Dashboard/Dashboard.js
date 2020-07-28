@@ -34,7 +34,7 @@ const brandWarning = getStyle("--warning");
 const brandDanger = getStyle("--danger");
 
 // Card Chart 1
-const cardChartData1 = {
+/*const cardChartData1 = {
   labels: ["January", "February", "March", "April", "May", "June", "July"],
   datasets: [
     {
@@ -503,7 +503,7 @@ const mainChartOpts = {
       hoverBorderWidth: 3,
     },
   },
-};
+};*/
 
 class Dashboard extends Component {
   constructor(props) {
@@ -511,10 +511,25 @@ class Dashboard extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-
     this.state = {
       dropdownOpen: false,
       radioSelected: 2,
+      selectedMonth:0,
+      selectedYear:2020,
+      pipelineData: [
+        {value: 0, label: 'Submitted'},
+        {value: 0, label: 'Manual Review'},
+        {value: 0, label: 'Approved'},
+        {value: 0, label: 'Soft Declined'},
+        {value: 0, label: 'Counter Offer'},
+        {value: 0, label: 'Withdrawn'},
+        {value: 0, label: 'Declined'},
+        {value: 0, label: 'Offer Expired'},
+        {value: 0, label: 'Fraud Review'},
+        {value: 0, label: 'Documentation'},
+        {value: 0, label: 'Booked'},
+        {value: 0, label: 'Booking Failed'}
+      ]
     };
   }
 
@@ -533,6 +548,22 @@ class Dashboard extends Component {
   loading = () => (
     <div className="animated fadeIn pt-1 text-center">Loading...</div>
   );
+
+  componentDidMount() {
+    const todayDate = new Date();
+    this.setState({selectedMonth:todayDate.getMonth(),selectedYear:todayDate.getFullYear()}); 
+  }
+
+  generateOptions=()=>{
+    const date = new Date();
+    let year = date.getFullYear();
+    let options = [];
+    for(let i =0;i<10;i++){
+      options.push(<option value={year}>{year}</option>);
+      year--;
+    }
+    return options;
+  }
 
   render() {
     return (
@@ -560,30 +591,26 @@ class Dashboard extends Component {
 
                       <form className="form-inline">
                         <div className="form-group mb-2 mr-3">
-                          <select className="form-control">
-                            <option>January</option>
-                            <option>February</option>
-                            <option>March</option>
-                            <option>April</option>
-                            <option>May</option>
-                            <option>June</option>
-                            <option>July</option>
-                            <option>August</option>
-                            <option>September</option>
-                            <option>October</option>
-                            <option>November</option>
-                            <option>December</option>
+                          <select className="form-control"
+                                  value={this.state.selectedMonth}>
+                            <option value={0}>January</option>
+                            <option value={1}>February</option>
+                            <option value={2}>March</option>
+                            <option value={3}>April</option>
+                            <option value={4}>May</option>
+                            <option value={5}>June</option>
+                            <option value={6}>July</option>
+                            <option value={7}>August</option>
+                            <option value={8}>September</option>
+                            <option value={9}>October</option>
+                            <option value={10}>November</option>
+                            <option value={11}>December</option>
                           </select>
                         </div>
                         <div className="form-group mb-2">
-                          <select className="form-control">
-                            <option>2020</option>
-                            <option>2021</option>
-                            <option>2022</option>
-                            <option>2023</option>
-                            <option>2024</option>
-                            <option>2025</option>
-                            <option>2026</option>
+                          <select className="form-control"
+                                  value={this.state.selectedYear}>
+                            {this.generateOptions()}
                           </select>
                         </div>
                       </form>
@@ -608,7 +635,9 @@ class Dashboard extends Component {
                 <h4 className="mb-2 border-bottom pb-4 text-muted">
                   Status Pipeline
                 </h4>
-                <PipeLineComponent></PipeLineComponent>
+                <PipeLineComponent selectedMonth={this.state.selectedMonth} 
+                                   selectedYear={this.state.selectedYear}
+                                   pipelineData={this.state.pipelineData}></PipeLineComponent>
               </CardBody>
             </Card>
           </Col>

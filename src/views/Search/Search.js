@@ -119,6 +119,9 @@ class Search extends Component {
 
   closeModal = () => {
     this.Alert(false, "", "");
+    this.setState({
+      loading:false
+    });
   };
 
   togglePaginationDropdown(pageSize) {
@@ -542,6 +545,7 @@ class Search extends Component {
           isOpenModal={this.state.openModel}
           msg={this.state.alertMsg}
           headerInfo={this.state.headerInfo}
+          closeModal = {this.closeModal}
         />
       </div>
     );

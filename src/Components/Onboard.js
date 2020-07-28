@@ -11,7 +11,9 @@ import Validation from './Validation';
 import OpenModal from './OpenModal';
 import ParentChildActions from './ParentChildActions';
 import states from '../assets/data/Dropdowns/states.json';
+import { connect } from "react-redux";
 const Bureau = React.lazy(() => import("../views/Business Bureau/Bureau"));
+
 
 class Onboard extends React.Component {
   constructor(props) {
@@ -216,6 +218,13 @@ class Onboard extends React.Component {
     let URL = '/save-app-details';
     if(this.state.isUpdate){
       URL = '/update-app-details';
+    }else{
+      let date = new Date();
+      customeOnboardNewJson["created_date"] = date.getTime()+"";
+      if(this.props.profileObj){
+        customeOnboardNewJson["created_by"] = this.props.profileObj.profileObj.email;
+      }
+
     }
     axios.post(URL, customeOnboardNewJson)
       .then(response => {
@@ -421,4 +430,14 @@ class Onboard extends React.Component {
     );
   }
 }
-export default withRouter(Onboard);
+
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.authentication.isAuthenticated,
+    profileObj: state.authentication.profileObj,
+  };
+};
+
+export default withRouter(
+  connect(mapStateToProps, null)(Onboard)
+);
