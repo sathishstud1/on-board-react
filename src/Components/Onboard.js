@@ -323,13 +323,11 @@ class Onboard extends React.Component {
     let tabStyle = {backgroundColor: '#20a8d8', 
                     borderColor: '#20a8d8',
                     paddingTop: '1%',
-                    width: '16%', 
                     float: 'left', 
                     fontSize: '18px', 
                     cursor: 'pointer',
                     paddingRight: '2%',
                     paddingLeft: '2%'}
-    let activeTab = {borderBottom:'1px solid white'}
 
     for (let i = 0; i < this.PageLength; i++) {
       const isCustomerData = this.PageList[i].isCustomerData;
@@ -344,7 +342,7 @@ class Onboard extends React.Component {
       let currtabStyle = Object.assign({}, tabStyle);
       
       if(this.state.currentPageId === i){
-        currtabStyle ['border-bottom'] = '1px solid white';
+        currtabStyle ['borderBottom'] = '2px solid white';
       }
       tabs.push(
         <li >
@@ -370,9 +368,15 @@ class Onboard extends React.Component {
     //Bureau
     if(this.state.isUpdate){ 
       const pageId = this.PageLength;
+      let currtabStyle = Object.assign({}, tabStyle);
+      
+      if(this.state.currentPageId === pageId){
+        currtabStyle ['borderBottom'] = '2px solid white';
+      }
+
       tabs.push(
         <li >
-          <a style={tabStyle}
+          <a style={currtabStyle}
                   onClick={() => {
                     PageNavigation.changePage(pageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
                     this.setState({currentPageId: pageId});
@@ -394,7 +398,7 @@ class Onboard extends React.Component {
     //end bureau
 
     btns.push(
-        <button ref="previousBtn"
+      <div style={{display: 'inline-block'}}><button ref="previousBtn"
                 className="btn btn-primary mr-3"
                 key='previousPage'
                 onClick={() => {
@@ -405,10 +409,10 @@ class Onboard extends React.Component {
                  
                 }}
                 type="button">
-          Previous</button>
+          Previous</button></div>
     );    
     btns.push(
-      <button className="btn btn-primary"
+      <div style={{display: 'inline-block'}}><button className="btn btn-primary"
               key='nextPage'
               ref="nextBtn"
               onClick={() => {
@@ -419,13 +423,17 @@ class Onboard extends React.Component {
                 
               }}
               type="button">
-        Next</button>
+        Next</button></div>
     );
     
     return (
-      <div style={{boxSizing: 'border-box', boxShadow: '0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)'}}>
+      <div style={{boxSizing: 'border-box', 
+                   boxShadow: '0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)'}}>
         
-        <ul style={{backgroundColor: '#20a8d8',height:'7vh', borderRadius: '.3rem .3rem 0 0',listStyleType:'none'}}>
+        <ul style={{backgroundColor: '#20a8d8',
+                    height:'7vh', 
+                    borderRadius: '.3rem .3rem 0 0',
+                    listStyleType:'none'}}>
               {tabs.length>1?tabs:null}
         </ul>
         <div style={{paddingRight: '2%',paddingLeft: '2%',paddingBottom: '5%'}}>{items} </div>
