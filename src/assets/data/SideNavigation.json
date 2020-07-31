@@ -26,6 +26,11 @@
       "icon": "icon-magnifier"
     },
     {
+      "name": "App Info Search",
+      "url": "/AppInfoSearch",
+      "icon": "icon-magnifier"
+    },
+    {
       "name": "UW Decision",
       "url": "/uwpage",
       "icon": "icon-calendar"

@@ -35,7 +35,7 @@ class TextArea extends React.Component {
             <div className={ fieldData.colWidth+ ' mb-3'}>
               <label htmlFor={fieldId}>{fieldData.label}</label>
               {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
-              <textarea className="form-control"
+              <textarea className="form-control borderStyle"
                         defaultValue={fieldData.value}
                         required={fieldData.required}
                         id={fieldId}

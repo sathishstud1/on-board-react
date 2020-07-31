@@ -1,5 +1,6 @@
 import React from 'react';
 import DatePicker from "react-datepicker/es";
+import formControl from '../CSS/style.css';
 
 class ViewFormModel extends React.Component { 
 
@@ -14,7 +15,7 @@ class ViewFormModel extends React.Component {
           formfields.push(
             <div className={'form-group ' + fieldData.colWidth} key={"viewText"+fieldId}>
               <label htmlFor={fieldId}>{fieldData.label}</label>
-              <input className="form-control"
+              <input className="formControl"
                             type={fieldData.type}
                             key={fieldId}                  
                             defaultValue={fieldData.value}
@@ -26,7 +27,7 @@ class ViewFormModel extends React.Component {
           formfields.push(
             <div className={'form-group ' + fieldData.colWidth} key={"viewTextArea"+fieldId}>
               <label htmlFor={fieldId}>{fieldData.label}</label>
-              <textarea className="form-control"
+              <textarea className="formControl"
                         defaultValue={fieldData.value}
                         key={fieldId}
                        readOnly
@@ -38,7 +39,7 @@ class ViewFormModel extends React.Component {
           formfields.push(
             <div className={'form-group ' + fieldData.colWidth} key={"viewRadio"+fieldId}>
               <label htmlFor={fieldId}>{fieldData.label}</label> 
-              <input className="form-control"
+              <input className="formControl"
                             key={fieldId}                  
                             defaultValue={fieldData.value}
                             readOnly/>               
@@ -62,7 +63,7 @@ class ViewFormModel extends React.Component {
             formfields.push(
                 <div className={'form-group ' + fieldData.colWidth} key={"viewSelect"+fieldId}>
                     <label htmlFor={fieldId}>{fieldData.label}</label> 
-                    <input className="form-control"
+                    <input className="formControl"
                             type={fieldData.type}
                             key={fieldId}                  
                             defaultValue={fieldData.selectedLabel}
@@ -79,7 +80,7 @@ class ViewFormModel extends React.Component {
           formfields.push(
             <div className={'form-group ' + fieldData.colWidth} key={"viewDatePicker"+fieldId}>
                 <label htmlFor={fieldId}>{fieldData.label} <label style={{color:'grey'}}>(MM/DD/YYYY)</label></label> :   <br/>              
-                <DatePicker selected = {dateVal} disabled={true}/>
+                <DatePicker className="formControl" selected = {dateVal} disabled={true}/>
             </div>
           );   
           break;            
@@ -87,7 +88,7 @@ class ViewFormModel extends React.Component {
           formfields.push(
             <div className='col-md-4 mb-3' key={"viewdefault"+fieldId}>
               <label htmlFor={fieldId}>{fieldData.label}</label> 
-              <input className="form-control"
+              <input className="formControl"
                             type={fieldData.type}
                             key={fieldId}                  
                             defaultValue={fieldData.value}

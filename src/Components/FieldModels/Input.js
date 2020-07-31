@@ -37,7 +37,7 @@ class Input extends React.Component {
             validation = fieldData.validation;
         }
         if(fieldData.validationType && fieldData.validationType==="onblur"){
-            arr.push(<input className="form-control"
+            arr.push(<input className="form-control borderStyle"
                             type={fieldData.type}
                             required={fieldData.required}
                             id={fieldId}
@@ -49,7 +49,7 @@ class Input extends React.Component {
                             }}
                             defaultValue={fieldData.value}/>);
         }else{
-            arr.push(<input className="form-control"
+            arr.push(<input className="form-control borderStyle"
                             type={fieldData.type}
                             required={fieldData.required}
                             id={fieldId}
@@ -65,7 +65,7 @@ class Input extends React.Component {
     }
 
     getInputTag = (fieldData, fieldId)=>{
-        return <input className="form-control"
+        return <input className="form-control borderStyle"
                         type={fieldData.type}
                         required={fieldData.required}
                         id={fieldId}

@@ -22,6 +22,17 @@ class ViewOnboard extends React.Component {
     this.setState({isEdit:true});
   }
 
+  componentDidMount() {
+    
+    if(this.state.currentPageId==0){
+      ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'none';
+    }
+    if(this.PageLength==1){
+      ReactDOM.findDOMNode(this.refs["previousBtn"]).style.display = 'none';
+      ReactDOM.findDOMNode(this.refs["nextBtn"]).style.display = 'none';
+    }
+  }
+
   renderPage = (Page, PageId, PageLength) => {
     let refId = 'ShowPage' + PageId;
     let divstyle = {
@@ -93,35 +104,37 @@ class ViewOnboard extends React.Component {
         this.renderPage(this.PageList[i], i, this.PageLength)
       );
     }     
+    //Bureau
+    if(!this.props.isAppInfo){
+        const pageId = this.PageLength;
+        currtabStyle = Object.assign({}, tabStyle);
+        if(this.state.currentPageId === pageId){
+          currtabStyle ['borderBottom'] = '2px solid white';
+        }
 
-    const pageId = this.PageLength;
+          tabs.push(
+            <li >
+              <a style={currtabStyle}
+                    onClick={() => {
+                      PageNavigation.changePage(pageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
+                      this.setState({currentPageId: pageId});
+                    }}
+                    id="bureauId"
+                    key={"bureauId"}
+                    type="button">
+              <span style={{color:'white'}}>Bureau</span>
+              </a>
+            </li>
+          );
 
-    currtabStyle = Object.assign({}, tabStyle);
-      
-    if(this.state.currentPageId === pageId){
-      currtabStyle ['borderBottom'] = '2px solid white';
+          items.push(<div ref={'ShowPage' + pageId}
+                          key={'createPage' + pageId}
+                          style={{display: 'none'}}>
+                      <Bureau tin={800914632} id={200030}/>
+                    </div>);
+          this.PageLength = pageId +1;
     }
-
-      tabs.push(
-        <li >
-          <a style={currtabStyle}
-                onClick={() => {
-                  PageNavigation.changePage(pageId, this.PageLength, "ShowPage", "previousBtn", "nextBtn", this, ReactDOM);
-                  this.setState({currentPageId: pageId});
-                }}
-                id="bureauId"
-                key={"bureauId"}
-                type="button">
-          <span style={{color:'white'}}>Bureau</span>
-          </a>
-        </li>
-      );
-      items.push(<div ref={'ShowPage' + pageId}
-                      key={'createPage' + pageId}
-                      style={{display: 'none'}}>
-                  <Bureau tin={800914632} id={200030}/>
-                </div>);
-      this.PageLength = pageId +1;
+    //Bureau
 
     btns.push(
       <div style={{display: 'inline-block'}}><button ref="previousBtn"
@@ -152,13 +165,14 @@ class ViewOnboard extends React.Component {
           {this.state.isEdit? <Onboard json={this.props.json} isUpdate={true}/>:
             <div style={{boxSizing: 'border-box', 
             boxShadow: '0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)'}}>
-                <button className="btn btn-primary"
+                {this.props.isAppInfo?null:<button className="btn btn-primary"
                     key='nextPage'
                     ref="nextBtn"
                     onClick={() => this.editClicked()}
                     type="button"
                     style={{float:'right', padding: '.5%',fontSize: '20px'}}>
-                Edit</button>
+                Edit</button>}
+                
                 <ul style={{backgroundColor: '#20a8d8',
                     height:'7vh', 
                           borderRadius: '.3rem .3rem 0 0',

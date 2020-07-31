@@ -56,7 +56,7 @@ class DatePick extends Component {
         <label htmlFor={fieldId}>{fieldData.label} <label style={{color:'grey'}}>(MM/DD/YYYY)</label></label>
         {fieldData.required?<span className="asterisk" style={{color:'red'}}> *</span>:null}
         <br/>
-        <DatePicker className={fieldData.colWidth+" form-control"}
+        <DatePicker 
             renderCustomHeader={({
               date,
               changeYear,
@@ -105,7 +105,6 @@ class DatePick extends Component {
                 </button>
               </div>
             )}
-            className="form-control"
             required={fieldData.required}
             id={fieldId}
             name={fieldId}

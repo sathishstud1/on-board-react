@@ -20,8 +20,12 @@ class OpenOnBoard extends React.Component {
     let postData = {
       appId: this.appId,
     };
+    let URL = '/getJson';
+    if(this.props.isAppInfo){
+      URL = '/getAppInfoJson';
+    }
     return axios
-      .post("/getJson", postData)
+      .post(URL, postData)
       .then((response) => {
         if (response.data.status) {
           this.json = JSON.parse(response.data.data);
@@ -47,7 +51,7 @@ class OpenOnBoard extends React.Component {
         </div>
       );
     }
-    return <ViewOnboard json={this.json} />;
+    return <ViewOnboard json={this.json} isAppInfo={this.props.isAppInfo}/>;
   }
 }
 export default OpenOnBoard;

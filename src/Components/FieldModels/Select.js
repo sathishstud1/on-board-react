@@ -80,7 +80,7 @@ class Select extends React.Component {
                           this.props.changed(e);
                           this.props.parentChildHandler(e,fieldData.isDependent, fieldData.name);
                         }}
-                        className="form-control">
+                        className="form-control borderStyle">
                     {options}
                 </select>
               </div>

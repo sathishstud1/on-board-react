@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import SearchAppjson from "../../assets/data/SearchApps.json";
+import SearchAppjson from "../../assets/data/appInfo.json";
 import axios from "../../axios-instance";
-import OpenOnBoard from "./OpenOnBoard";
+import OpenOnBoard from "../Search/OpenOnBoard";
 
 import {
   Modal,
@@ -227,7 +227,7 @@ class Search extends Component {
       };
       this.setState({loading:true});
       axios
-        .post("/searchAppData", postData)
+        .post("/searchAppInfoData", postData)
         .then((response) => {
           if (response.data.status) {
             let searchRes = JSON.parse(response.data.data);
@@ -529,10 +529,10 @@ class Search extends Component {
           style={{ maxWidth: "100%" }}
         >
           <ModalHeader toggle={() => this.toggleModal(null)}>
-            On Board
+           App Info
           </ModalHeader>
           <ModalBody>
-            <OpenOnBoard appId={this.state.selectedSearchItem} isAppInfo={false}/>
+            <OpenOnBoard appId={this.state.selectedSearchItem}  isAppInfo={true}/>
           </ModalBody>
           <ModalFooter>
             <Button color="secondary" onClick={() => this.toggleModal(null)}>

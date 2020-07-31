@@ -1,5 +1,6 @@
 import React from "react";
 import Search from "./views/Search/Search";
+import AppInfoSearch from "./views/AppInfo/Search";
 //import Bureau from "./views/Bureau/Bureau";
 
 const Dashboard = React.lazy(() => import("./views/Dashboard/Dashboard"));
@@ -73,6 +74,7 @@ const routes = [
     name: "Product Details",
     component: Product,
   },*/
+  { path: "/AppInfoSearch", exact: true, name: "Search", component: AppInfoSearch },
   { path: "/search", exact: true, name: "Search", component: Search },
   { path: "/uwpage", exact: true, name: "UW Decision", component: UWPage },
   /*{ path: "/uwpage/:id", exact: true, name: "UWpage", component: UWpage },*/
